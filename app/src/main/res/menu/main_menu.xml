@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="PROYECTOS" >
+        <menu>
+            <item android:id="@+id/buscarProyecto"
+                android:icon="@android:drawable/ic_menu_search"
+                android:title="Abrir" />
+            <item android:id="@+id/nuevoProyecto"
+                android:icon="@android:drawable/ic_input_get"
+                android:title="Nuevo" />
+        </menu>
+    </item>
+
+    <item android:id="@+id/acercaDe"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/acerca_de" />
+</menu>
