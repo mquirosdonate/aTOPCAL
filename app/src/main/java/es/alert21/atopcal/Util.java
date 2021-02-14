@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Environment;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +21,18 @@ import java.util.TimeZone;
 
 
 public class Util {
+    public static String cargaConfiguracion(Context context,String key,String defValue){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getString(key, defValue);
+    }
+    public static void guardaConfiguracion(Context context,String key, String value) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+
     public static String quitaExtension(String fileName){
         int pos = fileName.lastIndexOf(".");
         if (pos > 0 && pos < (fileName.length() - 1)) { // If '.' is not the first or last character.
@@ -193,97 +205,74 @@ public class Util {
 
     public static File creaDirectorios(Context context, String nivel1) {
         File ruta = null;
-
         try {
-
             //Ruta de la sdCard
             File sdCard = Environment.getExternalStorageDirectory();
-
             //Ruta creada para la aplicacion
             String nameApp = (String)context.getString(R.string.app_name);
             File sdDir = new File(sdCard.getAbsolutePath() + "/" + nameApp);
-            sdDir.mkdir();
-
+            if(!sdDir.exists())
+                sdDir.mkdir();
             //Ruta para nivel1
             File n1 = new File(sdDir.getAbsolutePath() + "/" + nivel1 );
-            n1.mkdir();
-
+            if(!n1.exists())
+                n1.mkdir();
             ruta = n1;
-
         }catch(Exception e){
             Toast.makeText(context, "Error al crear el fichero", Toast.LENGTH_LONG).show();
-
         }
         return ruta;
-
     }
 
     public static File creaDirectorios(Context context, String nivel1, String nivel2){
         File ruta = null;
-
         try {
-
             //Ruta de la sdCard
             File sdCard = Environment.getExternalStorageDirectory();
-
             //Ruta creada para la aplicacion
             String nameApp = (String)context.getString(R.string.app_name);
             File sdDir = new File(sdCard.getAbsolutePath() + "/" + nameApp);
-            sdDir.mkdir();
-
+            if(!sdDir.exists())
+                sdDir.mkdir();
             //Ruta para los tracks
             File n1 = new File(sdDir.getAbsolutePath() + "/" + nivel1 );
-            n1.mkdir();
-
+            if(!n1.exists())
+                n1.mkdir();
             //Ruta para los kml,gpx,etc..
             File n2 = new File(n1.getAbsolutePath() + "/" + nivel2 );
-            n2.mkdir();
-
+            if(!n2.exists())
+                n2.mkdir();
             ruta = n2;
-
         }catch(Exception e){
             Toast.makeText(context, "Error al crear el fichero", Toast.LENGTH_LONG).show();
-
         }
         return ruta;
-
     }
 
     public static File creaDirectorios(Context context, String nivel1, String nivel2, String nivel3){
         File ruta = null;
-
         try {
-
             //Ruta de la sdCard
             File sdCard = Environment.getExternalStorageDirectory();
-
             //Ruta creada para la aplicacion
             String nameApp = (String)context.getString(R.string.app_name);
             File sdDir = new File(sdCard.getAbsolutePath() + "/" + nameApp);
-            sdDir.mkdir();
-
+            if(!sdDir.exists()) sdDir.mkdir();
             //Ruta para los tracks
             File n1 = new File(sdDir.getAbsolutePath() + "/" + nivel1 );
-            n1.mkdir();
-
+            if(!n1.exists()) n1.mkdir();
             //Ruta para los kml,gpx,etc..
             File n2 = new File(n1.getAbsolutePath() + "/" + nivel2 );
-            n2.mkdir();
-
+            if(!n2.exists()) n2.mkdir();
             //Ruta para los tracks de una fcha
             File n3 = new File(n2.getAbsolutePath() + "/" + nivel3);
-            n3.mkdir();
-
-
+            if(!n3.exists()) n3.mkdir();
             ruta = n3;
-
             //Toast.makeText(m_context,trackFechaDir + m_fichero + "." + nivel2 ,Toast.LENGTH_LONG).show();
         }catch(Exception e){
             Toast.makeText(context, "Error al crear el fichero", Toast.LENGTH_LONG).show();
-
         }
         return ruta;
-
     }
 
 }
