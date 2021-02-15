@@ -1,8 +1,10 @@
 package es.alert21.atopcal.OBS;
 
+import java.io.Serializable;
+
 import es.alert21.atopcal.Util;
 
-public class OBS {
+public class OBS implements Serializable {
     private Integer id=0;
     private Integer ne=0,nv=0;
     private Double h=0.0,v=0.0,d=0.0,m=0.0,i=0.0;

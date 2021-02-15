@@ -15,9 +15,7 @@ import java.io.File;
 import java.util.List;
 
 import es.alert21.atopcal.MainActivity;
-import es.alert21.atopcal.OBS.OBS;
-import es.alert21.atopcal.OBS.ObsActivity;
-import es.alert21.atopcal.OBS.ObsAdapter;
+
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Topcal;
 import es.alert21.atopcal.Util;
@@ -35,6 +33,7 @@ public class ViewObsActivity extends AppCompatActivity {
         listViewObs.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                Observaciones(obsList.get(position));
                 Toast.makeText(getApplicationContext(), obsList.get(position).toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -66,14 +65,16 @@ public class ViewObsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.addOBS:
-                Observaciones();
+                Observaciones(new OBS());
                 return true;
             default:
                 return true;
         }
     }
-    private void Observaciones(){
+
+    private void Observaciones(OBS obs){
         Intent intent = new Intent(MainActivity.yo, ObsActivity.class);
+        intent.putExtra("OBS",obs);
         startActivity(intent);
     }
 

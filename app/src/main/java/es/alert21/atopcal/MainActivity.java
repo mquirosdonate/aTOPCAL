@@ -22,7 +22,7 @@ import java.util.Map;
 
 import es.alert21.atopcal.OBS.ViewObsActivity;
 import es.alert21.atopcal.PRJ.NuevoProyecto;
-import es.alert21.atopcal.PRJ.PrjActivity;
+import es.alert21.atopcal.PRJ.ViewPrjActivity;
 import es.alert21.atopcal.PTS.PtsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void Proyecto(){
-        Intent intent = new Intent(MainActivity.this, PrjActivity.class);
+        Intent intent = new Intent(MainActivity.this, ViewPrjActivity.class);
         startActivity(intent);
     }
     @Override

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import es.alert21.atopcal.OBS.OBS;
@@ -35,7 +36,7 @@ public class Topcal {
             db.insert("PRJ", null, cv);
         }
     }
-    public void setOBS(OBS obs){
+    public void insertOBS(OBS obs){
         if (db == null) return;
         ContentValues cv = new ContentValues();
         cv.put("NE",obs.getNe());
@@ -47,8 +48,17 @@ public class Topcal {
         cv.put("I",obs.getI());
         cv.put("raw",obs.getRaw());
         cv.put("Aparato",obs.getAparato());
-        db.insert("OBS", null, cv);
+        if (obs.getId() == 0){
+            db.insert("OBS", null, cv);
+        }else{
+            db.update("OBS",cv,"id="+obs.getId().toString(),null);
+        }
     }
+    public void borrarOBS(OBS obs) {
+        if (db == null) return;
+        db.delete("OBS", "id=" + obs.getId().toString(), null);
+    }
+
     public ArrayList<OBS> getOBS(String sql){
         ArrayList<OBS> list = new ArrayList<OBS>();
         Cursor cur = db.rawQuery(sql, null);

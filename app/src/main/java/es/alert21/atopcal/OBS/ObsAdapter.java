@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.R;
 
 public class ObsAdapter extends ArrayAdapter<OBS> {
@@ -28,10 +27,10 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
         View view = inflater.inflate(R.layout.list_obs, null,false);
         //getting obs of the specified position
         OBS obs = obsList.get(position);
-        TextView ne = view.findViewById(R.id.listObsNe);
+        TextView ne = view.findViewById(R.id.listPRJNombre);
         TextView nv = view.findViewById(R.id.listObsNv);
-        TextView h = view.findViewById(R.id.listObsH);
-        TextView v = view.findViewById(R.id.listObsV);
+        TextView h = view.findViewById(R.id.listPRJTitulo);
+        TextView v = view.findViewById(R.id.listPRJDescripcion);
         TextView d = view.findViewById(R.id.listObsD);
         TextView m = view.findViewById(R.id.listObsM);
         TextView i = view.findViewById(R.id.listObsI);

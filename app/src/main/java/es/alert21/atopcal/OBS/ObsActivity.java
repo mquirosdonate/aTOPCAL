@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.io.File;
 
@@ -17,17 +16,17 @@ import es.alert21.atopcal.Util;
 
 public class ObsActivity extends AppCompatActivity {
     private EditText neEditText,nvEditText,hEditText,vEditText,dEditText,mEditText,iEditText;
-    private TextView titulo;
-    private ImageButton OK,Cancel;
+    private ImageButton imageButtonOK, imageButtonDelete;
     private OBS obs;
     Topcal topcal;
+    Boolean bEditar = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obs);
-        titulo = findViewById(R.id.textViewTitulo);
-        OK = findViewById(R.id.ObsActivitiOK);
-        Cancel = findViewById(R.id.ObsActivitiCancel);
+
+        imageButtonOK = findViewById(R.id.ObsActivitiOK);
+        imageButtonDelete = findViewById(R.id.ObsActivitiCancel);
         neEditText = findViewById(R.id.ObsActivityNE);
         nvEditText = findViewById(R.id.ObsActivityNV);
         hEditText = findViewById(R.id.ObsActivityH);
@@ -35,24 +34,56 @@ public class ObsActivity extends AppCompatActivity {
         dEditText = findViewById(R.id.ObsActivityD);
         mEditText  = findViewById(R.id.ObsActivityM);
         iEditText = findViewById(R.id.ObsActivityI);
-        obs = new OBS();
-        OK.setOnClickListener(new View.OnClickListener() {
+        getSupportActionBar().setTitle("NUEVA OBS");
+
+        obs = (OBS) getIntent().getSerializableExtra("OBS");
+        if (obs.getId()>0)setOBS(obs);
+
+        imageButtonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOBS();
-                newOBS();
+                OK();
             }
         });
-        Cancel.setVisibility(View.INVISIBLE);
-        Cancel.setOnClickListener(new View.OnClickListener() {
+
+        imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newOBS();
+                CancelOrDelete();
             }
         });
     }
+    private void CancelOrDelete(){
+        if(bEditar){
+            if (topcal != null)topcal.borrarOBS(obs);
+            finish();
+        }else{
+            newOBS();
+        }
+    }
+    private void OK(){
+        getOBS();
+        if (topcal != null)topcal.insertOBS(obs);
+        if(bEditar){
+            finish();
+        }else {
+            newOBS();
+        }
+    }
+    private void setOBS(OBS obs){
+        neEditText.setText(obs.getNe().toString());
+        nvEditText.setText(obs.getNv().toString());
+        hEditText.setText(obs.getH().toString());
+        vEditText.setText(obs.getV().toString());
+        dEditText.setText(obs.getD().toString());
+        mEditText.setText(obs.getM().toString());
+        iEditText.setText(obs.getI().toString());
+
+        getSupportActionBar().setTitle("EDITAR OBS");
+        //imageButtonDelete.setVisibility(View.VISIBLE);
+        bEditar = true;
+    }
     private void getOBS(){
-        obs = new OBS();
         String ne = neEditText.getText().toString();
         String nv = nvEditText.getText().toString();
         if (ne.isEmpty() || nv.isEmpty()){
@@ -66,8 +97,7 @@ public class ObsActivity extends AppCompatActivity {
         obs.setD(dEditText.getText().toString());
         obs.setM(mEditText.getText().toString());
         obs.setI(iEditText.getText().toString());
-        titulo.setText(obs.toString());
-        if (topcal != null)topcal.setOBS(obs);
+        getSupportActionBar().setTitle(obs.toString());
     }
     private void newOBS(){
         neEditText.setText(obs.getNe().toString());
@@ -83,6 +113,7 @@ public class ObsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //getSupportActionBar().setTitle("OBS");
         String prj = Util.cargaConfiguracion(ObsActivity.this,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
