@@ -1,13 +1,15 @@
-package es.alert21.atopcal;
+package es.alert21.atopcal.BBDD;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.SQLException;
+import java.io.File;
 import java.util.ArrayList;
 
+import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
+import es.alert21.atopcal.PRJ.PRJ;
 
 public class Topcal {
     private String m_NombreTrabajo;
@@ -21,19 +23,29 @@ public class Topcal {
         topcalDB = new TopcalDB(MainActivity.yo,m_NombreTrabajo+"/Topcal.db",null,1);
         db = topcalDB.getWritableDatabase();
     }
-    public void setPRJ(String nombre,String titulo,String descripcion){
+    public PRJ getPRJ(){
+        PRJ prj = new PRJ();
+        Cursor cur = db.rawQuery("SELECT * FROM PRJ WHERE id>0", null);
+        if (cur.moveToFirst()) {
+            prj.setId(cur.getInt(cur.getColumnIndex("id")));
+            prj.setDescripcion(cur.getString(cur.getColumnIndex("Descripcion")));
+            prj.setTitulo(cur.getString(cur.getColumnIndex("Titulo")));
+        }
+        File file = new File(m_NombreTrabajo);
+        String nombre = file.getName() ;
+        prj.setNombre(nombre);
+        return prj;
+    }
+    public void insertPRJ(PRJ prj){
         if (db == null) return;
         ContentValues cv = new ContentValues();
-        cv.put("Nombre",nombre);
-        cv.put("Titulo",titulo);
-        cv.put("Descripcion",descripcion);
-        Cursor cur = db.rawQuery("SELECT Nombre FROM PRJ"  , null);
-        if (cur.moveToFirst()) {
-            // true; UPDATE
-            db.update("PRJ",cv,null,null);
-        } else {
-            // false INSERT
+
+        cv.put("Titulo",prj.getTitulo());
+        cv.put("Descripcion",prj.getDescripcion());
+        if (prj.getId() == 0){
             db.insert("PRJ", null, cv);
+        }else{
+            db.update("PRJ",cv,"id="+prj.getId().toString(),null);
         }
     }
     public void insertOBS(OBS obs){
@@ -59,6 +71,16 @@ public class Topcal {
         db.delete("OBS", "id=" + obs.getId().toString(), null);
     }
 
+    public ArrayList<Integer> getNEs(){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Cursor cur = db.rawQuery("SELECT DISTINCT(ne) FROM OBS Order by NE", null);
+        if (cur.moveToFirst()) {
+            do {
+                list.add(cur.getInt(cur.getColumnIndex("NE")));
+            }while(cur.moveToNext());
+        }
+        return list;
+    }
     public ArrayList<OBS> getOBS(String sql){
         ArrayList<OBS> list = new ArrayList<OBS>();
         Cursor cur = db.rawQuery(sql, null);

@@ -2,6 +2,12 @@ package es.alert21.atopcal.OBS;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.MainActivity;
+import es.alert21.atopcal.PRJ.PRJ;
+import es.alert21.atopcal.R;
+import es.alert21.atopcal.Util;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,55 +22,52 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.util.List;
 
-import es.alert21.atopcal.MainActivity;
-
-import es.alert21.atopcal.R;
-import es.alert21.atopcal.BBDD.Topcal;
-import es.alert21.atopcal.Util;
-
-public class ViewObsActivity extends AppCompatActivity {
+public class ViewNeActivity extends AppCompatActivity {
     Topcal topcal;
-    List<OBS> obsList;
-    ListView listViewObs;
-    ObsAdapter adapter;
+    ListView listViewNEs;
+    List<Integer> neList;
+    NEAdapter adapter;
     private FloatingActionButton btnNew;
-    Integer ne=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_obs);
-        btnNew = findViewById(R.id.floatingActionButton3);
+        setContentView(R.layout.activity_view_ne);
+        btnNew = findViewById(R.id.floatingActionButton2);
         btnNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Observaciones(new OBS());
             }
         });
-        ne = getIntent().getIntExtra("NE",0);
-        listViewObs = (ListView) findViewById(R.id.listViewObs);
-        listViewObs.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listViewNEs = (ListView) findViewById(R.id.listViewNE);
+        listViewNEs.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                Observaciones(obsList.get(position));
-                Toast.makeText(getApplicationContext(), obsList.get(position).toString(), Toast.LENGTH_LONG).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Visuales(neList.get(position));
+                Toast.makeText(getApplicationContext(), neList.get(position).toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setTitle("OBS");
+        getSupportActionBar().setTitle("ESTACIONES");
         String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
-        obsList = topcal.getOBS("SELECT * FROM OBS WHERE NE="+ne.toString()+" Order by NV,raw");
+        neList = topcal.getNEs();
 
         //creating the adapter object
-        adapter = new ObsAdapter(this,obsList);
+        adapter = new NEAdapter(this,neList);
 
         //adding the adapter to listview
-        listViewObs.setAdapter(adapter);
+        listViewNEs.setAdapter(adapter);
         //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+    }
+    private void Visuales(Integer ne){
+        Intent intent = new Intent(MainActivity.yo, ViewObsActivity.class);
+        intent.putExtra("NE",ne);
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,11 +84,9 @@ public class ViewObsActivity extends AppCompatActivity {
                 return true;
         }
     }
-
     private void Observaciones(OBS obs){
         Intent intent = new Intent(MainActivity.yo, ObsActivity.class);
         intent.putExtra("OBS",obs);
         startActivity(intent);
     }
-
 }

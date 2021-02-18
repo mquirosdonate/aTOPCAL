@@ -9,7 +9,13 @@ import android.os.Environment;
 import androidx.preference.PreferenceManager;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +27,15 @@ import java.util.TimeZone;
 
 
 public class Util {
+    public static void readCSV(File file) {
+        String line = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split(",");
+            }
+        } catch (IOException e1) {}
+    }
     public static String cargaConfiguracion(Context context,String key,String defValue){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getString(key, defValue);

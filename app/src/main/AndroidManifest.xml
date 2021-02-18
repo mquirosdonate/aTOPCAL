@@ -15,12 +15,12 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.ATOPCAL">
-        <activity android:name=".PRJ.PrjAdapter"></activity>
+        <activity android:name=".OBS.ViewNeActivity"/>
         <activity android:name=".OBS.ViewObsActivity" />
         <activity android:name=".PRJ.ViewPrjActivity" />
         <activity android:name=".PTS.PtsActivity" />
         <activity android:name=".OBS.ObsActivity" />
-        <activity android:name=".PRJ.NuevoProyecto" />
+        <activity android:name=".PRJ.PrjActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

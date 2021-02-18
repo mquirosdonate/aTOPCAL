@@ -1,6 +1,7 @@
 package es.alert21.atopcal.OBS;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import es.alert21.atopcal.R;
 
 public class ObsAdapter extends ArrayAdapter<OBS> {
     List<OBS> obsList;
-    //activity context
     Context context;
 
     public ObsAdapter(Context context,  List<OBS> obsList){
@@ -27,10 +27,10 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
         View view = inflater.inflate(R.layout.list_obs, null,false);
         //getting obs of the specified position
         OBS obs = obsList.get(position);
-        TextView ne = view.findViewById(R.id.listPRJNombre);
-        TextView nv = view.findViewById(R.id.listObsNv);
-        TextView h = view.findViewById(R.id.listPRJTitulo);
-        TextView v = view.findViewById(R.id.listPRJDescripcion);
+        TextView ne = view.findViewById(R.id.listObsNE);
+        TextView nv = view.findViewById(R.id.listObsNV);
+        TextView h = view.findViewById(R.id.ListObsH);
+        TextView v = view.findViewById(R.id.listObsV);
         TextView d = view.findViewById(R.id.listObsD);
         TextView m = view.findViewById(R.id.listObsM);
         TextView i = view.findViewById(R.id.listObsI);
@@ -41,6 +41,9 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
         d.setText(obs.getD().toString());
         m.setText(obs.getM().toString());
         i.setText(obs.getI().toString());
+        if(obs.getRaw()>0){
+            nv.setTextColor(Color.RED);
+        }
         return view;
     }
 }

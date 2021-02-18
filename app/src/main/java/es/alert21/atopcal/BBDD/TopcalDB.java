@@ -1,11 +1,11 @@
-package es.alert21.atopcal;
+package es.alert21.atopcal.BBDD;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class TopcalDB extends SQLiteOpenHelper {
-    private String CREATE_TABLE_PRJ = "CREATE TABLE PRJ (id INTEGER NOT NULL CONSTRAINT prj_pk PRIMARY KEY AUTOINCREMENT,Nombre TEXT,Titulo TEXT ,Descripcion TEXT)";
+    private String CREATE_TABLE_PRJ = "CREATE TABLE PRJ (id INTEGER NOT NULL CONSTRAINT prj_pk PRIMARY KEY AUTOINCREMENT,Titulo TEXT ,Descripcion TEXT)";
     private String CREATE_TABLE_OBS = "CREATE TABLE OBS ( id INTEGER NOT NULL CONSTRAINT obs_pk PRIMARY KEY AUTOINCREMENT,NE INTEGER,NV INTEGER ," +
             "H DOUBLE,V DOUBLE,D DOUBLE,M DOUBLE,I DOUBLE,raw INTEGER,Aparato INTEGER)";
     private String CREATE_TABLE_PTS = "CREATE TABLE PTS (id INTEGER NOT NULL CONSTRAINT pts_pk PRIMARY KEY AUTOINCREMENT,N INTEGER," +

@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.alert21.atopcal.OBS.ViewNeActivity;
 import es.alert21.atopcal.OBS.ViewObsActivity;
-import es.alert21.atopcal.PRJ.NuevoProyecto;
 import es.alert21.atopcal.PRJ.ViewPrjActivity;
 import es.alert21.atopcal.PTS.PtsActivity;
 
@@ -49,40 +49,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nuevoProyecto:
-                NuevoProyecto();
-                return true;
-            case R.id.buscarProyecto:
-                return true;
             case R.id.Observaciones:
                 Observaciones();
                 return true;
             case R.id.Puntos:
                 Puntos();
                 return true;
-            case R.id.Proyecto:
-                Proyecto();
+            case R.id.Proyectos:
+                Proyectos();
                 return true;
             default:
                 return true;
         }
     }
-    private void NuevoProyecto(){
-        Intent intent = new Intent(MainActivity.this, NuevoProyecto.class);
+    private void Proyectos(){
+        Intent intent = new Intent(MainActivity.this, ViewPrjActivity.class);
         startActivity(intent);
     }
     private void Observaciones(){
-        Intent intent = new Intent(MainActivity.this, ViewObsActivity.class);
+        Intent intent = new Intent(MainActivity.this, ViewNeActivity.class);
         startActivity(intent);
     }
     private void Puntos(){
         Intent intent = new Intent(MainActivity.this, PtsActivity.class);
         startActivity(intent);
     }
-    private void Proyecto(){
-        Intent intent = new Intent(MainActivity.this, ViewPrjActivity.class);
-        startActivity(intent);
-    }
+
     @Override
     protected void onResume() {
         super.onResume();

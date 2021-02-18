@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/addOBS"
-        android:icon="@drawable/new_icon"
-        android:title="nueva OBS" />
-
+        android:icon="@android:drawable/ic_input_add"
+        android:title="nueva OBS"
+        app:showAsAction="ifRoom" />
+    <item android:title="IMPORTAR"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_input_get">
+        <menu>
+            <item android:title="Leica"
+                android:id="@+id/importLeika"/>
+            <item android:title="Geodimeter"
+                android:id="@+id/importGeodimeter"/>
+        </menu>
+    </item>
 </menu>

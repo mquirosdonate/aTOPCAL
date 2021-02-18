@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/listPRJNombre"
+        android:id="@+id/listObsNE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,48 +19,44 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/listObsNv"
+        android:id="@+id/listObsNV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
         android:fontFamily="monospace"
-        app:layout_constraintStart_toEndOf="@+id/listPRJNombre"
-        app:layout_constraintTop_toTopOf="@+id/listPRJNombre" />
+        app:layout_constraintStart_toEndOf="@+id/listObsNE"
+        app:layout_constraintTop_toTopOf="@+id/listObsNE" />
 
     <TextView
-        android:id="@+id/listPRJTitulo"
+        android:id="@+id/ListObsH"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPRJNombre" />
+        app:layout_constraintTop_toBottomOf="@+id/listObsNE" />
 
     <TextView
-        android:id="@+id/listPRJDescripcion"
+        android:id="@+id/listObsV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/listPRJTitulo"
-        app:layout_constraintTop_toTopOf="@+id/listPRJTitulo" />
+        app:layout_constraintStart_toEndOf="@+id/ListObsH"
+        app:layout_constraintTop_toTopOf="@+id/ListObsH" />
+
     <TextView
         android:id="@+id/listObsD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/listPRJDescripcion"
-        app:layout_constraintTop_toTopOf="@+id/listPRJDescripcion" />
+        app:layout_constraintStart_toEndOf="@+id/listObsV"
+        app:layout_constraintTop_toTopOf="@+id/listObsV" />
 
     <TextView
         android:id="@+id/listObsM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/listObsD"
         app:layout_constraintTop_toTopOf="@+id/listObsD" />
 
@@ -69,7 +65,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/listObsM"
         app:layout_constraintTop_toTopOf="@+id/listObsM" />
 

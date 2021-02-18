@@ -4,26 +4,43 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
 import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.R;
-import es.alert21.atopcal.Topcal;
+import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.Util;
 
-public class ObsActivity extends AppCompatActivity {
+public class ObsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+    private TextView txtRaw;
     private EditText neEditText,nvEditText,hEditText,vEditText,dEditText,mEditText,iEditText;
     private ImageButton imageButtonOK, imageButtonDelete;
     private OBS obs;
     Topcal topcal;
     Boolean bEditar = false;
+    Spinner spinner;
+    String[] raws = { "sin borrar", "borrada"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obs);
+        txtRaw = findViewById(R.id.textViewRaw);
+        spinner = findViewById(R.id.rawObs);
+
+
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,raws);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         imageButtonOK = findViewById(R.id.ObsActivitiOK);
         imageButtonDelete = findViewById(R.id.ObsActivitiCancel);
@@ -37,7 +54,16 @@ public class ObsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("NUEVA OBS");
 
         obs = (OBS) getIntent().getSerializableExtra("OBS");
-        if (obs.getId()>0)setOBS(obs);
+        if (obs.getId()>0){
+            bEditar = true;
+            spinner.setVisibility(View.VISIBLE);
+            txtRaw.setVisibility(View.VISIBLE);
+            spinner.setSelection(obs.getRaw());
+            setOBS(obs);
+        }else{
+            spinner.setVisibility(View.INVISIBLE);
+            txtRaw.setVisibility(View.INVISIBLE);
+        }
 
         imageButtonOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +79,16 @@ public class ObsActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+        Toast.makeText(getApplicationContext(),raws[position] , Toast.LENGTH_LONG).show();
+        obs.setRaw(position);
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+
     private void CancelOrDelete(){
         if(bEditar){
             if (topcal != null)topcal.borrarOBS(obs);
@@ -81,7 +117,7 @@ public class ObsActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("EDITAR OBS");
         //imageButtonDelete.setVisibility(View.VISIBLE);
-        bEditar = true;
+
     }
     private void getOBS(){
         String ne = neEditText.getText().toString();
@@ -113,7 +149,6 @@ public class ObsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //getSupportActionBar().setTitle("OBS");
         String prj = Util.cargaConfiguracion(ObsActivity.this,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
