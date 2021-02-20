@@ -15,11 +15,14 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.ATOPCAL">
-        <activity android:name=".OBS.ViewNeActivity"/>
+        <activity android:name=".PTS.ViewPtsActivity"></activity>
+        <activity android:name=".FILES.FileChooser" />
+        <activity android:name=".FILES.FileExplorer" />
+        <activity android:name=".OBS.ViewNeActivity" />
         <activity android:name=".OBS.ViewObsActivity" />
         <activity android:name=".PRJ.ViewPrjActivity" />
-        <activity android:name=".PTS.PtsActivity" />
-        <activity android:name=".OBS.ObsActivity" />
+        <activity android:name=".PTS.EditarPtsActivity" />
+        <activity android:name=".OBS.EditarObsActivity" />
         <activity android:name=".PRJ.PrjActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

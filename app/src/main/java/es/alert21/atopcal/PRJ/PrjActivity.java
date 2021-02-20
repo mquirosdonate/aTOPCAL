@@ -10,8 +10,6 @@ import android.widget.ImageButton;
 import java.io.File;
 
 import es.alert21.atopcal.MainActivity;
-import es.alert21.atopcal.OBS.OBS;
-import es.alert21.atopcal.OBS.ObsActivity;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.Util;

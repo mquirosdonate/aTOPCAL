@@ -6,22 +6,27 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PRJ.PRJ;
+import es.alert21.atopcal.PTS.PTS;
 
 public class Topcal {
-    private String m_NombreTrabajo;
+    private String nombreTrabajo;
     private TopcalDB topcalDB;
     private SQLiteDatabase db;
 
     public Topcal(String nombreTrabajo)	{
         if(nombreTrabajo.equals(""))return;
-        m_NombreTrabajo = nombreTrabajo;
+        this.nombreTrabajo = nombreTrabajo;
 
-        topcalDB = new TopcalDB(MainActivity.yo,m_NombreTrabajo+"/Topcal.db",null,1);
+        topcalDB = new TopcalDB(MainActivity.yo, this.nombreTrabajo +"/Topcal.db",null,1);
         db = topcalDB.getWritableDatabase();
+    }
+    public String getNombreTrabajo(){
+        return nombreTrabajo;
     }
     public PRJ getPRJ(){
         PRJ prj = new PRJ();
@@ -31,7 +36,7 @@ public class Topcal {
             prj.setDescripcion(cur.getString(cur.getColumnIndex("Descripcion")));
             prj.setTitulo(cur.getString(cur.getColumnIndex("Titulo")));
         }
-        File file = new File(m_NombreTrabajo);
+        File file = new File(nombreTrabajo);
         String nombre = file.getName() ;
         prj.setNombre(nombre);
         return prj;
@@ -46,6 +51,11 @@ public class Topcal {
             db.insert("PRJ", null, cv);
         }else{
             db.update("PRJ",cv,"id="+prj.getId().toString(),null);
+        }
+    }
+    public void insertOBS(List<OBS> listObs){
+        for(OBS obs:listObs){
+            insertOBS(obs);
         }
     }
     public void insertOBS(OBS obs){
@@ -98,6 +108,24 @@ public class Topcal {
                 obs.setRaw(cur.getInt(cur.getColumnIndex("raw")));
                 obs.setAparato(cur.getInt(cur.getColumnIndex("Aparato")));
                 list.add(obs);
+            }while(cur.moveToNext());
+        }
+        return list;
+    }
+    public ArrayList<PTS> getPTS(String sql){
+        ArrayList<PTS> list = new ArrayList<PTS>();
+        Cursor cur = db.rawQuery(sql, null);
+        if (cur.moveToFirst()) {
+            do {
+                PTS pts = new PTS();
+                pts.setId(cur.getInt(cur.getColumnIndex("id")));
+                pts.setN(cur.getInt(cur.getColumnIndex("N")));
+                pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
+                pts.setX(cur.getDouble(cur.getColumnIndex("X")));
+                pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
+                pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
+                pts.setDes(cur.getDouble(cur.getColumnIndex("Des")));
+                list.add(pts);
             }while(cur.moveToNext());
         }
         return list;

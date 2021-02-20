@@ -3,7 +3,6 @@ package es.alert21.atopcal.FILES;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.ListView;
 
@@ -23,8 +22,8 @@ public class FileChooser extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Ruta de la sdCard
-        currentDir = Environment.getExternalStorageDirectory();
+        currentDir = new File(getIntent().getStringExtra("DIR"));
+        //currentDir = Environment.getExternalStorageDirectory();
         fill(currentDir);
     }
     private void fill(File f) {
@@ -66,7 +65,7 @@ public class FileChooser extends ListActivity {
         dir.addAll(fls);
         if(!f.getName().equalsIgnoreCase("sdcard"))
             dir.add(0,new Item("..","Parent Directory","",f.getParent(),"directory_up"));
-        adapter = new FileArrayAdapter(es.alert21.atopcal.FILES.FileChooser.this, R.layout.file_view,dir);
+        adapter = new FileArrayAdapter(es.alert21.atopcal.FILES.FileChooser.this, R.layout.list_files,dir);
         this.setListAdapter(adapter);
     }
     @Override

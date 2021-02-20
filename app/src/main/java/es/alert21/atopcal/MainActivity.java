@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import es.alert21.atopcal.OBS.ViewNeActivity;
-import es.alert21.atopcal.OBS.ViewObsActivity;
 import es.alert21.atopcal.PRJ.ViewPrjActivity;
-import es.alert21.atopcal.PTS.PtsActivity;
+import es.alert21.atopcal.PTS.EditarPtsActivity;
+import es.alert21.atopcal.PTS.ViewPtsActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity yo;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void Puntos(){
-        Intent intent = new Intent(MainActivity.this, PtsActivity.class);
+        Intent intent = new Intent(MainActivity.this, ViewPtsActivity.class);
         startActivity(intent);
     }
 

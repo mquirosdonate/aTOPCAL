@@ -3,8 +3,8 @@ package es.alert21.atopcal.OBS;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.FILES.FileChooser;
 import es.alert21.atopcal.MainActivity;
-import es.alert21.atopcal.PRJ.PRJ;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 
@@ -80,12 +80,66 @@ public class ViewNeActivity extends AppCompatActivity {
             case R.id.addOBS:
                 Observaciones(new OBS());
                 return true;
+            case R.id.importLeica:
+                ImportarLeica();
+                return true;
+            case R.id.importGeodimeter:
+                ImportarGeodimeter();
+                return true;
+            case R.id.importCSV:
+                ImportarCSV();
+                return true;
             default:
                 return true;
         }
     }
+    private static final int REQUEST_PATH_LEICA = 100;
+    private static final int REQUEST_PATH_GEODIMETER = 101;
+    private static final int REQUEST_PATH_CSV = 102;
+    private void ImportarLeica(){
+        Intent intent = new Intent(this, FileChooser.class);
+        intent.putExtra("DIR",topcal.getNombreTrabajo());
+        startActivityForResult(intent,REQUEST_PATH_LEICA);
+    }
+    private void ImportarGeodimeter(){
+        Intent intent = new Intent(this, FileChooser.class);
+        intent.putExtra("DIR",topcal.getNombreTrabajo());
+        startActivityForResult(intent,REQUEST_PATH_GEODIMETER);
+    }
+    private void ImportarCSV(){
+        Intent intent = new Intent(this, FileChooser.class);
+        intent.putExtra("DIR",topcal.getNombreTrabajo());
+        startActivityForResult(intent,REQUEST_PATH_CSV);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK){
+            Toast.makeText(getApplicationContext(), "No has selecionado NADA", Toast.LENGTH_LONG);
+            return;
+        }
+        String curPath = data.getStringExtra("GetPath");
+        String curFileName = data.getStringExtra("GetFileName");
+        String fileName = curPath + "/" + curFileName;
+        File file = new File(fileName);
+        switch (requestCode) {
+            case REQUEST_PATH_LEICA:
+                Leica leica = new Leica(file,topcal);
+                break;
+            case REQUEST_PATH_GEODIMETER:
+                Geodimeter geodimeter = new Geodimeter(file,topcal);
+                break;
+            case REQUEST_PATH_CSV:
+                CSV csv = new CSV(file,topcal);
+                break;
+            default:
+                break;
+        }
+    }
+
+
     private void Observaciones(OBS obs){
-        Intent intent = new Intent(MainActivity.yo, ObsActivity.class);
+        Intent intent = new Intent(MainActivity.yo, EditarObsActivity.class);
         intent.putExtra("OBS",obs);
         startActivity(intent);
     }

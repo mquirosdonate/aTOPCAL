@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -19,8 +18,6 @@ import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.MainActivity;
-import es.alert21.atopcal.OBS.OBS;
-import es.alert21.atopcal.OBS.ObsActivity;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 

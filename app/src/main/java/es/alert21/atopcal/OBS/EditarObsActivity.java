@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -19,7 +18,7 @@ import es.alert21.atopcal.R;
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.Util;
 
-public class ObsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class EditarObsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private TextView txtRaw;
     private EditText neEditText,nvEditText,hEditText,vEditText,dEditText,mEditText,iEditText;
     private ImageButton imageButtonOK, imageButtonDelete;
@@ -81,7 +80,7 @@ public class ObsActivity extends AppCompatActivity implements AdapterView.OnItem
     }
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-        Toast.makeText(getApplicationContext(),raws[position] , Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),raws[position] , Toast.LENGTH_LONG).show();
         obs.setRaw(position);
     }
     @Override
@@ -149,7 +148,7 @@ public class ObsActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     protected void onResume() {
         super.onResume();
-        String prj = Util.cargaConfiguracion(ObsActivity.this,"Nombre Proyecto","");
+        String prj = Util.cargaConfiguracion(EditarObsActivity.this,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
         //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();

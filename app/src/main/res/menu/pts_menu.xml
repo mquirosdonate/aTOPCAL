@@ -2,18 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/addOBS"
+    <item android:id="@+id/addPTS"
         android:icon="@android:drawable/ic_input_add"
-        android:title="nueva OBS"
+        android:title="nuevo PTS"
         app:showAsAction="ifRoom" />
     <item android:title="IMPORTAR"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_input_get">
         <menu>
-            <item android:title="Leica"
-                android:id="@+id/importLeica"/>
-            <item android:title="Geodimeter"
-                android:id="@+id/importGeodimeter"/>
+
             <item android:title="CSV"
                 android:id="@+id/importCSV"/>
         </menu>
