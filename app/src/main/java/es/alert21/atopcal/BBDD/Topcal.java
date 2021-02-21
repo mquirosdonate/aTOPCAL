@@ -76,9 +76,34 @@ public class Topcal {
             db.update("OBS",cv,"id="+obs.getId().toString(),null);
         }
     }
+    public void insertPTS(List<PTS> listPts){
+        for(PTS pts:listPts){
+            insertPTS(pts);
+        }
+    }
+    public void insertPTS(PTS pts){
+        if (db == null) return;
+        ContentValues cv = new ContentValues();
+        cv.put("N",pts.getN());
+        cv.put("Nombre",pts.getNombre());
+        cv.put("X",pts.getX());
+        cv.put("Y",pts.getY());
+        cv.put("Z",pts.getZ());
+        cv.put("Des",pts.getDes());
+
+        if (pts.getId() == 0){
+            db.insert("PTS", null, cv);
+        }else{
+            db.update("PTS",cv,"id="+pts.getId().toString(),null);
+        }
+    }
     public void borrarOBS(OBS obs) {
         if (db == null) return;
         db.delete("OBS", "id=" + obs.getId().toString(), null);
+    }
+    public void borrarPTS(PTS pts) {
+        if (db == null) return;
+        db.delete("PTS", "id=" + pts.getId().toString(), null);
     }
 
     public ArrayList<Integer> getNEs(){
@@ -118,13 +143,42 @@ public class Topcal {
         if (cur.moveToFirst()) {
             do {
                 PTS pts = new PTS();
-                pts.setId(cur.getInt(cur.getColumnIndex("id")));
-                pts.setN(cur.getInt(cur.getColumnIndex("N")));
-                pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
-                pts.setX(cur.getDouble(cur.getColumnIndex("X")));
-                pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
-                pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
-                pts.setDes(cur.getDouble(cur.getColumnIndex("Des")));
+                try{
+                    pts.setId(cur.getInt(cur.getColumnIndex("id")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setN(cur.getInt(cur.getColumnIndex("N")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setX(cur.getDouble(cur.getColumnIndex("X")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
+                }catch (Exception e){
+
+                }
+                try{
+                    pts.setDes(cur.getDouble(cur.getColumnIndex("DES")));
+                }catch (Exception e){
+
+                }
+
                 list.add(pts);
             }while(cur.moveToNext());
         }

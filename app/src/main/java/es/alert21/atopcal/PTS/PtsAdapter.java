@@ -27,7 +27,6 @@ public class PtsAdapter extends ArrayAdapter<PTS> {
         PTS pts = ptsList.get(position);
         TextView txtNombre = view.findViewById(R.id.textViewPtsNombre);
         txtNombre.setText(pts.getNombre());
-
         TextView txtN = view.findViewById(R.id.listPtsN);
         txtN.setText(pts.getN().toString());
         TextView txtX = view.findViewById(R.id.textViewPtsX);
@@ -37,7 +36,9 @@ public class PtsAdapter extends ArrayAdapter<PTS> {
         TextView txtZ = view.findViewById(R.id.textViewPtsZ);
         txtZ.setText(pts.getZ().toString());
         TextView txtDes = view.findViewById(R.id.textViewPtsDes);
-        txtDes.setText(pts.getDes().toString());
+        if (pts.getDes()>0) {
+            txtDes.setText(pts.getDes().toString());
+        }
         return view;
     }
 }

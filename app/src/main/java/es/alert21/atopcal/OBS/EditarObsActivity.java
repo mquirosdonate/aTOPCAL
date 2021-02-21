@@ -31,11 +31,9 @@ public class EditarObsActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_obs);
+        setContentView(R.layout.activity_editar_obs);
         txtRaw = findViewById(R.id.textViewRaw);
-        spinner = findViewById(R.id.rawObs);
-
-
+        spinner = findViewById(R.id.editarObsRaw);
         spinner.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,raws);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -17,8 +17,12 @@ import java.io.File;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.FILES.FileChooser;
 import es.alert21.atopcal.MainActivity;
+import es.alert21.atopcal.OBS.CSV;
 import es.alert21.atopcal.OBS.EditarObsActivity;
+import es.alert21.atopcal.OBS.Geodimeter;
+import es.alert21.atopcal.OBS.Leica;
 import es.alert21.atopcal.OBS.NEAdapter;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.R;
@@ -57,7 +61,7 @@ public class ViewPtsActivity extends AppCompatActivity {
         String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
-        ptsList = topcal.getPTS("SELECT * FROM PTS");
+        ptsList = topcal.getPTS("SELECT * FROM PTS Order by N,id");
 
         //creating the adapter object
         adapter = new PtsAdapter(this,ptsList);
@@ -78,7 +82,7 @@ public class ViewPtsActivity extends AppCompatActivity {
                 Puntos(new PTS());
                 return true;
             case R.id.importCSV:
-                //ImportarCSV();
+                ImportarCSV();
                 return true;
             default:
                 return true;
@@ -88,5 +92,31 @@ public class ViewPtsActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.yo, EditarPtsActivity.class);
         intent.putExtra("PTS",pts);
         startActivity(intent);
+    }
+    private static final int REQUEST_PATH_CSV = 102;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK){
+            Toast.makeText(getApplicationContext(), "No has selecionado NADA", Toast.LENGTH_LONG);
+            return;
+        }
+        String curPath = data.getStringExtra("GetPath");
+        String curFileName = data.getStringExtra("GetFileName");
+        String fileName = curPath + "/" + curFileName;
+        File file = new File(fileName);
+        switch (requestCode) {
+            case REQUEST_PATH_CSV:
+                es.alert21.atopcal.PTS.CSV csv = new es.alert21.atopcal.PTS.CSV(file,topcal);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void ImportarCSV(){
+        Intent intent = new Intent(this, FileChooser.class);
+        intent.putExtra("DIR",topcal.getNombreTrabajo());
+        startActivityForResult(intent,REQUEST_PATH_CSV);
     }
 }

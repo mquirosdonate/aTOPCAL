@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Des"
-        app:layout_constraintStart_toEndOf="@+id/textViewPtsZ"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
 
     <TextView
@@ -31,21 +30,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Z"
-        app:layout_constraintStart_toEndOf="@+id/textViewPtsY"
-        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/textViewPtsY" />
 
     <TextView
         android:id="@+id/textViewPtsY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Y"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsX"
-        app:layout_constraintStart_toEndOf="@+id/textViewPtsX"
-        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/textViewPtsX" />
 
     <TextView
         android:id="@+id/listPtsN"
@@ -64,9 +60,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="X"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/listPtsN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

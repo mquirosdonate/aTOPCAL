@@ -56,7 +56,7 @@ public class ViewObsActivity extends AppCompatActivity {
         String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
         File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
         topcal = new Topcal(path.toString());
-        obsList = topcal.getOBS("SELECT * FROM OBS WHERE NE="+ne.toString()+" Order by NV,raw");
+        obsList = topcal.getOBS("SELECT * FROM OBS WHERE NE="+ne.toString()+" Order by NV,id,raw");
 
         //creating the adapter object
         adapter = new ObsAdapter(this,obsList);
