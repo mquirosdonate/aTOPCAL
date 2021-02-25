@@ -10,12 +10,26 @@
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_input_get">
         <menu>
-            <item android:title="Leica"
+            <item android:title="Importar Leica"
                 android:id="@+id/importLeica"/>
-            <item android:title="Geodimeter"
+            <item android:title="Importar Geodimeter"
                 android:id="@+id/importGeodimeter"/>
-            <item android:title="CSV"
+            <item android:title="Importar TXT o CSV"
                 android:id="@+id/importCSV"/>
+            <item android:title="Importar SQL"
+                android:id="@+id/importSQL"/>
+        </menu>
+    </item>
+    <item android:title="EXPORTAR"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_send">
+        <menu>
+            <item android:title="Exportar TXT"
+                android:id="@+id/exportarTXT"/>
+            <item android:title="Exportar XML"
+                android:id="@+id/exportarXML"/>
+            <item android:title="Exportar SQL"
+                android:id="@+id/exportarSQL"/>
         </menu>
     </item>
 </menu>

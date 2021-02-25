@@ -1,4 +1,4 @@
-package es.alert21.atopcal.OBS;
+package es.alert21.atopcal.IMPORT;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.OBS.OBS;
+
 // NE  NV   -H-  -V-  -D-  -M-  -I-
-public class CSV {
+public class CSVobs {
     public List<OBS> listObs = new ArrayList<>();
-    CSV(File file, Topcal topcal){
+    public CSVobs(File file, Topcal topcal){
         if (!file.exists())
             return;
         Read(file);

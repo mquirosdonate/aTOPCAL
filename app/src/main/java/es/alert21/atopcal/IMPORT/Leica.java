@@ -1,4 +1,4 @@
-package es.alert21.atopcal.OBS;
+package es.alert21.atopcal.IMPORT;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.OBS.OBS;
 
-//'ASI ERA EN TOPCAL MSDOS
+//'ASI ERA EN TOPCAL MS DOS
 //'subrutina de transferencia de datos de gre4 a topcal
 //'code=1 para cambio de estacion  41=1 42=ne 43=i 44=m
 //'code=0 para cambiar solo la mira 41=0 42=m
@@ -17,13 +18,16 @@ import es.alert21.atopcal.BBDD.Topcal;
 //'el resto de los codigos se ignora
 //'-------------------------------------------------------------------
 
-public class Leica extends OBS{
+public class Leica extends OBS {
+    Topcal topcal = null;
     public List<OBS> listObs = new ArrayList<>();
-    Leica(File file, Topcal topcal){
+    public Leica(File file, Topcal topcal){
         if (!file.exists())
             return;
+        if (topcal == null)
+            return;
+        this.topcal = topcal;
         Read(file);
-        if (topcal != null)topcal.insertOBS(listObs);
     }
     private void Read(File file){
         String line = "";
@@ -38,7 +42,7 @@ public class Leica extends OBS{
                 double x = 0.0;
                 double y = 0.0;
                 double z = 0.0;
-                double h = -99;
+                double h = -999;
                 double v = -99;
                 double d = -99;
                 int nv = -99;//puede ser el número de estación o visado (ne o nv)
@@ -64,6 +68,7 @@ public class Leica extends OBS{
                             break;
                         case 42:
                             if (valueCod41 == 1){
+                                analizaNE(); //Empieza una estación
                                 ne = value;
                             }else{
                                 m = value/1000.0;
@@ -98,7 +103,8 @@ public class Leica extends OBS{
                             break;
                     }
                 }
-                if (h == -99){
+                if (h == -999){
+                    analizaNE(); //Empieza una estación
                     ne = nv;
                 } else {
                     OBS obs = new OBS();
@@ -112,6 +118,14 @@ public class Leica extends OBS{
                     listObs.add(obs);
                 }
             }
+            analizaNE();
         } catch (IOException e1) {}
+    }
+    private void analizaNE(){
+        if (listObs.size() >0 ){
+            //Aquí hay que analizar si NE estaba en la BBDD
+            topcal.insertOBS(listObs);
+            listObs.clear();
+        }
     }
 }

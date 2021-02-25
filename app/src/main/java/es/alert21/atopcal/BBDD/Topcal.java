@@ -53,12 +53,51 @@ public class Topcal {
             db.update("PRJ",cv,"id="+prj.getId().toString(),null);
         }
     }
+    public Integer getMinEstacion(){
+        if (db == null) return -99;
+        Cursor cur = db.rawQuery("SELECT MIN(NE) FROM OBS", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return -99;
+    }
+    public Integer getMaxEstacion(){
+        if (db == null) return -99;
+        Cursor cur = db.rawQuery("SELECT MAX(NE) FROM OBS", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return -99;
+    }
+    public Integer getMinPunto(){
+        if (db == null) return -99;
+        Cursor cur = db.rawQuery("SELECT MIN(N) FROM PTS", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return -99;
+    }
+    public Integer getMaxPunto(){
+        if (db == null) return -99;
+        Cursor cur = db.rawQuery("SELECT MAX(N) FROM PTS", null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return -99;
+    }
+
     public void insertOBS(List<OBS> listObs){
+        insertOBS( listObs,"OBS");
+    }
+    public void insertOBS(List<OBS> listObs,String tabla){
         for(OBS obs:listObs){
-            insertOBS(obs);
+            insertOBS(obs,tabla);
         }
     }
     public void insertOBS(OBS obs){
+        insertOBS(obs,"OBS");
+    }
+    public void insertOBS(OBS obs,String tabla){
         if (db == null) return;
         ContentValues cv = new ContentValues();
         cv.put("NE",obs.getNe());
@@ -71,9 +110,9 @@ public class Topcal {
         cv.put("raw",obs.getRaw());
         cv.put("Aparato",obs.getAparato());
         if (obs.getId() == 0){
-            db.insert("OBS", null, cv);
+            db.insert(tabla, null, cv);
         }else{
-            db.update("OBS",cv,"id="+obs.getId().toString(),null);
+            db.update(tabla,cv,"id="+obs.getId().toString(),null);
         }
     }
     public void insertPTS(List<PTS> listPts){
@@ -184,5 +223,26 @@ public class Topcal {
         }
         return list;
     }
+    public boolean sqlExec(String sql){
+        boolean ret = false;
+        if (db == null) return ret;
+        try {
+            db.execSQL(sql);
+            ret = true;
+        }catch (Exception e){
 
+        }
+        return ret;
+    }
+
+    public boolean CrearTabla(String tabla){
+        String CREATE_TABLE_OBS = "CREATE TABLE " + tabla +
+         " ( id INTEGER NOT NULL CONSTRAINT obs_pk PRIMARY KEY AUTOINCREMENT,NE INTEGER,NV INTEGER ," +
+                "H DOUBLE,V DOUBLE,D DOUBLE,M DOUBLE,I DOUBLE,raw INTEGER,Aparato INTEGER)";
+
+        return sqlExec(CREATE_TABLE_OBS);
+    }
+    public boolean BorrarTabla(String tabla){
+        return sqlExec("DROP TABLA " + tabla);
+    }
 }

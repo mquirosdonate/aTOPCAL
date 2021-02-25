@@ -3,18 +3,31 @@ package es.alert21.atopcal.OBS;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.EXPORT.TXTexport;
+import es.alert21.atopcal.EXPORT.XMLexport;
 import es.alert21.atopcal.FILES.FileChooser;
+import es.alert21.atopcal.IMPORT.CSVobs;
+import es.alert21.atopcal.IMPORT.ImportObsActivity;
+import es.alert21.atopcal.IMPORT.SQLimport;
 import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.R;
+import es.alert21.atopcal.EXPORT.SQLexport;
 import es.alert21.atopcal.Util;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -89,13 +102,27 @@ public class ViewNeActivity extends AppCompatActivity {
             case R.id.importCSV:
                 ImportarCSV();
                 return true;
+            case R.id.importSQL:
+                ImportarSQL();
+                return true;
+            case R.id.exportarSQL:
+                showDialogExportar(R.id.exportarSQL);
+                return true;
+            case R.id.exportarXML:
+                showDialogExportar(R.id.exportarXML);
+                return true;
+            case R.id.exportarTXT:
+                showDialogExportar(R.id.exportarTXT);
+                return true;
             default:
                 return true;
         }
     }
+
     private static final int REQUEST_PATH_LEICA = 100;
     private static final int REQUEST_PATH_GEODIMETER = 101;
     private static final int REQUEST_PATH_CSV = 102;
+    private static final int REQUEST_PATH_SQL = 103;
     private void ImportarLeica(){
         Intent intent = new Intent(this, FileChooser.class);
         intent.putExtra("DIR",topcal.getNombreTrabajo());
@@ -111,6 +138,11 @@ public class ViewNeActivity extends AppCompatActivity {
         intent.putExtra("DIR",topcal.getNombreTrabajo());
         startActivityForResult(intent,REQUEST_PATH_CSV);
     }
+    private void ImportarSQL(){
+        Intent intent = new Intent(this, FileChooser.class);
+        intent.putExtra("DIR",topcal.getNombreTrabajo());
+        startActivityForResult(intent,REQUEST_PATH_SQL);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -122,15 +154,33 @@ public class ViewNeActivity extends AppCompatActivity {
         String curFileName = data.getStringExtra("GetFileName");
         String fileName = curPath + "/" + curFileName;
         File file = new File(fileName);
+        Intent intent = new Intent(this, ImportObsActivity.class);
+        Bundle b = new Bundle();
         switch (requestCode) {
+
             case REQUEST_PATH_LEICA:
-                Leica leica = new Leica(file,topcal);
+                //Leica leica = new Leica(file,topcal);
+                b.putString("FILE",file.getAbsolutePath().toString());
+                b.putInt("TIPO",0);
+                intent.putExtras(b);
+                startActivity(intent);
                 break;
             case REQUEST_PATH_GEODIMETER:
-                Geodimeter geodimeter = new Geodimeter(file,topcal);
+                //Geodimeter geodimeter = new Geodimeter(file,topcal);
+                b.putString("FILE",file.getAbsolutePath().toString());
+                b.putInt("TIPO",1);
+                intent.putExtras(b);
+                startActivity(intent);
                 break;
             case REQUEST_PATH_CSV:
-                CSV csv = new CSV(file,topcal);
+                //CSVobs csv = new CSVobs(file,topcal);
+                b.putString("FILE",file.getAbsolutePath().toString());
+                b.putInt("TIPO",2);
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case REQUEST_PATH_SQL:
+                SQLimport importSQL = new SQLimport(file,topcal);
                 break;
             default:
                 break;
@@ -142,5 +192,62 @@ public class ViewNeActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.yo, EditarObsActivity.class);
         intent.putExtra("OBS",obs);
         startActivity(intent);
+    }
+
+    private void showDialogExportar(final int idExport) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.datos_exportar, null);
+        dialogBuilder.setView(dialogView);
+        final TextView maximo = dialogView.findViewById(R.id.textViewMax);
+        final TextView minimo = dialogView.findViewById(R.id.textViewMin);
+        final EditText maxValue = dialogView.findViewById(R.id.editTextMax);
+        maxValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+        final EditText minValue = dialogView.findViewById(R.id.editTextMin);
+        minValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+        maxValue.requestFocus();
+
+        final Integer MAX = topcal.getMaxEstacion();
+        final Integer MIN = topcal.getMinEstacion();
+        maximo.setText(MAX.toString());
+        minimo.setText(MIN.toString());
+
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Integer max = MAX;
+                Integer min = MIN;
+                if (!maxValue.getText().toString().isEmpty())
+                    max = Integer.parseInt(maxValue.getText().toString());
+
+                if (!minValue.getText().toString().isEmpty())
+                    min = Integer.parseInt(minValue.getText().toString());
+
+                if (max < min){
+                    Integer aux = max;
+                    max = min;
+                    min = aux;
+                }
+
+                switch (idExport) {
+                    case R.id.exportarSQL:
+                        SQLexport sqlClass = new SQLexport(topcal);
+                        sqlClass.exportar("OBS",max,min);
+                        break;
+                    case R.id.exportarXML:
+                        XMLexport XMLexportClass = new XMLexport(topcal);
+                        XMLexportClass.exportar("OBS",max,min);
+                        break;
+                    case R.id.exportarTXT:
+                        TXTexport TXTexportClass = new TXTexport(topcal);
+                        TXTexportClass.exportar("OBS",max,min);
+                        break;
+                }
+            }
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 }

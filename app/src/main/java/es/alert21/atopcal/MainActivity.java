@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,15 +31,37 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity yo;
     public String nombreProyecto="";
     private TextView textViewNombreProyecto;
-
+    private ImageView imageViewOBS,imageViewPTS,imageViewPRJ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         yo = this;
-        textViewNombreProyecto = findViewById(R.id.MainActivityNombreProyecto);
-
         if(!checkAndRequestPermissions()) return;
+
+        textViewNombreProyecto = findViewById(R.id.MainActivityNombreProyecto);
+        imageViewOBS = findViewById(R.id.imageViewOBS);
+        imageViewOBS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Observaciones();
+            }
+        });
+        imageViewPTS = findViewById(R.id.imageViewPTS);
+        imageViewPTS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Puntos();
+            }
+        });
+        imageViewPRJ = findViewById(R.id.imageViewPRJ);
+        imageViewPRJ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Proyectos();
+            }
+        });
+
     }
 
     @Override

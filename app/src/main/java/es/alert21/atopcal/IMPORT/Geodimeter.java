@@ -1,4 +1,7 @@
-package es.alert21.atopcal.OBS;
+package es.alert21.atopcal.IMPORT;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,14 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.MainActivity;
+import es.alert21.atopcal.OBS.OBS;
+import es.alert21.atopcal.R;
 
 public class Geodimeter {
+    Topcal topcal = null;
     public List<OBS> listObs = new ArrayList<>();
-    Geodimeter(File file, Topcal topcal){
+    public Geodimeter(File file, Topcal topcal){
         if (!file.exists())
             return;
+        if (topcal == null)
+            return;
+        this.topcal = topcal;
         Read(file);
-        if (topcal != null)topcal.insertOBS(listObs);
     }
     private void Read(File file){
         String line = "";
@@ -40,6 +49,8 @@ public class Geodimeter {
                         }
                         ne = Integer.parseInt(tokens[1]);
                         bVisual = false;
+                        if (listObs.size() >0)
+                            analizaNE(); //Empieza una estación
                         break;
                     case 3:
                         i = Double.parseDouble(tokens[1]);
@@ -73,6 +84,8 @@ public class Geodimeter {
             }
             if (bVisual){
                 Llena(ne,nv,cod,h,v,d,m,i);
+                if (listObs.size() >0)
+                    analizaNE(); //Empieza una estación
             }
         } catch (IOException e1) {}
     }
@@ -87,4 +100,12 @@ public class Geodimeter {
         obs.setI(i);
         listObs.add(obs);
     }
+    private void analizaNE(){
+        if (listObs.size() >0 ){
+            //Aquí hay que analizar si NE estaba en la BBDD
+            topcal.insertOBS(listObs);
+            listObs.clear();
+        }
+    }
+
 }

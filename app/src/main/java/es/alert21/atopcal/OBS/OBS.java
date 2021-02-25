@@ -67,11 +67,12 @@ public class OBS implements Serializable {
         }catch (Exception e){ }
     }
     public void setH(Double h) {
-        this.h = h;
+        this.h = normaliza(h);
     }
     public void setH(String s) {
         try{
-            this.h = Double.parseDouble(s);
+            Double x = Double.parseDouble(s);
+            this.h = normaliza(x);
         }catch (Exception e){ }
     }
     public void setI(Double i) {
@@ -115,11 +116,12 @@ public class OBS implements Serializable {
         }catch (Exception e){ }
     }
     public void setV(Double v) {
-        this.v = v;
+        this.v = normaliza(v);
     }
     public void setV(String s) {
         try{
-            this.v = Double.parseDouble(s);
+            Double x = Double.parseDouble(s);
+            this.v = normaliza(x);
         }catch (Exception e){ }
     }
     public String toString(){
@@ -131,5 +133,24 @@ public class OBS implements Serializable {
                 String.format("%.3f ",m) +
                 String.format("%.3f",i) ;
         return s;
+    }
+    public String toXML(){
+        String s = String.format("<obs ne='%d' ",ne) +
+                String.format("nv='%d'>\n",nv) +
+                String.format("<h>%.4f</h>\n",h) +
+                String.format("<v>%.4f</v>\n",v) +
+                String.format("<d>%.3f</d>\n",d) +
+                String.format("<m>%.3f</m>\n",m) +
+                String.format("<i>%.3f</i>\n</obs>\n",i) ;
+        return s;
+    }
+    public boolean isCD(){
+        if (v > 0.001 && v < 199.999) return true;
+        return false;
+    }
+    public Double normaliza(Double x){
+        while (x < 0) x += 400;
+        while (x > 400) x -= 400;
+        return x;
     }
 }

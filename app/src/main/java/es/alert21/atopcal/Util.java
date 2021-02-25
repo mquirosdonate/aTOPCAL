@@ -198,7 +198,7 @@ public class Util {
         year = calendario.get(Calendar.YEAR);
         month = calendario.get(Calendar.MONTH)+1;
         day = calendario.get(Calendar.DAY_OF_MONTH);
-        return  String.format("%04d-%02d-%02d", year,month,day);
+        return  String.format("%04d%02d%02d", year,month,day);
     }
 
     public static String dameHora() {
@@ -207,7 +207,8 @@ public class Util {
         hora =calendario.get(Calendar.HOUR_OF_DAY);
         minutos = calendario.get(Calendar.MINUTE);
         segundos = calendario.get(Calendar.SECOND);
-        return  String.format("%1$02d%2$02d%3$02d", hora,minutos,segundos);
+        Integer x = calendario.get(Calendar.MILLISECOND);
+        return  String.format("%1$02d%2$02d%3$02d%4$03d", hora,minutos,segundos,x);
     }
     public static String dameHora2() {
         calendario = Calendar.getInstance();

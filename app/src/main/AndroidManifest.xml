@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.ATOPCAL">
-        <activity android:name=".PTS.ViewPtsActivity"></activity>
+        <activity android:name=".IMPORT.ImportObsActivity"></activity>
+        <activity android:name=".PTS.ViewPtsActivity" />
         <activity android:name=".FILES.FileChooser" />
         <activity android:name=".FILES.FileExplorer" />
         <activity android:name=".OBS.ViewNeActivity" />

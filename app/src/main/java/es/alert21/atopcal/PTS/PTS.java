@@ -93,4 +93,15 @@ public class PTS implements Serializable {
                 String.format("%s",nombre) ;
         return s;
     }
+    public String toXML(){
+        String s = String.format("<obs n='%d'>\n",n) +
+                String.format("<x>%.3f</x>\n",x) +
+                String.format("<y>%.3f</y>\n",y) +
+                String.format("<z>%.3f</z>\n",z) ;
+        if (des != 0.0)
+            s += String.format("<des>%.4f</des>\n",des) ;
+        if (!nombre.isEmpty())
+            s += String.format("<nombre>%s</nombre>\n",nombre) ;
+        return s;
+    }
 }

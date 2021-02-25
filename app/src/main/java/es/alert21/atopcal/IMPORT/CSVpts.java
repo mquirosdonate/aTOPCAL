@@ -1,4 +1,4 @@
-package es.alert21.atopcal.PTS;
+package es.alert21.atopcal.IMPORT;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,11 +9,12 @@ import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.OBS.OBS;
+import es.alert21.atopcal.PTS.PTS;
 
 // NUMERO DE PUNTO --X--  --Y--  --Z--
-public class CSV {
+public class CSVpts {
     public List<PTS> listPts = new ArrayList<>();
-    public CSV(File file, Topcal topcal){
+    public CSVpts(File file, Topcal topcal){
         if (!file.exists())
             return;
         Read(file);
@@ -23,9 +24,7 @@ public class CSV {
         String line = "";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
-
             while ((line = reader.readLine()) != null) {
-
                 String[] tokens = line.split("[, ]");
                 if (tokens.length > 3){
                     PTS pts = new PTS();
