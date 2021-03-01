@@ -21,20 +21,35 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import es.alert21.atopcal.BBDD.Topcal;
+
 /**
  * Created by Asus on 26/01/2016.
  */
 
 
 public class Util {
+    public static Topcal getTopcal(){
+        Topcal topcal = null;
+        String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
+        if (prj.isEmpty())
+            return topcal;
+
+        File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
+        topcal = new Topcal(path.toString());
+
+        return  topcal;
+    }
     public static void readCSV(File file) {
-        String line = "";
+        String line ;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split(",");
             }
-        } catch (IOException e1) {}
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
     public static String cargaConfiguracion(Context context,String key,String defValue){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -44,7 +59,7 @@ public class Util {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
 
@@ -56,8 +71,7 @@ public class Util {
         return fileName;
     }
     public static String HTMLBody(String m){
-        String b = m.substring(m.indexOf("<body>")+6,m.indexOf("</body"));
-        return b;
+        return m.substring(m.indexOf("<body>")+6,m.indexOf("</body"));
     }
     public static String getVersionName(Context context) {
         String myVersionName = "not available"; // initialize String
@@ -74,6 +88,7 @@ public class Util {
     }
 
 
+    @SuppressLint("DefaultLocale")
     public static String dameDateTimeUTC(long t){
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         Calendar calendario ;
@@ -123,14 +138,18 @@ public class Util {
     }
 
     public static Date dameTime(String h1){
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         Date date1 = null;
         try {
             date1 = format.parse(h1);
-        }catch (Exception e){}
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         return date1;
     }
 
+    @SuppressLint("DefaultLocale")
     public static String dameDateTime(Location loc){
         calendario = Calendar.getInstance();
         calendario.setTimeInMillis(loc.getTime());
@@ -147,6 +166,7 @@ public class Util {
 
     }
 
+    @SuppressLint("DefaultLocale")
     public static String dameTime(Location loc) {
         calendario = Calendar.getInstance();
         calendario.setTimeInMillis(loc.getTime());
@@ -158,6 +178,7 @@ public class Util {
 
     public static String dameTime2(Location loc){
         Date date = new Date(loc.getTime());
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -168,18 +189,17 @@ public class Util {
     public static String doubleATexto(double v, Integer ndec) {
         String format = "%1$." + ndec.toString() + "f";
         String s = String.format(format, v);
-        String ns = s.replace(',', '.');
-        return ns;
+        return s.replace(',', '.');
     }
 
     public static String doubleATexto(double v, Integer nEnt, Integer ndec){
-        Integer n = nEnt + ndec + 1;
-        String format = "%1$0" + n.toString() + "." + ndec.toString() + "f";
+        int n = nEnt + ndec + 1;
+        String format = "%1$0" + Integer.toString(n) + "." + ndec.toString() + "f";
         String s = String.format(format, v);
-        String ns = s.replace(',','.');
-        return ns;
+        return s.replace(',','.');
     }
 
+    @SuppressLint("DefaultLocale")
     public static String tiempoATexto(Long t) {
         double aux = t / 3600.0;
         int h = (int)aux;
@@ -187,11 +207,10 @@ public class Util {
         int m = (int)aux;
         aux = (aux - m) * 60.0;
         int s = (int)aux;
-        String texto = String.format("%1$02d:%2$02d:%3$02d", h, m, s);
-        return texto;
-
+        return String.format("%1$02d:%2$02d:%3$02d", h, m, s);
     }
     private static Calendar calendario;
+    @SuppressLint("DefaultLocale")
     public static String dameFecha() {
         calendario = Calendar.getInstance();
         int year,month,day;
@@ -201,6 +220,7 @@ public class Util {
         return  String.format("%04d%02d%02d", year,month,day);
     }
 
+    @SuppressLint("DefaultLocale")
     public static String dameHora() {
         calendario = Calendar.getInstance();
         int hora, minutos, segundos;
@@ -210,6 +230,7 @@ public class Util {
         Integer x = calendario.get(Calendar.MILLISECOND);
         return  String.format("%1$02d%2$02d%3$02d%4$03d", hora,minutos,segundos,x);
     }
+    @SuppressLint("DefaultLocale")
     public static String dameHora2() {
         calendario = Calendar.getInstance();
         int hora, minutos, segundos;
@@ -227,8 +248,9 @@ public class Util {
             //Ruta creada para la aplicacion
             String nameApp = (String)context.getString(R.string.app_name);
             File sdDir = new File(sdCard.getAbsolutePath() + "/" + nameApp);
-            if(!sdDir.exists())
+            if(!sdDir.exists()) {
                 sdDir.mkdir();
+            }
             //Ruta para nivel1
             File n1 = new File(sdDir.getAbsolutePath() + "/" + nivel1 );
             if(!n1.exists())
@@ -271,7 +293,7 @@ public class Util {
             //Ruta de la sdCard
             File sdCard = Environment.getExternalStorageDirectory();
             //Ruta creada para la aplicacion
-            String nameApp = (String)context.getString(R.string.app_name);
+            String nameApp = context.getString(R.string.app_name);
             File sdDir = new File(sdCard.getAbsolutePath() + "/" + nameApp);
             if(!sdDir.exists()) sdDir.mkdir();
             //Ruta para los tracks

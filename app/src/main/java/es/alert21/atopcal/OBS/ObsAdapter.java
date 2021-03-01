@@ -24,7 +24,8 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.list_obs, null,false);
+        View view;
+        view = inflater.inflate(R.layout.list_obs, null,false);
         //getting obs of the specified position
         OBS obs = obsList.get(position);
         TextView ne = view.findViewById(R.id.listObsNE);
@@ -34,13 +35,13 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
         TextView d = view.findViewById(R.id.listObsD);
         TextView m = view.findViewById(R.id.listObsM);
         TextView i = view.findViewById(R.id.listObsI);
-        ne.setText(obs.getNe().toString());
-        nv.setText(obs.getNv().toString());
-        h.setText(obs.getH().toString());
-        v.setText(obs.getV().toString());
-        d.setText(obs.getD().toString());
-        m.setText(obs.getM().toString());
-        i.setText(obs.getI().toString());
+        ne.setText(obs.getNEtoString());
+        nv.setText(obs.getNVtoString());
+        h.setText(obs.getHtoString());
+        v.setText(obs.getVtoString());
+        d.setText(obs.getDtoString());
+        m.setText(obs.getMtoString());
+        i.setText(obs.getItoString());
         if(obs.getRaw()>0){
             nv.setTextColor(Color.RED);
         }

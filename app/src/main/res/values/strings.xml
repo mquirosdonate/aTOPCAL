@@ -2,5 +2,10 @@
     <string name="app_name">aTopCal</string>
     <string name="Aceptar">Aceptar</string>
     <string name="Cancelar">Cancelar</string>
-    <string name="acerca_de">Acerca de ...</string>
+    <string name="acerca_de">Acerca de …</string>
+    <string name="obs">OBS</string>
+    <string name="nombre">Nombre</string>
+    <string name="size">size</string>
+    <string name="fecha">fecha</string>
+    <string name="_000_0000">000.0000</string>
 </resources>

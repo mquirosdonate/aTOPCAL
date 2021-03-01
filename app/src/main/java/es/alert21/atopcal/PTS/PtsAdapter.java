@@ -23,21 +23,22 @@ public class PtsAdapter extends ArrayAdapter<PTS> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.list_pts, null, false);
+        View view;
+        view = inflater.inflate(R.layout.list_pts, null, false);
         PTS pts = ptsList.get(position);
         TextView txtNombre = view.findViewById(R.id.textViewPtsNombre);
         txtNombre.setText(pts.getNombre());
         TextView txtN = view.findViewById(R.id.listPtsN);
-        txtN.setText(pts.getN().toString());
+        txtN.setText(pts.getNtoString());
         TextView txtX = view.findViewById(R.id.textViewPtsX);
-        txtX.setText(pts.getX().toString());
+        txtX.setText(pts.getXtoString());
         TextView txtY = view.findViewById(R.id.textViewPtsY);
-        txtY.setText(pts.getY().toString());
+        txtY.setText(pts.getYtoString());
         TextView txtZ = view.findViewById(R.id.textViewPtsZ);
-        txtZ.setText(pts.getZ().toString());
+        txtZ.setText(pts.getZtoString());
         TextView txtDes = view.findViewById(R.id.textViewPtsDes);
         if (pts.getDes()>0) {
-            txtDes.setText(pts.getDes().toString());
+            txtDes.setText(pts.getDestoString());
         }
         return view;
     }

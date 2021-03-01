@@ -36,6 +36,7 @@ public class Topcal {
             prj.setDescripcion(cur.getString(cur.getColumnIndex("Descripcion")));
             prj.setTitulo(cur.getString(cur.getColumnIndex("Titulo")));
         }
+        cur.close();
         File file = new File(nombreTrabajo);
         String nombre = file.getName() ;
         prj.setNombre(nombre);
@@ -57,32 +58,40 @@ public class Topcal {
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MIN(NE) FROM OBS", null);
         if (cur.moveToFirst()) {
+            cur.close();
             return cur.getInt(0);
         }
+        cur.close();
         return -99;
     }
     public Integer getMaxEstacion(){
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MAX(NE) FROM OBS", null);
         if (cur.moveToFirst()) {
+            cur.close();
             return cur.getInt(0);
         }
+        cur.close();
         return -99;
     }
     public Integer getMinPunto(){
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MIN(N) FROM PTS", null);
         if (cur.moveToFirst()) {
+            cur.close();
             return cur.getInt(0);
         }
+        cur.close();
         return -99;
     }
     public Integer getMaxPunto(){
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MAX(N) FROM PTS", null);
         if (cur.moveToFirst()) {
+            cur.close();
             return cur.getInt(0);
         }
+        cur.close();
         return -99;
     }
 
@@ -112,7 +121,7 @@ public class Topcal {
         if (obs.getId() == 0){
             db.insert(tabla, null, cv);
         }else{
-            db.update(tabla,cv,"id="+obs.getId().toString(),null);
+            db.update(tabla,cv,"id="+obs.getIDtoString(),null);
         }
     }
     public void insertPTS(List<PTS> listPts){
@@ -133,30 +142,31 @@ public class Topcal {
         if (pts.getId() == 0){
             db.insert("PTS", null, cv);
         }else{
-            db.update("PTS",cv,"id="+pts.getId().toString(),null);
+            db.update("PTS",cv,"id="+pts.getIDtoString(),null);
         }
     }
     public void borrarOBS(OBS obs) {
         if (db == null) return;
-        db.delete("OBS", "id=" + obs.getId().toString(), null);
+        db.delete("OBS", "id=" + obs.getIDtoString(), null);
     }
     public void borrarPTS(PTS pts) {
         if (db == null) return;
-        db.delete("PTS", "id=" + pts.getId().toString(), null);
+        db.delete("PTS", "id=" + pts.getIDtoString(), null);
     }
 
     public ArrayList<Integer> getNEs(){
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
         Cursor cur = db.rawQuery("SELECT DISTINCT(ne) FROM OBS Order by NE", null);
         if (cur.moveToFirst()) {
             do {
                 list.add(cur.getInt(cur.getColumnIndex("NE")));
             }while(cur.moveToNext());
         }
+        cur.close();
         return list;
     }
     public ArrayList<OBS> getOBS(String sql){
-        ArrayList<OBS> list = new ArrayList<OBS>();
+        ArrayList<OBS> list = new ArrayList<>();
         Cursor cur = db.rawQuery(sql, null);
         if (cur.moveToFirst()) {
             do {
@@ -174,53 +184,55 @@ public class Topcal {
                 list.add(obs);
             }while(cur.moveToNext());
         }
+        cur.close();
         return list;
     }
     public ArrayList<PTS> getPTS(String sql){
-        ArrayList<PTS> list = new ArrayList<PTS>();
+        ArrayList<PTS> list = new ArrayList<>();
         Cursor cur = db.rawQuery(sql, null);
         if (cur.moveToFirst()) {
             do {
                 PTS pts = new PTS();
                 try{
                     pts.setId(cur.getInt(cur.getColumnIndex("id")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setN(cur.getInt(cur.getColumnIndex("N")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setX(cur.getDouble(cur.getColumnIndex("X")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try{
                     pts.setDes(cur.getDouble(cur.getColumnIndex("DES")));
-                }catch (Exception e){
-
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 list.add(pts);
             }while(cur.moveToNext());
         }
+        cur.close();
         return list;
     }
     public boolean sqlExec(String sql){
@@ -229,20 +241,20 @@ public class Topcal {
         try {
             db.execSQL(sql);
             ret = true;
-        }catch (Exception e){
-
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         return ret;
     }
 
-    public boolean CrearTabla(String tabla){
+    public boolean crearTabla(String tabla){
         String CREATE_TABLE_OBS = "CREATE TABLE " + tabla +
          " ( id INTEGER NOT NULL CONSTRAINT obs_pk PRIMARY KEY AUTOINCREMENT,NE INTEGER,NV INTEGER ," +
                 "H DOUBLE,V DOUBLE,D DOUBLE,M DOUBLE,I DOUBLE,raw INTEGER,Aparato INTEGER)";
 
         return sqlExec(CREATE_TABLE_OBS);
     }
-    public boolean BorrarTabla(String tabla){
-        return sqlExec("DROP TABLA " + tabla);
+    public boolean borrarTabla(String tabla){
+        return sqlExec("DROP TABLE " + tabla);
     }
 }

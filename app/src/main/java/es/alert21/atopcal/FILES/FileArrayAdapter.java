@@ -35,7 +35,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 
         final Item o = items.get(position);
         if (o != null) {
-            TextView t1 = view.findViewById(R.id.TextView01);
+            TextView t1 = view.findViewById(R.id.TextViewItem);
             TextView t2 = view.findViewById(R.id.TextView02);
             TextView t3 = view.findViewById(R.id.TextViewDate);
             /* Take the ImageView from layout and set the city's image */

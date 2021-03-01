@@ -48,19 +48,11 @@ public class EditarPtsActivity extends AppCompatActivity {
             setPTS(pts);
         }
 
-        imageButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OK();
-            }
+        imageButtonOK.setOnClickListener(v -> {
+            OK();
         });
 
-        imageButtonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CancelOrDelete();
-            }
-        });
+        imageButtonDelete.setOnClickListener(v -> CancelOrDelete());
     }
     private void OK(){
         getPTS();
@@ -80,12 +72,12 @@ public class EditarPtsActivity extends AppCompatActivity {
         }
     }
     private void setPTS(PTS pts){
-        nEditText.setText(pts.getN().toString());
-        xEditText.setText(pts.getX().toString());
-        yEditText.setText(pts.getY().toString());
-        zEditText.setText(pts.getZ().toString());
-        desEditText.setText(pts.getDes().toString());
-        nombreEditText.setText(pts.getNombre().toString());
+        nEditText.setText(pts.getNtoString());
+        xEditText.setText(pts.getXtoString());
+        yEditText.setText(pts.getYtoString());
+        zEditText.setText(pts.getZtoString());
+        desEditText.setText(pts.getDestoString());
+        nombreEditText.setText(pts.getNombre());
         getSupportActionBar().setTitle("EDITAR PTS");
     }
     private void newPTS(){
@@ -114,9 +106,6 @@ public class EditarPtsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String prj = Util.cargaConfiguracion(EditarPtsActivity.this,"Nombre Proyecto","");
-        File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
-        topcal = new Topcal(path.toString());
-        //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        topcal = Util.getTopcal();
     }
 }

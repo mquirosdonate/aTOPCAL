@@ -65,9 +65,7 @@ public class ViewNeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getSupportActionBar().setTitle("ESTACIONES");
-        String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
-        File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
-        topcal = new Topcal(path.toString());
+        topcal = Util.getTopcal();
         neList = topcal.getNEs();
 
         //creating the adapter object
@@ -186,7 +184,6 @@ public class ViewNeActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
     private void Observaciones(OBS obs){
         Intent intent = new Intent(MainActivity.yo, EditarObsActivity.class);

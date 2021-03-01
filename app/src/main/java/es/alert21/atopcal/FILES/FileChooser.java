@@ -3,8 +3,14 @@ package es.alert21.atopcal.FILES;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.sql.Date;
@@ -15,20 +21,41 @@ import java.util.List;
 
 import es.alert21.atopcal.R;
 
-public class FileChooser extends ListActivity {
+public class FileChooser extends AppCompatActivity {
     private File currentDir;
     private FileArrayAdapter adapter;
+    ListView listView;
+    private File InternalStorage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_view_file_chooser);
         currentDir = new File(getIntent().getStringExtra("DIR"));
-        //currentDir = Environment.getExternalStorageDirectory();
+        InternalStorage = Environment.getExternalStorageDirectory();
+
+        listView = (ListView) findViewById(R.id.listViewFiles);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Item o = adapter.getItem(position);
+                if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
+                    try {
+                        currentDir = new File(o.getPath());
+                        fill(currentDir);
+                    }catch (Exception e) {
+                        fill(InternalStorage);
+                    }
+                } else  {
+                    onFileClick(o);
+                }
+            }
+        });
         fill(currentDir);
     }
     private void fill(File f) {
+        if(f == null)return;
         File[]dirs = f.listFiles();
-        this.setTitle("Current Dir: "+f.getName());
+        getSupportActionBar().setTitle("Dir: "+f.getName());
         List<Item> dir = new ArrayList<Item>();
         List<Item> fls = new ArrayList<Item>();
         try{
@@ -56,18 +83,16 @@ public class FileChooser extends ListActivity {
                     fls.add(new Item(ff.getName(),ff.length() + " Byte", date_modify, ff.getAbsolutePath(),"file_icon"));
                 }
             }
-        }catch(Exception e)
-        {
-
-        }
+        }catch(Exception e) { }
         Collections.sort(dir);
         Collections.sort(fls);
         dir.addAll(fls);
         if(!f.getName().equalsIgnoreCase("sdcard"))
-            dir.add(0,new Item("..","Parent Directory","",f.getParent(),"directory_up"));
+            dir.add(0,new Item("","","",f.getParent(),"directory_up"));
         adapter = new FileArrayAdapter(es.alert21.atopcal.FILES.FileChooser.this, R.layout.list_files,dir);
-        this.setListAdapter(adapter);
+        listView.setAdapter(adapter);
     }
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         // TODO Auto-generated method stub
@@ -76,12 +101,12 @@ public class FileChooser extends ListActivity {
         if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
             currentDir = new File(o.getPath());
             fill(currentDir);
-        }
-        else
-        {
+        } else  {
             onFileClick(o);
         }
     }
+
+     */
     private void onFileClick(Item o){
         //Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();

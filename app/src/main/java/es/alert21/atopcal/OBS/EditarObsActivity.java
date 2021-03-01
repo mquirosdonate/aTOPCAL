@@ -104,12 +104,12 @@ public class EditarObsActivity extends AppCompatActivity implements AdapterView.
         }
     }
     private void setOBS(OBS obs){
-        neEditText.setText(obs.getNe().toString());
-        nvEditText.setText(obs.getNv().toString());
-        hEditText.setText(obs.getH().toString());
-        vEditText.setText(obs.getV().toString());
-        dEditText.setText(obs.getD().toString());
-        mEditText.setText(obs.getM().toString());
+        neEditText.setText(obs.getNEtoString());
+        nvEditText.setText(obs.getNVtoString());
+        hEditText.setText(obs.getHtoString());
+        vEditText.setText(obs.getVtoString());
+        dEditText.setText(obs.getDtoString());
+        mEditText.setText(obs.getMtoString());
         iEditText.setText(obs.getI().toString());
 
         getSupportActionBar().setTitle("EDITAR OBS");
@@ -133,9 +133,9 @@ public class EditarObsActivity extends AppCompatActivity implements AdapterView.
         getSupportActionBar().setTitle(obs.toString());
     }
     private void newOBS(){
-        neEditText.setText(obs.getNe().toString());
-        iEditText.setText(obs.getI().toString());
-        mEditText.setText(obs.getM().toString());
+        neEditText.setText(obs.getNEtoString());
+        iEditText.setText(obs.getItoString());
+        mEditText.setText(obs.getMtoString());
         Integer nv = obs.getNv() + 1;
         nvEditText.setText(nv.toString());
         hEditText.setText("");
@@ -146,9 +146,6 @@ public class EditarObsActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onResume() {
         super.onResume();
-        String prj = Util.cargaConfiguracion(EditarObsActivity.this,"Nombre Proyecto","");
-        File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
-        topcal = new Topcal(path.toString());
-        //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        topcal = Util.getTopcal();
     }
 }

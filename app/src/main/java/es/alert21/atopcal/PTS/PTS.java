@@ -1,82 +1,112 @@
 package es.alert21.atopcal.PTS;
 
+import android.annotation.SuppressLint;
+
 import java.io.Serializable;
 
+import es.alert21.atopcal.Util;
+
 public class PTS implements Serializable {
-    private Integer id=0;
-    private Integer n=0;
-    private Double x=0.0,y=0.0,z=0.0,des=0.0;
-    private Integer sref =0 ;
+    private int id=0;
+    private int n=0;
+    private double x=0.0,y=0.0,z=0.0,des=0.0;
+    private int sref =0 ;
     private String nombre="";
     public PTS(){}
     public void setId(Integer id){
         this.id = id;
     }
-    public Integer getId(){
+    public int getId(){
         return id;
     }
-    public Integer getN(){
+    @SuppressLint("DefaultLocale")
+    public String getIDtoString(){
+        return String.format("%d",id);
+    }
+    public int getN(){
         return n;
     }
-    public void setN(Integer n){
+    @SuppressLint("DefaultLocale")
+    public String getNtoString(){
+        return String.format("%5d",n);
+    }
+    public void setN(int n){
         this.n = n;
     }
     public void setN(String s){
         try{
             this.n = Integer.parseInt(s);
-        }catch (Exception e){ }
+        }catch (Exception ignored){ }
     }
-    public void setSref(Integer n){
+    public void setSref(int n){
         this.sref = n;
     }
     public void setSref(String s){
         try{
             this.sref = Integer.parseInt(s);
-        }catch (Exception e){ }
+        }catch (Exception ignored){ }
     }
-    public Double getX() {
+    public double getX() {
         return x;
     }
-    public void setX(Double n){
+    public String getXtoString(){
+        return Util.doubleATexto(x,1,3);
+    }
+    public void setX(double n){
         this.x = n;
     }
     public void setX(String s){
         try{
             this.x = Double.parseDouble(s);
-        }catch (Exception e){ }
+        }catch (Exception ignored){ }
     }
-    public Double getY() {
+    public double getY() {
         return y;
     }
-    public void setY(Double n){
+    public String getYtoString(){
+        return Util.doubleATexto(y,1,3);
+    }
+    public void setY(double n){
         this.y = n;
     }
     public void setY(String s){
         try{
             this.y = Double.parseDouble(s);
-        }catch (Exception e){ }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public Double getZ() {
+    public double getZ() {
         return z;
     }
-    public void setZ(Double n){
+    public String getZtoString(){
+        return Util.doubleATexto(z,1,3);
+    }
+    public void setZ(double n){
         this.z = n;
     }
     public void setZ(String s){
         try{
             this.z = Double.parseDouble(s);
-        }catch (Exception e){ }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public Double getDes() {
+    public double getDes() {
         return des;
     }
-    public void setDes(Double n){
-        this.des = n;
+    public String getDestoString(){
+        return Util.doubleATexto(des,3,4);
+    }
+    public void setDes(double n){
+        this.des = normaliza(n);
     }
     public void setDes(String s){
         try{
-            this.des = Double.parseDouble(s);
-        }catch (Exception e){ }
+            this.des = normaliza(Double.parseDouble(s));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void setNombre(String n){
         nombre = n;
@@ -85,16 +115,16 @@ public class PTS implements Serializable {
         return nombre;
     }
     public String toString(){
-        String s = String.format("%5d ",n) +
-                String.format("%.3f ",x) +
-                String.format("%.3f ",y) +
-                String.format("%.3f ",z) +
-                String.format("%.4f ",des) +
-                String.format("%s",nombre) ;
-        return s;
+        return getNtoString()+" "+
+                getXtoString()+" "+
+                getYtoString()+" "+
+                getZtoString()+" "+
+                getDestoString()+" "+
+                getNombre() ;
     }
+    @SuppressLint("DefaultLocale")
     public String toXML(){
-        String s = String.format("<obs n='%d'>\n",n) +
+        @SuppressLint("DefaultLocale") String s = String.format("<obs n='%d'>\n",n) +
                 String.format("<x>%.3f</x>\n",x) +
                 String.format("<y>%.3f</y>\n",y) +
                 String.format("<z>%.3f</z>\n",z) ;
@@ -103,5 +133,10 @@ public class PTS implements Serializable {
         if (!nombre.isEmpty())
             s += String.format("<nombre>%s</nombre>\n",nombre) ;
         return s;
+    }
+    private double normaliza(double x){
+        while (x < 0) x += 400;
+        while (x > 400) x -= 400;
+        return x;
     }
 }

@@ -5,11 +5,25 @@ public class OBSx2 extends OBS{
     private OBS obs2;
     private OBS obsCD;
     private OBS obsCI;
+    private boolean valid = true;
     public OBSx2(OBS obs1,OBS obs2){
         this.obs1 = obs1;
         this.obs2 = obs2;
     }
     public OBSx2(){}
+    public boolean getValid(){
+        return this.valid;
+    }
+    public void setValid(boolean v){
+        this.valid = v;
+    }
+    public OBS getObs1() {
+        return obs1;
+    }
+
+    public OBS getObs2() {
+        return obs2;
+    }
 
     public void setObs1(OBS obs1) {
         this.obs1 = obs1;
@@ -58,5 +72,10 @@ public class OBSx2 extends OBS{
             obsCD = obs2;
             obsCI = obs1;
         }
+    }
+    public String toString(){
+        String s = this.getObs1().toString() + "\n" +
+                this .getObs2();
+        return s;
     }
 }

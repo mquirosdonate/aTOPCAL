@@ -64,9 +64,7 @@ public class ViewPtsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getSupportActionBar().setTitle("PUNTOS");
-        String prj = Util.cargaConfiguracion(MainActivity.yo,"Nombre Proyecto","");
-        File path = Util.creaDirectorios(MainActivity.yo,"PROJECTS",prj);
-        topcal = new Topcal(path.toString());
+        topcal = Util.getTopcal();
         ptsList = topcal.getPTS("SELECT * FROM PTS Order by N,id");
 
         //creating the adapter object
