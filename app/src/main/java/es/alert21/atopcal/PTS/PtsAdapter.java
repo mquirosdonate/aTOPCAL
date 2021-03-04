@@ -39,6 +39,8 @@ public class PtsAdapter extends ArrayAdapter<PTS> {
         TextView txtDes = view.findViewById(R.id.textViewPtsDes);
         if (pts.getDes()>0) {
             txtDes.setText(pts.getDestoString());
+        }else{
+            txtDes.setText("");
         }
         return view;
     }

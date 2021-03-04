@@ -82,6 +82,9 @@ public class ViewPtsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.Desorientaciones:
+                Desorientaciones();
+                return true;
             case R.id.addPTS:
                 Puntos(new PTS());
                 return true;
@@ -104,9 +107,12 @@ public class ViewPtsActivity extends AppCompatActivity {
                 return true;
         }
     }
-
+    private void Desorientaciones(){
+        Intent intent = new Intent(this, ViewEstacionesActivity.class);
+        startActivity(intent);
+    }
     private void Puntos(PTS pts){
-        Intent intent = new Intent(MainActivity.yo, EditarPtsActivity.class);
+        Intent intent = new Intent(this, EditarPtsActivity.class);
         intent.putExtra("PTS",pts);
         startActivity(intent);
     }

@@ -88,6 +88,9 @@ public class ViewNeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menuBessel:
+                Bessel();
+                return true;
             case R.id.addOBS:
                 Observaciones(new OBS());
                 return true;
@@ -185,8 +188,12 @@ public class ViewNeActivity extends AppCompatActivity {
         }
     }
 
+    private void Bessel(){
+        Intent intent = new Intent(ViewNeActivity.this, BesselActivity.class);
+        startActivity(intent);
+    }
     private void Observaciones(OBS obs){
-        Intent intent = new Intent(MainActivity.yo, EditarObsActivity.class);
+        Intent intent = new Intent(ViewNeActivity.this, EditarObsActivity.class);
         intent.putExtra("OBS",obs);
         startActivity(intent);
     }

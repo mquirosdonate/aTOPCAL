@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 import es.alert21.atopcal.Util;
 
+import static es.alert21.atopcal.Util.normaliza;
+
 public class OBS implements Serializable {
     private int id=0;
     private int ne=0,nv=0;
@@ -18,6 +20,18 @@ public class OBS implements Serializable {
         this.nv = nv;
         this.m = m;
         this.i = i;
+    }
+    public OBS(OBS obs){
+        this.id = obs.id;
+        this.ne = obs.ne;
+        this.nv = obs.nv;
+        this.h = obs.h;
+        this.v = obs.v;
+        this.d = obs.d;
+        this.m = obs.m;
+        this.i = obs.i;
+        this.raw = obs.raw;
+        this.aparato = obs.aparato;
     }
     public int getId(){
         return id;
@@ -56,11 +70,11 @@ public class OBS implements Serializable {
 
     @SuppressLint("DefaultLocale")
     public String getNEtoString(){
-        return String.format("%5d",ne);
+        return String.format("%d",ne);
     }
     @SuppressLint("DefaultLocale")
     public String getNVtoString(){
-        return String.format("%5d",nv);
+        return String.format("%d",nv);
     }
     public String getHtoString(){
         return Util.doubleATexto(h,3,4);
@@ -196,9 +210,5 @@ public class OBS implements Serializable {
     public boolean isCD(){
         return v > 0.001 && v < 199.999;
     }
-    public double normaliza(double x){
-        while (x < 0) x += 400;
-        while (x > 400) x -= 400;
-        return x;
-    }
+
 }

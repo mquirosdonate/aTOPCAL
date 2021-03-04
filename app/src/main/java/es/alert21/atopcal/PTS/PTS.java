@@ -13,6 +13,16 @@ public class PTS implements Serializable {
     private int sref =0 ;
     private String nombre="";
     public PTS(){}
+    public PTS(PTS pts){
+        this.id = pts.id;
+        this.n = pts.n;
+        this.x = pts.x;
+        this.y = pts.y;
+        this.z = pts.z;
+        this.des = pts.des;
+        this.sref = pts.sref;
+        this.nombre = pts.nombre;
+    }
     public void setId(Integer id){
         this.id = id;
     }

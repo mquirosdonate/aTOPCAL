@@ -12,6 +12,7 @@ import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PRJ.PRJ;
 import es.alert21.atopcal.PTS.PTS;
+import es.alert21.atopcal.PTS.PTV_OBS;
 
 public class Topcal {
     private String nombreTrabajo;
@@ -124,6 +125,7 @@ public class Topcal {
             db.update(tabla,cv,"id="+obs.getIDtoString(),null);
         }
     }
+
     public void insertPTS(List<PTS> listPts){
         for(PTS pts:listPts){
             insertPTS(pts);
@@ -230,6 +232,35 @@ public class Topcal {
                 }
 
                 list.add(pts);
+            }while(cur.moveToNext());
+        }
+        cur.close();
+        return list;
+    }
+
+    public ArrayList<PTV_OBS> getPTV_OBS(String sql){
+        ArrayList<PTV_OBS> list = new ArrayList<>();
+        Cursor cur = db.rawQuery(sql, null);
+        if (cur.moveToFirst()) {
+            do {
+                PTV_OBS ptv_obs = new PTV_OBS();
+                ptv_obs.vis.setN(cur.getInt(cur.getColumnIndex("N")));
+                ptv_obs.vis.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
+                ptv_obs.vis.setX(cur.getDouble(cur.getColumnIndex("X")));
+                ptv_obs.vis.setY(cur.getDouble(cur.getColumnIndex("Y")));
+                ptv_obs.vis.setZ(cur.getDouble(cur.getColumnIndex("Z")));
+                ptv_obs.vis.setDes(cur.getDouble(cur.getColumnIndex("DES")));
+
+                ptv_obs.obs.setNe(cur.getInt(cur.getColumnIndex("NE")));
+                ptv_obs.obs.setNv(cur.getInt(cur.getColumnIndex("NV")));
+                ptv_obs.obs.setH(cur.getDouble(cur.getColumnIndex("H")));
+                ptv_obs.obs.setV(cur.getDouble(cur.getColumnIndex("V")));
+                ptv_obs.obs.setD(cur.getDouble(cur.getColumnIndex("D")));
+                ptv_obs.obs.setM(cur.getDouble(cur.getColumnIndex("M")));
+                ptv_obs.obs.setI(cur.getDouble(cur.getColumnIndex("I")));
+                ptv_obs.obs.setRaw(cur.getInt(cur.getColumnIndex("raw")));
+                ptv_obs.obs.setAparato(cur.getInt(cur.getColumnIndex("Aparato")));
+                list.add(ptv_obs);
             }while(cur.moveToNext());
         }
         cur.close();

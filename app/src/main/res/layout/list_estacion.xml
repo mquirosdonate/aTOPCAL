@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/listObsNV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="monospace"
+        android:text="NV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ListObsH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="223.7896"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsNV"
+        app:layout_constraintStart_toEndOf="@+id/listObsNV" />
+
+    <TextView
+        android:id="@+id/listAz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="101.2345"
+        app:layout_constraintBottom_toBottomOf="@+id/ListObsH"
+        app:layout_constraintStart_toEndOf="@+id/ListObsH" />
+
+    <TextView
+        android:id="@+id/listDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="52.3698"
+        app:layout_constraintBottom_toBottomOf="@+id/listAz"
+        app:layout_constraintStart_toEndOf="@+id/listAz" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

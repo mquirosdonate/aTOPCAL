@@ -31,7 +31,7 @@ public class ObsAdapter extends ArrayAdapter<OBS> {
         TextView ne = view.findViewById(R.id.listObsNE);
         TextView nv = view.findViewById(R.id.listObsNV);
         TextView h = view.findViewById(R.id.ListObsH);
-        TextView v = view.findViewById(R.id.listObsV);
+        TextView v = view.findViewById(R.id.listAz);
         TextView d = view.findViewById(R.id.listObsD);
         TextView m = view.findViewById(R.id.listObsM);
         TextView i = view.findViewById(R.id.listObsI);

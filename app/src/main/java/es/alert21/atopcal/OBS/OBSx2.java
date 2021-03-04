@@ -1,5 +1,7 @@
 package es.alert21.atopcal.OBS;
 
+import static es.alert21.atopcal.Util.normaliza;
+
 public class OBSx2 extends OBS{
     private OBS obs1;
     private OBS obs2;
@@ -9,8 +11,9 @@ public class OBSx2 extends OBS{
     public OBSx2(OBS obs1,OBS obs2){
         this.obs1 = obs1;
         this.obs2 = obs2;
+        get_CD_CI();
     }
-    public OBSx2(){}
+
     public boolean getValid(){
         return this.valid;
     }
@@ -20,48 +23,44 @@ public class OBSx2 extends OBS{
     public OBS getObs1() {
         return obs1;
     }
-
     public OBS getObs2() {
         return obs2;
     }
-
-    public void setObs1(OBS obs1) {
-        this.obs1 = obs1;
-    }
-
-    public void setObs2(OBS obs2) {
-        this.obs2 = obs2;
-    }
     public OBS getObsCD(){
-        get_CD_CI();
         return obsCD;
     }
     public OBS getObsCI(){
-        get_CD_CI();
         return obsCI;
     }
 
-    public Double desorientacion(){
-        Double des = obs1.getH() - obs2.getH();
-        return normaliza(des);
+    public double desorientacion(){
+        double des = obs1.getH() - obs2.getH();
+        des = normaliza(des);
+        if (des > 399)
+            des = des - 400;
+        return des;
     }
-    public Double errorHorizontal(){
-        get_CD_CI();
-        Double x = obsCD.getH() - obsCI.getH();
-        if (x < 0)
-            x += 200;
-        return x * 0.5;
+    public double errorDistancia(){
+        if (obs1.getD() == 0.0 || obs2.getD() == 0)
+            return 0.0;
+        return  obs1.getD() - (obs1.getD()+obs2.getD())*0.5;
     }
-    public Double errorVertical(){
-        get_CD_CI();
-        Double x = obsCD.getV() + obsCI.getV() - 400;
+    public double errorHorizontal(){
+        if (obsCD.getH() > obsCI.getH()){
+            return (obsCD.getH()-(obsCI.getH()+200))*0.5;
+        }else{
+            return (obsCD.getH()-(obsCI.getH()-200))*0.5;
+        }
+    }
+    public double errorVertical(){
+        double x = obsCD.getV() + obsCI.getV() - 400;
         return x * 0.5;
     }
     public OBS obsCorregida (){
-        get_CD_CI();
-        OBS obs = obsCD;
+        OBS obs = new OBS(obsCD);
         obs.setH(obs.getH()-errorHorizontal());
         obs.setV(obs.getV()-errorVertical());
+        obs.setD(obs.getD()-errorDistancia());
         return obs;
     }
     private void get_CD_CI(){
@@ -74,7 +73,8 @@ public class OBSx2 extends OBS{
         }
     }
     public String toString(){
-        String s = this.getObs1().toString() + "\n" +
+        String s = this.getObs1().toString() +
+                "\n" +
                 this .getObs2();
         return s;
     }

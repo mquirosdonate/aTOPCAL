@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/listObsCI_H"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="312.4567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listObsCD_H" />
+
+    <TextView
+        android:id="@+id/listObsCD_H"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="123.4567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNE_NV" />
+
+    <TextView
+        android:id="@+id/textViewNE_NV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="NE NV"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/listObsCD_V"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="099.1234"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCD_H"
+        app:layout_constraintStart_toEndOf="@+id/listObsCD_H" />
+
+    <TextView
+        android:id="@+id/listObsCI_V"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="300.8766"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCI_H"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCD_V" />
+
+    <TextView
+        android:id="@+id/listObsCD_D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="123.456"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCD_V"
+        app:layout_constraintStart_toEndOf="@+id/listObsCD_V" />
+
+    <TextView
+        android:id="@+id/listObsCI_D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123.458"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCI_V"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCD_D" />
+
+    <TextView
+        android:id="@+id/listObsCD_M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="2.123"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCD_D"
+        app:layout_constraintStart_toEndOf="@+id/listObsCD_D" />
+
+    <TextView
+        android:id="@+id/listObsCI_M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2.123"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCI_D"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCD_M" />
+
+    <TextView
+        android:id="@+id/listObsCD_I"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1.456"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCD_M"
+        app:layout_constraintStart_toEndOf="@+id/listObsCD_M" />
+
+    <TextView
+        android:id="@+id/listObsCI_I"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.456"
+        app:layout_constraintBottom_toBottomOf="@+id/listObsCI_M"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCD_I" />
+
+    <TextView
+        android:id="@+id/errV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0123"
+        app:layout_constraintBottom_toBottomOf="@+id/errHz"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCI_V" />
+
+    <TextView
+        android:id="@+id/errHz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0.0123"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCI_H"
+        app:layout_constraintTop_toBottomOf="@+id/listObsCI_H" />
+
+    <TextView
+        android:id="@+id/errD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.123"
+        app:layout_constraintBottom_toBottomOf="@+id/errV"
+        app:layout_constraintEnd_toEndOf="@+id/listObsCI_D" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

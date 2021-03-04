@@ -25,13 +25,14 @@ import java.util.Map;
 import es.alert21.atopcal.OBS.ViewNeActivity;
 import es.alert21.atopcal.PRJ.ViewPrjActivity;
 import es.alert21.atopcal.PTS.EditarPtsActivity;
+import es.alert21.atopcal.PTS.ViewEstacionesActivity;
 import es.alert21.atopcal.PTS.ViewPtsActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity yo;
     public String nombreProyecto="";
     private TextView textViewNombreProyecto;
-    private ImageView imageViewOBS,imageViewPTS,imageViewPRJ;
+    private ImageView imageViewOBS,imageViewPTS,imageViewPRJ,imageViewDesorientacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
         if(!checkAndRequestPermissions()) return;
 
         textViewNombreProyecto = findViewById(R.id.MainActivityNombreProyecto);
+
+        imageViewDesorientacion = findViewById(R.id.imageViewDesorientacion);
+        imageViewDesorientacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Desorientaciones();
+            }
+        });
         imageViewOBS = findViewById(R.id.imageViewOBS);
         imageViewOBS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void Puntos(){
         Intent intent = new Intent(MainActivity.this, ViewPtsActivity.class);
+        startActivity(intent);
+    }
+    private void Desorientaciones(){
+        Intent intent = new Intent(this, ViewEstacionesActivity.class);
         startActivity(intent);
     }
 

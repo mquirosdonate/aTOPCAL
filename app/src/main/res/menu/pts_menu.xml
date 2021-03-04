@@ -6,9 +6,7 @@
         android:icon="@android:drawable/ic_input_add"
         android:title="nuevo PTS"
         app:showAsAction="ifRoom" />
-    <item android:title="IMPORTAR"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_input_get">
+    <item android:title="IMPORTAR">
         <menu>
             <item android:title="Importar TXT o CSV"
                 android:id="@+id/importCSV"/>
@@ -16,9 +14,7 @@
                 android:id="@+id/importSQL"/>
         </menu>
     </item>
-    <item android:title="EXPORTAR"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_send">
+    <item android:title="EXPORTAR">
         <menu>
             <item android:title="Exportar TXT"
                 android:id="@+id/exportarTXT"/>
@@ -28,4 +24,6 @@
                 android:id="@+id/exportarSQL"/>
         </menu>
     </item>
+    <item android:id="@+id/Desorientaciones"
+        android:title="Desorientaciones" />
 </menu>

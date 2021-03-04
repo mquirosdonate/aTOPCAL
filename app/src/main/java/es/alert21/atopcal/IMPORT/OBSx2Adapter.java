@@ -1,6 +1,7 @@
 package es.alert21.atopcal.IMPORT;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +28,24 @@ public class OBSx2Adapter extends ArrayAdapter<OBSx2> {
         View view;
         view = inflater.inflate(R.layout.list_item, null, false);
         OBSx2 obsx2 = obsList.get(position);
-        TextView textViewItem = view.findViewById(R.id.TextViewItem);
-        TextView textViewResult = view.findViewById(R.id.textViewResult);
+        TextView info = view.findViewById(R.id.TextViewItem);
+        TextView result = view.findViewById(R.id.textViewResult);
 
         String txtItem = obsx2.getObs1().getNVtoString() + " " +
                 obsx2.getObs1().getHtoString() + " " +
                 obsx2.getObs2().getHtoString() ;
 
-        textViewItem.setText(txtItem);
-        textViewResult.setText(Util.doubleATexto(obsx2.desorientacion(),4));
+        info.setText(txtItem);
+        result.setText(Util.doubleATexto(obsx2.desorientacion(),4));
+
+        if (!obsx2.getValid()){
+            result.setPaintFlags(result.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            info.setPaintFlags(info.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            result.setPaintFlags(result.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            info.setPaintFlags(info.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
         return view;
     }
 
-    }
+}

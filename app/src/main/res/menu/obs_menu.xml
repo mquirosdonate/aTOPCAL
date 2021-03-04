@@ -6,9 +6,7 @@
         android:icon="@android:drawable/ic_input_add"
         android:title="nueva OBS"
         app:showAsAction="ifRoom" />
-    <item android:title="IMPORTAR"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_input_get">
+    <item android:title="IMPORTAR">
         <menu>
             <item android:title="Importar Leica"
                 android:id="@+id/importLeica"/>
@@ -20,9 +18,7 @@
                 android:id="@+id/importSQL"/>
         </menu>
     </item>
-    <item android:title="EXPORTAR"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_send">
+    <item android:title="EXPORTAR">
         <menu>
             <item android:title="Exportar TXT"
                 android:id="@+id/exportarTXT"/>
@@ -32,4 +28,6 @@
                 android:id="@+id/exportarSQL"/>
         </menu>
     </item>
+    <item android:id="@+id/menuBessel"
+        android:title="Regla de Bessel" />
 </menu>

@@ -63,11 +63,7 @@ public class ViewObsActivity extends AppCompatActivity {
         listViewObs.setAdapter(adapter);
         //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.obs_menu, menu);
-        return true;
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -80,7 +76,7 @@ public class ViewObsActivity extends AppCompatActivity {
     }
 
     private void Observaciones(OBS obs){
-        Intent intent = new Intent(MainActivity.yo, EditarObsActivity.class);
+        Intent intent = new Intent(this, EditarObsActivity.class);
         intent.putExtra("OBS",obs);
         startActivity(intent);
     }
