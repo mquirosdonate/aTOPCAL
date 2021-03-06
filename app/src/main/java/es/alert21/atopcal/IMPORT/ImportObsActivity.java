@@ -289,17 +289,37 @@ public class ImportObsActivity extends AppCompatActivity {
         try {
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("[, ]");
-                if (tokens.length == 7){
-                    OBS obs = new OBS();
-                    obs.setNe(tokens[0]);
-                    obs.setNv(tokens[1]);
-                    obs.setH(tokens[2]);
-                    obs.setV(tokens[3]);
-                    obs.setD(tokens[4]);
-                    obs.setM(tokens[5]);
-                    obs.setI(tokens[6]);
-                    listObs.add(obs);
+                int i = 0;
+                OBS obs = new OBS();
+                for (String token:tokens){
+                    if(token.isEmpty()) continue;
+                    switch (i){
+                        case 0:
+                            obs.setNe(token);
+                            break;
+                        case 1:
+                            obs.setNv(token);
+                            break;
+                        case 2:
+                            obs.setH(token);
+                            break;
+                        case 3:
+                            obs.setV(token);
+                            break;
+                        case 4:
+                            obs.setD(token);
+                            break;
+                        case 5:
+                            obs.setM(token);
+                            break;
+                        case 6:
+                            obs.setI(token);
+                            break;
+                    }
+                    i++;
                 }
+                if (obs.getNe() > 0)
+                    listObs.add(obs);
             }
         } catch (IOException e1) {}
         EOF = true;

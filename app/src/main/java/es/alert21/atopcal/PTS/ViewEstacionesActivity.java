@@ -19,7 +19,7 @@ public class ViewEstacionesActivity extends AppCompatActivity {
     ListView listViewPts;
     List<PTS> ptsList;
     PtsAdapter adapter;
-    String sql = "SELECT DISTINCT N,X,Y,Z,Des FROM PTS,OBS\n" +
+    String sql = "SELECT DISTINCT N,PTS.Id,X,Y,Z,Des FROM PTS,OBS\n" +
             "WHERE Des = 0 AND OBS.raw = 0 AND PTS.N=OBS.NE AND OBS.NV IN (SELECT N FROM PTS) ORDER BY N";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

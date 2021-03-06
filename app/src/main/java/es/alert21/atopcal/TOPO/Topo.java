@@ -13,4 +13,16 @@ public class Topo {
             return 300.0;
         return Math.atan2(xx,yy) * 200 / Math.PI;
     }
+    public static double desorientacion(double obs1,double obs2){
+        double des = obs1 - obs2;
+        des = normaliza(des);
+        if (des > 399)
+            des = des - 400;
+        return des;
+    }
+    public static double normaliza(double x){
+        while (x < 0) x += 400;
+        while (x > 400) x -= 400;
+        return x;
+    }
 }

@@ -26,14 +26,36 @@ public class CSVpts {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("[, ]");
-                if (tokens.length > 3){
-                    PTS pts = new PTS();
-                    pts.setN(tokens[0]);
-                    pts.setX(tokens[1]);
-                    pts.setY(tokens[2]);
-                    pts.setZ(tokens[3]);
-                    listPts.add(pts);
+                int i = 0;
+                PTS pts = new PTS();
+                for (String token:tokens){
+                    if(token.isEmpty()) continue;
+                    switch (i){
+                        case 0:
+                            pts.setN(token);
+                            break;
+                        case 1:
+                            pts.setX(token);
+                            break;
+                        case 2:
+                            pts.setY(token);
+                            break;
+                        case 3:
+                            pts.setZ(token);
+                            break;
+                        case 4:
+                            pts.setDes(token);
+                            break;
+                        case 5:
+                            pts.setNombre(token);
+                            break;
+
+                    }
+                    i++;
                 }
+                if (pts.getN() > 0)
+                    listPts.add(pts);
+
             }
         } catch (IOException e1) {}
     }

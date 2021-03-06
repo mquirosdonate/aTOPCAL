@@ -6,7 +6,6 @@ import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.EXPORT.TXTexport;
 import es.alert21.atopcal.EXPORT.XMLexport;
 import es.alert21.atopcal.FILES.FileChooser;
-import es.alert21.atopcal.IMPORT.CSVobs;
 import es.alert21.atopcal.IMPORT.ImportObsActivity;
 import es.alert21.atopcal.IMPORT.SQLimport;
 import es.alert21.atopcal.MainActivity;
@@ -64,7 +63,7 @@ public class ViewNeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setTitle("ESTACIONES");
+        getSupportActionBar().setTitle("SELECCIONA UNA ESTACIÓN");
         topcal = Util.getTopcal();
         neList = topcal.getNEs();
 

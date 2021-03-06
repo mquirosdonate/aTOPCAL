@@ -2,20 +2,24 @@ package es.alert21.atopcal.PTS;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.OBS.OBSx2;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 
 public class DesorientacionesActivity extends AppCompatActivity {
     Topcal topcal;
     ListView listView;
-    Button ok,cancel;
+    EditText desorientacion;
+    Button ok;
     EstacionAdapter adapter;
     Estacion est;
     @Override
@@ -23,10 +27,12 @@ public class DesorientacionesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_desorientaciones);
         ok = findViewById(R.id.calcular);
-        cancel = findViewById(R.id.cancelar);
+
+        desorientacion = findViewById(R.id.editTextTextDesorientacion2);
         listView = findViewById(R.id.listViewDesorientaciones);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             est.obsList.get(position).valid = !est.obsList.get(position).valid;
+            CalculaDesorientacion();
             TextView txtNV = view.findViewById(R.id.listObsNV);
             TextView txtH = view.findViewById(R.id.ListObsH);
             TextView txtAz = view.findViewById(R.id.listAz);
@@ -43,6 +49,27 @@ public class DesorientacionesActivity extends AppCompatActivity {
                 txtDes.setPaintFlags(txtDes.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
         });
+        ok.setOnClickListener(v -> {
+            est.estacion.setDes(desorientacion.getText().toString());
+            topcal.insertPTS(est.estacion);
+            finish();
+        });
+    }
+    private void CalculaDesorientacion(){
+        Double des = 0.0;
+        int n = 0;
+        for (PTV_OBS ptv_obs:est.obsList){
+            if (ptv_obs.valid){
+                des += ptv_obs.desorientacion;
+                n++;
+            }
+        }
+        if (n > 0) {
+            des /= n;
+        } else {
+            des = 0.0;
+        }
+        desorientacion.setText(Util.doubleATexto(des,4));
     }
     @Override
     protected void onResume() {
@@ -62,5 +89,6 @@ public class DesorientacionesActivity extends AppCompatActivity {
 
         adapter = new EstacionAdapter(this,est.obsList);
         listView.setAdapter(adapter);
+        CalculaDesorientacion();
     }
 }

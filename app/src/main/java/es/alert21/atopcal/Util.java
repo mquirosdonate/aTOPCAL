@@ -40,11 +40,7 @@ public class Util {
 
         return  topcal;
     }
-    public static double normaliza(double x){
-        while (x < 0) x += 400;
-        while (x > 400) x -= 400;
-        return x;
-    }
+
     public static void readCSV(File file) {
         String line ;
         try {

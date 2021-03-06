@@ -5,13 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PTS.DesorientacionesActivity">
+
+    <EditText
+        android:id="@+id/editTextTextDesorientacion2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:text="@string/_000_0000"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@+id/calcular"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/calcular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Calcular"
+        android:text="OK"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,15 +36,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calcular" />
-
-    <Button
-        android:id="@+id/cancelar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/Cancelar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

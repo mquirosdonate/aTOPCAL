@@ -4,9 +4,8 @@ import android.annotation.SuppressLint;
 
 import java.io.Serializable;
 
+import es.alert21.atopcal.TOPO.Topo;
 import es.alert21.atopcal.Util;
-
-import static es.alert21.atopcal.Util.normaliza;
 
 public class OBS implements Serializable {
     private int id=0;
@@ -126,23 +125,23 @@ public class OBS implements Serializable {
         }
     }
     public void setH(double h) {
-        this.h = normaliza(h);
+        this.h = Topo.normaliza(h);
     }
     public void setH(String s) {
         try{
             double x = Double.parseDouble(s);
-            this.h = normaliza(x);
+            this.h = Topo.normaliza(x);
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void setV(double v) {
-        this.v = normaliza(v);
+        this.v = Topo.normaliza(v);
     }
     public void setV(String s) {
         try{
             double x = Double.parseDouble(s);
-            this.v = normaliza(x);
+            this.v = Topo.normaliza(x);
         }catch (Exception e) {
             e.printStackTrace();
         }

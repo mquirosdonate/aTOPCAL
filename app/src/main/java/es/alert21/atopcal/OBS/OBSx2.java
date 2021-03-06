@@ -1,6 +1,6 @@
 package es.alert21.atopcal.OBS;
 
-import static es.alert21.atopcal.Util.normaliza;
+import es.alert21.atopcal.TOPO.Topo;
 
 public class OBSx2 extends OBS{
     private OBS obs1;
@@ -34,11 +34,7 @@ public class OBSx2 extends OBS{
     }
 
     public double desorientacion(){
-        double des = obs1.getH() - obs2.getH();
-        des = normaliza(des);
-        if (des > 399)
-            des = des - 400;
-        return des;
+        return Topo.desorientacion(obs1.getH(),obs2.getH());
     }
     public double errorDistancia(){
         if (obs1.getD() == 0.0 || obs2.getD() == 0)
