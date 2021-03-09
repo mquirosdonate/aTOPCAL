@@ -12,7 +12,7 @@ import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PRJ.PRJ;
 import es.alert21.atopcal.PTS.PTS;
-import es.alert21.atopcal.PTS.PTV_OBS;
+import es.alert21.atopcal.DESORIENTACION.PTV_OBS;
 
 public class Topcal {
     private String nombreTrabajo;
@@ -156,15 +156,29 @@ public class Topcal {
         db.delete("PTS", "id=" + pts.getIDtoString(), null);
     }
 
-    public ArrayList<Integer> getNEs(){
+    public ArrayList<Integer> getNEs(String sql){
         ArrayList<Integer> list = new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT DISTINCT(ne) FROM OBS Order by NE", null);
+        Cursor cur = db.rawQuery(sql, null);
         if (cur.moveToFirst()) {
             do {
                 list.add(cur.getInt(cur.getColumnIndex("NE")));
             }while(cur.moveToNext());
         }
         cur.close();
+        return list;
+    }
+    public ArrayList<Integer> getNVs(String sqlView,String sqlSelect,String sqlDrop){
+        ArrayList<Integer> list = new ArrayList<>();
+        sqlExec(sqlDrop);
+        sqlExec(sqlView);
+        Cursor cur = db.rawQuery(sqlSelect, null);
+        if (cur.moveToFirst()) {
+            do {
+                list.add(cur.getInt(cur.getColumnIndex("NV")));
+            }while(cur.moveToNext());
+        }
+        cur.close();
+        sqlExec(sqlDrop);
         return list;
     }
     public ArrayList<OBS> getOBS(String sql){
@@ -236,6 +250,53 @@ public class Topcal {
         }
         cur.close();
         return list;
+    }
+    public PTS getPTS(Integer n){
+        PTS pts = new PTS();
+        pts.setN(n);
+        String sql = "SELECT * FROM PTS WHERE N="+n.toString();
+        Cursor cur = db.rawQuery(sql, null);
+        if (cur.moveToFirst()) {
+            do {
+                try{
+                    pts.setId(cur.getInt(cur.getColumnIndex("id")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setN(cur.getInt(cur.getColumnIndex("N")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setX(cur.getDouble(cur.getColumnIndex("X")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setDes(cur.getDouble(cur.getColumnIndex("DES")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }while(cur.moveToNext());
+        }
+        cur.close();
+        return pts;
     }
 
     public ArrayList<PTV_OBS> getPTV_OBS(String sql){

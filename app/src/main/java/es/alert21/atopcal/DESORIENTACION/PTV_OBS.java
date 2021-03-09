@@ -1,6 +1,7 @@
-package es.alert21.atopcal.PTS;
+package es.alert21.atopcal.DESORIENTACION;
 
 import es.alert21.atopcal.OBS.OBS;
+import es.alert21.atopcal.PTS.PTS;
 
 public class PTV_OBS {
     public boolean valid = true;

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.DESORIENTACION.DesorientacionesActivity;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 
@@ -45,12 +46,7 @@ public class ViewEstacionesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("ESTACIONES");
         topcal = Util.getTopcal();
         ptsList = topcal.getPTS(sql);
-
-        //creating the adapter object
-        adapter = new PtsAdapter(this,ptsList);
-
-        //adding the adapter to listview
+        adapter = new PtsAdapter(this,ptsList,R.layout.list_est);
         listViewPts.setAdapter(adapter);
-        //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
 }

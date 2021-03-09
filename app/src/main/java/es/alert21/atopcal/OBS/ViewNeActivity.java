@@ -39,6 +39,7 @@ public class ViewNeActivity extends AppCompatActivity {
     ListView listViewNEs;
     List<Integer> neList;
     NEAdapter adapter;
+    String sql = "SELECT DISTINCT(ne) FROM OBS Order by NE";
     private FloatingActionButton btnNew;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class ViewNeActivity extends AppCompatActivity {
         super.onResume();
         getSupportActionBar().setTitle("SELECCIONA UNA ESTACIÓN");
         topcal = Util.getTopcal();
-        neList = topcal.getNEs();
+        neList = topcal.getNEs(sql);
 
         //creating the adapter object
         adapter = new NEAdapter(this,neList);

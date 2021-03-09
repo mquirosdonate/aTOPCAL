@@ -7,52 +7,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textViewPtsNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
-
-    <TextView
-        android:id="@+id/textViewPtsDes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsNombre"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewPtsZ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Z"
-        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
-        app:layout_constraintStart_toEndOf="@+id/textViewPtsY" />
-
-    <TextView
-        android:id="@+id/textViewPtsY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Y"
-        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
-        app:layout_constraintStart_toEndOf="@+id/textViewPtsX" />
-
-    <TextView
         android:id="@+id/listPtsN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="Número"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textViewPtsX"
         android:layout_width="wrap_content"
@@ -61,5 +25,30 @@
         android:text="X"
         app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
         app:layout_constraintStart_toEndOf="@+id/listPtsN" />
+    <TextView
+        android:id="@+id/textViewPtsY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Y"
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/textViewPtsX" />
+    <TextView
+            android:id="@+id/textViewPtsZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Z"
+            app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+            app:layout_constraintStart_toEndOf="@+id/textViewPtsY" />
+
+    <TextView
+        android:id="@+id/textViewPtsDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Σ"
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/textViewPtsZ" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

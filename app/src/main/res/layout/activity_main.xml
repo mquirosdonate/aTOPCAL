@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_200"
     android:contentDescription="@string/obs"
-    android:background="@color/design_default_color_surface"
     tools:context=".MainActivity">
 
     <TextView
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/imageViewPTS"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageViewPRJ"
         app:layout_constraintTop_toTopOf="@+id/imageViewPRJ"
         app:srcCompat="@drawable/obs" />
@@ -32,8 +33,9 @@
         android:id="@+id/imageViewPTS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOBS"
         app:layout_constraintTop_toTopOf="@+id/imageViewOBS"
         app:srcCompat="@drawable/pts" />
 
@@ -41,8 +43,9 @@
         android:id="@+id/imageViewPRJ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
         android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewOBS"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/prj" />
@@ -51,11 +54,42 @@
         android:id="@+id/imageViewDesorientacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewPolig"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewBessel"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBessel"
+        app:srcCompat="@drawable/desorientacion" />
+
+    <ImageView
+        android:id="@+id/imageViewPolig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewRadiar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDesorientacion"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBessel"
+        app:srcCompat="@drawable/poligonales" />
+
+    <ImageView
+        android:id="@+id/imageViewRadiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPolig"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBessel"
+        app:srcCompat="@drawable/radiar" />
+
+    <ImageView
+        android:id="@+id/imageViewBessel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewDesorientacion"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPRJ"
-        app:srcCompat="@drawable/desorientacion" />
+        app:srcCompat="@drawable/bessel" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

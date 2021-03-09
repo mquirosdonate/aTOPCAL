@@ -22,17 +22,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.alert21.atopcal.OBS.BesselActivity;
 import es.alert21.atopcal.OBS.ViewNeActivity;
+import es.alert21.atopcal.POLIG.PoligActivity;
 import es.alert21.atopcal.PRJ.ViewPrjActivity;
 import es.alert21.atopcal.PTS.EditarPtsActivity;
 import es.alert21.atopcal.PTS.ViewEstacionesActivity;
 import es.alert21.atopcal.PTS.ViewPtsActivity;
+import es.alert21.atopcal.RADIAR.RadiarActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity yo;
     public String nombreProyecto="";
     private TextView textViewNombreProyecto;
-    private ImageView imageViewOBS,imageViewPTS,imageViewPRJ,imageViewDesorientacion;
+    private ImageView imageViewOBS,imageViewBessel,imageViewPTS,imageViewPRJ,imageViewDesorientacion,
+                        imageViewPolig,imageViewRadiar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,20 @@ public class MainActivity extends AppCompatActivity {
 
         textViewNombreProyecto = findViewById(R.id.MainActivityNombreProyecto);
 
+        imageViewRadiar = findViewById(R.id.imageViewRadiar);
+        imageViewRadiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Radiacion();
+            }
+        });
+        imageViewPolig = findViewById(R.id.imageViewPolig);
+        imageViewPolig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Poligonales();
+            }
+        });
         imageViewDesorientacion = findViewById(R.id.imageViewDesorientacion);
         imageViewDesorientacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Observaciones();
+            }
+        });
+        imageViewBessel = findViewById(R.id.imageViewBessel);
+        imageViewBessel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bessel();
             }
         });
         imageViewPTS = findViewById(R.id.imageViewPTS);
@@ -91,6 +116,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.Proyectos:
                 Proyectos();
                 return true;
+            case R.id.menuBessel:
+                Bessel();
+                return true;
+            case R.id.Desorientaciones:
+                Desorientaciones();
+                return true;
+            case R.id.Poligonales:
+                Poligonales();
+                return true;
+            case R.id.Radiacion:
+                Radiacion();
+                return true;
             default:
                 return true;
         }
@@ -107,11 +144,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ViewPtsActivity.class);
         startActivity(intent);
     }
+    private void Bessel(){
+        Intent intent = new Intent(MainActivity.this, BesselActivity.class);
+        startActivity(intent);
+    }
     private void Desorientaciones(){
         Intent intent = new Intent(this, ViewEstacionesActivity.class);
         startActivity(intent);
     }
-
+    private void Poligonales(){
+        Intent intent = new Intent(this, PoligActivity.class);
+        startActivity(intent);
+    }
+    private void Radiacion(){
+        Intent intent = new Intent(this, RadiarActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume() {
         super.onResume();

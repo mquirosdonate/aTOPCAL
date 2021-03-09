@@ -11,17 +11,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
+        android:text="Nombre"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsX"
+        app:layout_constraintStart_toEndOf="@+id/textViewPtsZ" />
 
     <TextView
         android:id="@+id/textViewPtsDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsNombre"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="32dp"
+        android:text="000.0000"
+        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintStart_toEndOf="@+id/listPtsN" />
 
     <TextView
         android:id="@+id/textViewPtsZ"
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Z"
-        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsX"
         app:layout_constraintStart_toEndOf="@+id/textViewPtsY" />
 
     <TextView
@@ -38,14 +39,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Y"
-        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPtsX"
         app:layout_constraintStart_toEndOf="@+id/textViewPtsX" />
 
     <TextView
         android:id="@+id/listPtsN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="Número"
@@ -57,9 +57,9 @@
         android:id="@+id/textViewPtsX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="X"
-        app:layout_constraintBottom_toBottomOf="@+id/listPtsN"
-        app:layout_constraintStart_toEndOf="@+id/listPtsN" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listPtsN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ public class PTS implements Serializable {
     }
     @SuppressLint("DefaultLocale")
     public String getNtoString(){
-        return String.format("%5d",n);
+        return String.format("%d",n);
     }
     public void setN(int n){
         this.n = n;

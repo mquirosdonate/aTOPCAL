@@ -15,8 +15,10 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.ATOPCAL">
-        <activity android:name=".PTS.ViewEstacionesActivity"></activity>
-        <activity android:name=".PTS.DesorientacionesActivity" />
+        <activity android:name=".RADIAR.RadiarActivity"></activity>
+        <activity android:name=".POLIG.PoligActivity" />
+        <activity android:name=".PTS.ViewEstacionesActivity" />
+        <activity android:name=".DESORIENTACION.DesorientacionesActivity" />
         <activity android:name=".OBS.BesselActivity" />
         <activity android:name=".IMPORT.FundirVueltaDeHorizonteActivity" />
         <activity android:name=".IMPORT.ImportObsActivity" />

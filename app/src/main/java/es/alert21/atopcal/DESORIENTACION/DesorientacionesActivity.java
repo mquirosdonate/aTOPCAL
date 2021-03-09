@@ -1,8 +1,7 @@
-package es.alert21.atopcal.PTS;
+package es.alert21.atopcal.DESORIENTACION;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import es.alert21.atopcal.BBDD.Topcal;
-import es.alert21.atopcal.OBS.OBSx2;
+import es.alert21.atopcal.PTS.PTS;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 
