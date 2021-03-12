@@ -13,23 +13,24 @@ public class Eje {
     public void setObsDirecta(OBS obs){
         if(!obs.isCD()){
             if (obs.getH()>200) {
-                obsDirecta.setH(obs.getH() - 200);
+                obs.setH(obs.getH() - 200);
             } else {
-                obsDirecta.setH(obs.getH() + 200);
+                obs.setH(obs.getH() + 200);
             }
-            obsDirecta.setV(400-obs.getV());
+            obs.setV(400-obs.getV());
         }
-
+        obsDirecta = obs;
     }
     public void setObsReciproca(OBS obs){
         if(!obs.isCD()){
             if (obs.getH()>200) {
-                obsReciproca.setH(obs.getH() - 200);
+                obs.setH(obs.getH() - 200);
             } else {
-                obsReciproca.setH(obs.getH() + 200);
+                obs.setH(obs.getH() + 200);
             }
-            obsReciproca.setV(400-obs.getV());
+            obs.setV(400-obs.getV());
         }
+        obsReciproca = obs;
     }
     private void setDistancias(OBS directa,OBS reciproca){
         if (directa.getD()==0)

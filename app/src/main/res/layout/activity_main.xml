@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewGPS"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageViewOBS"
         app:layout_constraintTop_toTopOf="@+id/imageViewOBS"
@@ -90,6 +91,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPRJ"
         app:srcCompat="@drawable/bessel" />
+
+    <ImageView
+        android:id="@+id/imageViewGPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPTS"
+        app:layout_constraintTop_toTopOf="@+id/imageViewPTS"
+        app:srcCompat="@drawable/gps1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

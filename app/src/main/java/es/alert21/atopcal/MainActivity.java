@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.alert21.atopcal.GPS.GPSActivity;
 import es.alert21.atopcal.OBS.BesselActivity;
 import es.alert21.atopcal.OBS.ViewNeActivity;
 import es.alert21.atopcal.POLIG.PoligActivity;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public String nombreProyecto="";
     private TextView textViewNombreProyecto;
     private ImageView imageViewOBS,imageViewBessel,imageViewPTS,imageViewPRJ,imageViewDesorientacion,
-                        imageViewPolig,imageViewRadiar;
+                        imageViewPolig,imageViewRadiar,imageViewGPS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         textViewNombreProyecto = findViewById(R.id.MainActivityNombreProyecto);
 
+        imageViewGPS = findViewById(R.id.imageViewGPS);
+        imageViewGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gps();
+            }
+        });
         imageViewRadiar = findViewById(R.id.imageViewRadiar);
         imageViewRadiar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void Radiacion(){
         Intent intent = new Intent(this, RadiarActivity.class);
+        startActivity(intent);
+    }
+    private void Gps(){
+        Intent intent = new Intent(this, GPSActivity.class);
         startActivity(intent);
     }
     @Override

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.alert21.atopcal.BBDD.Topcal;
+import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PTS.PTS;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
@@ -30,16 +31,15 @@ public class PoligActivity extends AppCompatActivity {
     ListView listViewPolig;
     List<PTS> listPolig = new ArrayList<>();
     PoligAdapter adapterPolig;
+    List<Eje> ejeList = new ArrayList<>();
+
     TextView textView;
 
     String sql = "SELECT * FROM PTS WHERE N IN (SELECT DISTINCT(ne) FROM OBS,PTS WHERE PTS.N=OBS.NE) ORDER BY N";
     String sql3 ="CREATE VIEW VIEWOBS AS " +
-            "SELECT NE,D " +
-            "FROM OBS " +
-            "WHERE raw = 0 AND NV=%d";
+            "SELECT NE,D FROM OBS WHERE raw = 0 AND NV=%d";
     String sql4 ="SELECT NV FROM OBS,VIEWOBS " +
-            "WHERE OBS.NE = %d " +
-            "AND OBS.NV <> %d " +
+            "WHERE OBS.NE = %d AND OBS.NV <> %d " +
             "AND raw = 0 AND OBS.NV = VIEWOBS.NE " +
             "AND (OBS.D > 0 OR VIEWOBS.D>0) " +
             "ORDER BY OBS.NV;";
@@ -72,6 +72,19 @@ public class PoligActivity extends AppCompatActivity {
         });
     }
 
+    private void AddEje(){
+        if(listPolig.size()<2) {
+            ejeList.clear();
+            return;
+        }
+        PTS n1 = listPolig.get(listPolig.size()-2);
+        PTS n2 = listPolig.get(listPolig.size()-1);
+        List<OBS> n1_2 = topcal.getOBS("SELECT * FROM OBS WHERE NE="+n1.getNtoString()+" AND NV="+n2.getNtoString());
+        List<OBS> n2_1 = topcal.getOBS("SELECT * FROM OBS WHERE NE="+n2.getNtoString()+" AND NV="+n1.getNtoString());
+
+        Eje eje = new Eje(n1_2.get(0),n2_1.get(0));
+        ejeList.add(eje);
+    }
     private void AddListPolig(PTS siguienteEstacion){
         Integer ultimaEstacion = 0;
         if(listPolig.size()>0){
@@ -87,7 +100,9 @@ public class PoligActivity extends AppCompatActivity {
         SetAdapterNEs();
 
         listPolig.add(siguienteEstacion);
+
         SetAdapterPolig();
+        AddEje();
     }
 
 
