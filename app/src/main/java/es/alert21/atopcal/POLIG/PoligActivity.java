@@ -82,7 +82,7 @@ public class PoligActivity extends AppCompatActivity {
         List<OBS> n1_2 = topcal.getOBS("SELECT * FROM OBS WHERE NE="+n1.getNtoString()+" AND NV="+n2.getNtoString());
         List<OBS> n2_1 = topcal.getOBS("SELECT * FROM OBS WHERE NE="+n2.getNtoString()+" AND NV="+n1.getNtoString());
 
-        Eje eje = new Eje(n1_2.get(0),n2_1.get(0));
+        Eje eje = new Eje(n1_2.get(0),n2_1.get(0),n1,n2);
         ejeList.add(eje);
     }
     private void AddListPolig(PTS siguienteEstacion){
