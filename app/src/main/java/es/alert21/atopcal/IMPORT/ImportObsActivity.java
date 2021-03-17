@@ -285,13 +285,18 @@ public class ImportObsActivity extends AppCompatActivity {
     }
     private List<OBS> ReadTXT(){
         String line = "";
+        int NE = 0;
+        double I = 0.0;
         List<OBS> listObs = new ArrayList<>();
         try {
             while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split("[, ]");
+                countRegs++;
+                line = line.trim();
+                String[] tokens = line.split(";|,| |\t");
                 int i = 0;
                 OBS obs = new OBS();
                 for (String token:tokens){
+                    token = token.trim();
                     if(token.isEmpty()) continue;
                     switch (i){
                         case 0:
@@ -318,8 +323,15 @@ public class ImportObsActivity extends AppCompatActivity {
                     }
                     i++;
                 }
-                if (obs.getNe() > 0)
+                if (obs.getNe() > 0) {
+                    if (NE != obs.getNe() || I != obs.getI()){
+                        countNE++;
+                    }
                     listObs.add(obs);
+                    I = obs.getI();
+                    NE = obs.getNe();
+
+                }
             }
         } catch (IOException e1) {}
         EOF = true;

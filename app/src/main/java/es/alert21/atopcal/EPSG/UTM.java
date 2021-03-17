@@ -92,9 +92,9 @@ public class UTM {
     }
 
 
-    public void UTM2GEO(double N, double E,int huso) {
+    public void UTM2GEO(double YUTM, double XUTM,int huso) {
         double e1 = (1 - sqrt(1 - elip.e_2)) / (1 + sqrt(1 - elip.e_2));
-        double M = N / k0;
+        double M = YUTM / k0;
         double mu = M / (elip.a * (1 - elip.e_2/4 - 3*elip.e_4/64 - 5*elip.e_6/256));
         double phi1Rad = mu + (3 * e1 / 2 - 27 * e1 * e1 * e1 / 32) * sin(2 * mu)
                 + (21 * e1 * e1 / 16 - 55 * e1 * e1 * e1 * e1 / 32) * sin(4 * mu)
@@ -104,7 +104,7 @@ public class UTM {
         double T1 = getT(phi1Rad);
         double C1 = elip.e_2 * cos(phi1Rad) * cos(phi1Rad);
         double R1 = elip.a * (1 - elip.e_2) / pow(1 - elip.e_2 * sin(phi1Rad) * sin(phi1Rad), 1.5);
-        double D = (E - FE) / (N1 * k0);
+        double D = (XUTM - FE) / (N1 * k0);
         double LatRad = phi1Rad - (N1 * tan(phi1Rad) / R1) * (D * D / 2 - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * elip.e_2) * D * D * D * D / 24
                 + (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * elip.e_2 - 3 * C1 * C1) * D * D * D * D * D * D / 720);
         Lat = this.toDegrees(LatRad);
@@ -113,7 +113,8 @@ public class UTM {
         double lon0 = LongOrigin(huso);
         Lon = lon0 + toDegrees(Lon);
 
-        k = getK(LatRad,E);
+        k = getK(LatRad,XUTM);
+        N = getN(LatRad);
     }
 
     private double getK(double LatRad,double X){
@@ -124,7 +125,7 @@ public class UTM {
     private double getT(double lat){
         return tan(lat)* tan(lat);
     }
-    private double getN(double lat){
+    public double getN(double lat){
         double sinLat = sin(lat);
         return   elip.a/sqrt(1 - elip.e_2*sinLat*sinLat);
     }
