@@ -207,7 +207,7 @@ public class OBS implements Serializable {
                 String.format("<i>%.3f</i>\n</obs>\n",i) ;
     }
     public boolean isCD(){
-        return v > 0.001 && v < 199.999;
+        return v < 200;
     }
 
 }

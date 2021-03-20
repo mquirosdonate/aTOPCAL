@@ -25,7 +25,7 @@ public class CSVpts {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split("[, ]");
+                String[] tokens = line.split("\";|,| |\\t\"");
                 int i = 0;
                 PTS pts = new PTS();
                 for (String token:tokens){

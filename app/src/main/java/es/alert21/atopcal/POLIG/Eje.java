@@ -12,17 +12,17 @@ import static java.lang.Math.sqrt;
 import static java.lang.Math.tan;
 
 public class Eje {
-    private class Poli{
-        public double Az,Dr, Desnivel,Cf;
+    public class Poli{
+        public double Az,Dr=0, Desnivel=0;
     }
 
-    private Poli ejeDirecta = new Poli();
-    private Poli ejeReciproca = new Poli();
-    private OBS obsDirecta;
-    private OBS obsReciproca;
-    private PTS n1,n2;
+    public Poli ejeDirecta = new Poli();
+    public Poli ejeReciproca = new Poli();
+    public OBS obsDirecta;
+    public OBS obsReciproca;
+    public PTS n1,n2;
     double RAD = PI / 200;
-    double DRM;
+    public double DRM;
     private Elipsoide elipsoide = new Elipsoide();
     private UTM utm;
 
@@ -60,6 +60,10 @@ public class Eje {
         obsReciproca = obs;
     }
     private void setPoli(){
+        utm.UTM2GEO(n1.getY(),n1.getX(),30);//Da igual el huso que pongamos
+        double RT = elipsoide.a;
+
+
         ejeDirecta.Az = n1.getDes() + obsDirecta.getH();
         if (ejeDirecta.Az > 400) ejeDirecta.Az -= 400;
 
@@ -67,50 +71,69 @@ public class Eje {
         if (ejeReciproca.Az > 400) ejeReciproca.Az -= 400;
         n2.setDes(ejeReciproca.Az-obsReciproca.getH());
 
-        if (obsDirecta.getD() == 0){
-            ejeDirecta.Dr = obsReciproca.getD()*sin(obsReciproca.getV()*RAD);
-        } else {
-            ejeDirecta.Dr = obsDirecta.getD()*sin(obsDirecta.getV()*RAD);
+        if (obsDirecta.getD() > 0 && obsDirecta.getV() > 0) {
+            ejeDirecta.Dr = obsDirecta.getD() * sin(obsDirecta.getV() * RAD);
         }
-        if (obsReciproca.getD() == 0){
-            ejeReciproca.Dr = obsDirecta.getD()*sin(obsDirecta.getV()*RAD);
-        } else {
+        if (obsReciproca.getD() > 0 && obsReciproca.getV() > 0){
             ejeReciproca.Dr = obsReciproca.getD()*sin(obsReciproca.getV()*RAD);
         }
+        if (ejeDirecta.Dr == 0)
+            ejeDirecta.Dr = ejeReciproca.Dr;
+
+        if (ejeReciproca.Dr == 0)
+            ejeReciproca.Dr = ejeDirecta.Dr;
+
         DRM = (ejeDirecta.Dr + ejeReciproca.Dr) / 2;
 
-        double tDirecta = ejeDirecta.Dr / tan(obsDirecta.getV()*RAD);
-        double tReciproca = ejeReciproca.Dr / tan(obsReciproca.getV()*RAD);
-        double incDes = 0.000000066*DRM*DRM;
-        //incDes = 0.0;
-        ejeDirecta.Desnivel = tDirecta + obsDirecta.getI() - obsDirecta.getM() + incDes;
-        ejeReciproca.Desnivel = tReciproca + obsReciproca.getI() - obsReciproca.getM() + incDes;
+        //Reducción de la cuerda al arco: del orden de 10e-6
+        double c4 = DRM*DRM*DRM/24/RT/RT;
+        double incDes = 0.37*DRM*DRM/RT;
+        double tReciproca = 0;
+        double tDirecta = 0;
+        if (obsDirecta.getV() > 0) {
+            tDirecta = DRM / tan(obsDirecta.getV() * RAD) + incDes;
+            ejeDirecta.Desnivel = tDirecta + obsDirecta.getI() - obsDirecta.getM();
+        }
+
+        if (obsReciproca.getV() > 0) {
+            tReciproca = DRM / tan(obsReciproca.getV() * RAD) + incDes;
+            ejeReciproca.Desnivel = tReciproca + obsReciproca.getI() - obsReciproca.getM();
+        }
+
+        if (ejeDirecta.Desnivel == 0){
+            ejeDirecta.Desnivel = -ejeReciproca.Desnivel;
+            tDirecta = ejeDirecta.Desnivel - obsDirecta.getI() + obsDirecta.getM();
+        }
+
+        if (ejeReciproca.Desnivel == 0) {
+            ejeReciproca.Desnivel = -ejeDirecta.Desnivel;
+            tReciproca = ejeReciproca.Desnivel - obsReciproca.getI() + obsReciproca.getM();
+        }
 
         double Z2 = n1.getZ() + (ejeDirecta.Desnivel-ejeReciproca.Desnivel)/2;
 
-        utm.UTM2GEO(n1.getY(),n1.getX(),30);
 
-        double RT = elipsoide.a;
         double DIV = (1 + n1.getZ()/RT)*(1 + Z2/RT);
 
-        if (obsDirecta.getD() == 0){
-            ejeDirecta.Dr = sqrt((obsReciproca.getD()*obsReciproca.getD()-tReciproca*tReciproca)/DIV);
-        } else {
+        ejeDirecta.Dr = 0;
+        if (obsDirecta.getD() > 0){
             ejeDirecta.Dr = sqrt((obsDirecta.getD()*obsDirecta.getD()-tDirecta*tDirecta)/DIV);
+            ejeDirecta.Dr += c4;
+            ejeDirecta.Dr *= utm.k;
         }
-        double c4 = ejeDirecta.Dr*ejeDirecta.Dr*ejeDirecta.Dr/24/utm.N/utm.N;
-        ejeDirecta.Dr += c4;
-        ejeDirecta.Dr *= utm.k;
 
-        if (obsReciproca.getD() == 0){
-            ejeReciproca.Dr = sqrt((obsDirecta.getD()*obsDirecta.getD()-tDirecta*tDirecta)/DIV);
-        } else {
+        ejeReciproca.Dr = 0;
+        if (obsReciproca.getD() > 0){
             ejeReciproca.Dr = sqrt((obsReciproca.getD()*obsReciproca.getD()-tReciproca*tReciproca)/DIV);
+            ejeReciproca.Dr += c4;
+            ejeReciproca.Dr *= utm.k;
         }
-        ejeReciproca.Dr += c4;
 
-        //double k = getK(n1.getX());
-        ejeReciproca.Dr *= utm.k;
+        if (ejeDirecta.Dr == 0)
+            ejeDirecta.Dr = ejeReciproca.Dr;
+
+        if (ejeReciproca.Dr == 0)
+            ejeReciproca.Dr = ejeDirecta.Dr;
 
         DRM = (ejeDirecta.Dr + ejeReciproca.Dr) / 2;
 

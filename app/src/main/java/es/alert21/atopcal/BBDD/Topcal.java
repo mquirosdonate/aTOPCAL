@@ -59,8 +59,9 @@ public class Topcal {
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MIN(NE) FROM OBS", null);
         if (cur.moveToFirst()) {
+            Integer value = cur.getInt(0);
             cur.close();
-            return cur.getInt(0);
+            return value;
         }
         cur.close();
         return -99;
@@ -69,8 +70,9 @@ public class Topcal {
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MAX(NE) FROM OBS", null);
         if (cur.moveToFirst()) {
+            Integer value = cur.getInt(0);
             cur.close();
-            return cur.getInt(0);
+            return value;
         }
         cur.close();
         return -99;
@@ -79,8 +81,9 @@ public class Topcal {
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MIN(N) FROM PTS", null);
         if (cur.moveToFirst()) {
+            Integer value = cur.getInt(0);
             cur.close();
-            return cur.getInt(0);
+            return value;
         }
         cur.close();
         return -99;
@@ -89,8 +92,9 @@ public class Topcal {
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MAX(N) FROM PTS", null);
         if (cur.moveToFirst()) {
+            Integer value = cur.getInt(0);
             cur.close();
-            return cur.getInt(0);
+            return value;
         }
         cur.close();
         return -99;

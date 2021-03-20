@@ -5,27 +5,87 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/polig1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".5"
+        android:layout_weight="6.0"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textViewErrX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="eX" />
+            <TextView
+                android:id="@+id/textViewErrY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="eY" />
+            <TextView
+                android:id="@+id/textViewErrZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="eZ" />
+            <TextView
+                android:id="@+id/textViewErrAz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="eΣ" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBoxCompensaXY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="compensar eXY" />
+
+        <CheckBox
+            android:id="@+id/checkBoxCompensaZ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="compensar Z" />
+
+        <CheckBox
+            android:id="@+id/checkBoxCompensaAz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="compensar eΣ" />
+
+
+        <Button
+            android:id="@+id/poligCalcular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Calcular"/>
 
         <ListView
-        android:id="@+id/rightListView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" >
-    </ListView>
+            android:id="@+id/rightListView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
         <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider" />
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider" />
+
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/polig2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".5"
+        android:layout_weight="1.0"
         android:orientation="vertical">
 
         <TextView

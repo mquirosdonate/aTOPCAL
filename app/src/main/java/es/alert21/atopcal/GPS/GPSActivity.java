@@ -43,7 +43,7 @@ public class GPSActivity extends AppCompatActivity {
     Button Geo2UTM;
     ImageButton Guardar;
     EditText editTextLongitud,editTextLatitud,editTextAltitud,
-            editTextN,editTextHuso,editTextNP,editTextNombre;
+            editTextN,editTextHuso,editTextNP,editTextNombre,editTextI;
     TextView textACC, textX, textY, textZ;
     boolean bHuso = true;
     @Override
@@ -54,6 +54,7 @@ public class GPSActivity extends AppCompatActivity {
         utm = new UTM(elipsoide);
 
         getSupportActionBar().setTitle("GPS");
+        editTextI = findViewById(R.id.editTextI);
         editTextNP = findViewById(R.id.editTextNP);
         editTextNombre = findViewById(R.id.editTextNombre);
 
@@ -92,7 +93,7 @@ public class GPSActivity extends AppCompatActivity {
                 double Latitud = Double.parseDouble(editTextLatitud.getText().toString());
                 double Altitud = Double.parseDouble(editTextAltitud.getText().toString());
                 double N = Double.parseDouble(editTextN.getText().toString());
-                double Z = Altitud - N;
+                double Z = Altitud - N - Double.parseDouble(editTextI.getText().toString());
 
                 utm.GEO2UTM(Latitud,Longitud,huso);
                 textZ.setText(Util.doubleATexto(Z,2));
@@ -158,7 +159,7 @@ public class GPSActivity extends AppCompatActivity {
         double Altitud = loc.getAltitude();
         double Acc = loc.getAccuracy();
 
-        double Z = Altitud - N;
+        double Z = Altitud - N - Double.parseDouble(editTextI.getText().toString());
         Integer huso ;
         if (bHuso) {
             huso = (int)(Longitud / 6);
