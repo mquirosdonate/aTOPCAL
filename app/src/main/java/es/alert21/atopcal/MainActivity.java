@@ -9,7 +9,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +19,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.GPS.GPSActivity;
 import es.alert21.atopcal.OBS.BesselActivity;
 import es.alert21.atopcal.OBS.ViewNeActivity;
@@ -103,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 Proyectos();
             }
         });
-
+        getRawFiles();
     }
 
     @Override
@@ -138,6 +147,35 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return true;
+        }
+    }
+    public void getRawFiles(){
+        Topcal topcal = Util.getTopcal();
+        Field[] fields = R.raw.class.getFields();
+        // loop for every file in raw folder
+        for(int count=0; count < fields.length; count++){
+            String filename = fields[count].getName();
+            try {
+                String newFileName = Environment.getExternalStorageDirectory()+"/"+filename+".css";
+                File file = new File(topcal.getNombreTrabajo()+"/"+filename+".css");
+                if (file.exists()) continue;
+
+                OutputStream out = new FileOutputStream(file, false);
+
+                int rid = fields[count].getInt(fields[count]);
+                Resources res = getResources();
+                InputStream in = res.openRawResource(rid);
+
+                byte[] b = new byte[in.available()];
+                in.read(b);
+                out.write(b);
+
+                in.close();
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                // log error
+            }
         }
     }
     private void Proyectos(){

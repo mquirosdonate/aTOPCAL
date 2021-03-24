@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,10 @@ import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PTS.PTS;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class PoligActivity extends AppCompatActivity {
 
@@ -44,6 +52,11 @@ public class PoligActivity extends AppCompatActivity {
     TextView textView,textViewErrX,textViewErrY,textViewErrZ,textViewErrAz;
     Button calcular;
     boolean bCalcular = true;
+
+    double errX = 0;
+    double errY = 0;
+    double errZ = 0;
+    double errAz = 0;
 
     CheckBox chkXY,chkZ,chkAz;
     String sql = "SELECT * FROM PTS WHERE N IN (SELECT DISTINCT(ne) FROM OBS,PTS WHERE Des>0 AND PTS.N=OBS.NE) ORDER BY N";
@@ -81,7 +94,7 @@ public class PoligActivity extends AppCompatActivity {
                 if (bCalcular) {
                     setCalcular();
                 } else {
-                    //compensar
+                    compensar();
                 }
             }
         });
@@ -111,6 +124,141 @@ public class PoligActivity extends AppCompatActivity {
             }
         });
     }
+    private void compensar(){
+        double RAD = PI / 200;
+        double longPoligonal = 0;
+        double longParcial = 0;
+        int nEjes = ejeList.size();
+        for(Eje eje : ejeList) longPoligonal += eje.DRM;
+
+        double correcionAz = errAz / nEjes;
+
+        String schkAz = "";
+        String schkX = "";
+        String schkY = "";
+        String schkZ = "";
+        if (chkZ.isChecked()){
+            schkZ = "checked";
+        }
+        if (chkXY.isChecked()){
+            schkX = "checked";
+            schkY = "checked";
+        }
+        if (chkAz.isChecked()) {
+            schkAz = "checked";
+            for(int i = 0; i < nEjes;i++) {
+                Eje eje = ejeList.get(i);
+                double c = correcionAz * (1+i);
+                eje.Directa.Az += c;
+                eje.Reciproca.Az += c;
+                eje.Reciproca.ne.setDes(eje.Reciproca.ne.getDes() + c);
+                double X2 = eje.Directa.ne.getX() + eje.DRM * sin(eje.Directa.Az*RAD);
+                double Y2 = eje.Directa.ne.getY() + eje.DRM * cos(eje.Directa.Az*RAD);
+                eje.Reciproca.ne.setX(X2);
+                eje.Reciproca.ne.setY(Y2);
+            }
+            Eje eje = ejeList.get(ejeList.size()-1);
+            if (eje.Reciproca.ne.getId() > 0) {
+                List<PTS> list = topcal.getPTS("SELECT * FROM PTS WHERE Id=" + eje.Reciproca.ne.getId());
+                if (list.size() > 0) {
+                    PTS aux = list.get(0);
+                    errX = aux.getX() - eje.Reciproca.ne.getX();
+                    errY = aux.getY() - eje.Reciproca.ne.getY();
+                }
+            }
+        }
+
+        double correcionX = errX / longPoligonal;
+        double correcionY = errY / longPoligonal;
+        double correcionZ = errZ / longPoligonal ;
+
+
+    for(int i = 0; i < nEjes;i++){
+            Eje eje = ejeList.get(i);
+            longParcial += eje.DRM;
+
+
+            if (chkXY.isChecked()){
+                double cx = correcionX * longParcial;
+                double cy = correcionY * longParcial;
+                eje.Reciproca.ne.setX(eje.Reciproca.ne.getX() + cx);
+                eje.Reciproca.ne.setY(eje.Reciproca.ne.getY() + cy);
+            }
+            if (chkZ.isChecked()){
+                double cz = correcionZ * longParcial ;
+
+                eje.Reciproca.ne.setZ(eje.Reciproca.ne.getZ() + cz);
+            }
+        }
+        String nombreFicheroSalida = "";
+        nombreFicheroSalida = "POLI";
+        nombreFicheroSalida += "-"+ejeList.get(0).Directa.ne.getN();
+        for(int i = 0; i < nEjes;i++){
+            Eje eje = ejeList.get(i);
+            nombreFicheroSalida += "-"+eje.Reciproca.ne.getN();
+        }
+        nombreFicheroSalida += ".html";
+        File file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
+        OutputStreamWriter fout = null;
+        try {
+            fout = new OutputStreamWriter(new FileOutputStream(file, false));
+
+            fout.write(es.alert21.atopcal.HTML.Util.getHead(nombreFicheroSalida));
+
+            fout.write("<table><tbody>");
+            fout.write(ejeList.get(0).Directa.toStringTH(false));
+            for(int i = 0; i < nEjes;i++){
+                Eje eje = ejeList.get(i);
+                fout.write(eje.Directa.toString(false));
+                fout.write(eje.Reciproca.toString(false));
+            }
+            fout.write("</tbody></table>");
+
+            fout.write("<table><tbody>\n");
+            fout.write("<tr><th colspan=\"4\">Errores de la poligonal</th></tr>\n");
+
+            fout.write("<tr><td>"+textViewErrAz.getText().toString()+"</td>"+
+                    "<td><input type=\"checkbox\" name=\"errAz\""+schkAz+"></td>"+
+                    "<td>"+textViewErrX.getText().toString()+"</td>"+
+                    "<td><input type=\"checkbox\" name=\"errX\""+schkX+"></td>"+
+                    "<td>"+textViewErrY.getText().toString()+"</td>"+
+                    "<td><input type=\"checkbox\" name=\"errY\""+schkY+"></td>"+
+                    "<td>"+textViewErrZ.getText().toString()+"</td>"+
+                    "<td><input type=\"checkbox\" name=\"errZ\""+schkZ+"></td>"+
+                    "</tr>");
+            fout.write("</tbody></table>");
+
+
+            fout.write("<table><tbody>\n");
+            fout.write(listPolig.get(0).toStringTH("ESTACIONES",true));
+            for (PTS pts:listPolig){
+                topcal.insertPTS(pts);
+                fout.write(pts.toStringTD(true));
+            }
+            fout.write("</tbody></table>");
+
+
+            fout.write(es.alert21.atopcal.HTML.Util.getFinal());
+            fout.flush();
+            fout.close();
+            Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
+        } catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        empezar();
+    }
+    private void empezar(){
+        listPolig.clear();
+        ejeList.clear();
+        SetAdapterPolig();
+        neList = topcal.getPTS(sql);
+        SetAdapterNEs();
+        setSeleccionar();
+    }
+
     private void setSeleccionar(){
         chkXY.setVisibility(View.GONE);
         chkZ.setVisibility(View.GONE);
@@ -249,21 +397,22 @@ public class PoligActivity extends AppCompatActivity {
         textViewErrY.setText("");
         textViewErrZ.setText("");
         textViewErrAz.setText("");
+        errX = errY = errZ = errAz = 0;
         if (ejeList.size() > 0) {
             Eje eje = ejeList.get(ejeList.size() - 1);
-            PTS n2 = eje.n2;
+            PTS n2 = eje.Reciproca.ne;
             if (n2.getId() > 0) {
                 List<PTS> list = topcal.getPTS("SELECT * FROM PTS WHERE Id="+n2.getId());
                 if (list.size()>0) {
                     PTS aux = list.get(0);
-                    double errX = n2.getX() - aux.getX();
-                    double errY = n2.getY() - aux.getY();
-                    double errZ = n2.getZ() - aux.getZ();
-                    double errAz = n2.getDes() - aux.getDes();
-                    textViewErrX.setText("eX:"+ Util.doubleATexto(errX, 3));
-                    textViewErrY.setText("eY:"+ Util.doubleATexto(errY, 3));
-                    textViewErrZ.setText("eZ:"+ Util.doubleATexto(errZ, 3));
-                    textViewErrAz.setText("eΣ:"+ Util.doubleATexto(errAz, 4));
+                    errX =  aux.getX() - n2.getX() ;
+                    errY =  aux.getY() - n2.getY();
+                    errZ =  aux.getZ() - n2.getZ();
+                    errAz = aux.getDes() - n2.getDes();
+                    textViewErrX.setText("eX: "+ Util.doubleATexto(errX, 3));
+                    textViewErrY.setText("eY: "+ Util.doubleATexto(errY, 3));
+                    textViewErrZ.setText("eZ: "+ Util.doubleATexto(errZ, 3));
+                    textViewErrAz.setText("eΣ: "+ Util.doubleATexto(errAz, 4));
                 }
             }
             calcular.setVisibility(View.VISIBLE);
@@ -271,7 +420,7 @@ public class PoligActivity extends AppCompatActivity {
             calcular.setVisibility(View.GONE);
         }
 
-        getSupportActionBar().setTitle("ESTACIONES DE LA POLIGONAL ("+listPolig.size()+")");
+        getSupportActionBar().setTitle("ESTACIONES ("+listPolig.size()+")");
         adapterPolig = new PoligAdapter(PoligActivity.this,listPolig,R.layout.list_polig);
         listViewPolig.setAdapter(adapterPolig);
     }

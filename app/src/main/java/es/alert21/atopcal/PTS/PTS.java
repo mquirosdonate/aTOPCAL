@@ -149,4 +149,25 @@ public class PTS implements Serializable {
         while (x > 400) x -= 400;
         return x;
     }
+    public String toStringTH(String titulo,boolean bDes){
+        String s = "<tr><th colspan=\"10\">"+titulo+"</th></tr>";
+        s += "<tr>";
+        s += "<th>N</th>";
+        s += "<th>X</th>";
+        s += "<th>Y</th>";
+        s += "<th>Z</th>";
+        if (bDes)  s += "<th>Σ</th>";
+        s += "<th>Nombre</th>";
+        s += "</tr>";
+        return s;
+    }
+    public String toStringTD(boolean bDes){
+        String s = "<tr><td class=\"centrado\">" + n + "</td>";
+        s += "<td>" + Util.doubleATexto(x,3) + "</td>";
+        s += "<td>" + Util.doubleATexto(y,3) + "</td>";
+        s += "<td>" + Util.doubleATexto(z,3) + "</td>";
+        if (bDes) s += "<td>" + Util.doubleATexto(des,4) + "</td>";
+        s += "<td class=\"centrado\">" + nombre + "</td></tr>";
+        return s;
+    }
 }

@@ -89,10 +89,14 @@ public class GPSActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Integer huso = Integer.parseInt(editTextHuso.getText().toString());
+
+                Integer.parseInt(editTextHuso.getText().toString());
                 double Longitud = Double.parseDouble(editTextLongitud.getText().toString());
                 double Latitud = Double.parseDouble(editTextLatitud.getText().toString());
                 double Altitud = Double.parseDouble(editTextAltitud.getText().toString());
                 double N = Double.parseDouble(editTextN.getText().toString());
+                if (editTextI.getText().toString().isEmpty())
+                    editTextI.setText("0");
                 double Z = Altitud - N - Double.parseDouble(editTextI.getText().toString());
 
                 utm.GEO2UTM(Latitud,Longitud,huso);
@@ -158,7 +162,8 @@ public class GPSActivity extends AppCompatActivity {
         double Latitud = loc.getLatitude();
         double Altitud = loc.getAltitude();
         double Acc = loc.getAccuracy();
-
+        if (editTextI.getText().toString().isEmpty())
+            editTextI.setText("0");
         double Z = Altitud - N - Double.parseDouble(editTextI.getText().toString());
         Integer huso ;
         if (bHuso) {

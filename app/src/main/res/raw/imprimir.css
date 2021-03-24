@@ -1,0 +1,36 @@
+.px50{width: 50px;}.px100{width: 100px;}.px150{width:150px}.px200{width: 200px;}.px300{width: 300px;}.px350{width: 350px;}.px400{width: 400px;}
+.px450{width: 450px;}.px500{width: 500px;}.px600{width: 600px;}.px700{width: 700px;}.px800{width: 800px;}
+#cabecera {display:none;}
+#Menu {display:none;}
+#GridHorarios{display:none;}
+#footer{display: none;}
+table{border-collapse: collapse;border: 1px solid rgb(218, 218, 218);}
+table th {padding: 5px; border: 1px solid rgb(218, 218, 218);}
+table td {border: 1px solid rgb(218, 218, 218); padding-right: 10px; padding-left: 10px;text-align:right;}
+.{border-style: none;}
+h4 {margin: 0px 0px 10px; background-color: #e4e4e4;}
+h4 a {background: url("/images/sprite.png") no-repeat 15px 13px; border-width: 1px; border-style: solid; border-color: rgb(218, 218, 218) rgb(218, 218, 218) rgba(128, 10, 85, 0.5); margin: 0px; padding: 4px 8px 8px 32px; border-radius: 6px; color: rgb(39, 39, 39); font-weight: normal; text-decoration: none; display: block; }
+h4:hover {background: #e4e4e4;}
+h4.open {background: #e4e4e4;}
+h4.open a {background-position: 13px -25px;}
+h4 + div {padding: 6px;}
+ol {margin-top: 0px; list-style: none;}
+ul {margin-top: 0px;}
+.centrado {text-align:center;}
+.field-validation-error {color: red;}
+.validation-summary-errors {color: red;}
+.gridTable {margin: 5px;padding: 5px;border: 1px #c8c8c8 solid;/*border-collapse: collapse;*/width: 99%;background-color: #fff;color: #fff;}
+.gridHead th{font-weight: bold;background-color: #030D8D;color: #fff;padding-bottom: 10px;padding-top:10px}
+.gridHead a:link,.gridHead a:visited,.gridHead a:active,.gridHead a:hover {color: #fff;}
+.gridHead a:hover {text-decoration:underline;}
+.gridTable tr.gridAltRow{background-color: #efeeef;}
+.gridTable tr:hover{background-color: #f6f70a;}
+.gridAltRow td{padding: 5px;margin: 5px; color: #333;}
+.gridRow td{padding: 5px;color: #333;}
+.gridFooter td{padding: 5px;background-color: #c7d1d6;color: #999;font-size: 8pt;text-align: center;}
+.gridFooter a{font-weight: bold;color: #333;}
+.oculto{visibility: hidden;display: none;}
+a {color: rgb(71, 71, 71); text-decoration: none;}
+a:hover {color: rgb(16, 134, 211);}
+img{border-style: none;}
+a img {border-style: none;}
