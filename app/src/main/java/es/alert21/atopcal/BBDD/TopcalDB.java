@@ -10,6 +10,14 @@ public class TopcalDB extends SQLiteOpenHelper {
             "H DOUBLE,V DOUBLE,D DOUBLE,M DOUBLE,I DOUBLE,raw INTEGER,Aparato INTEGER)";
     private String CREATE_TABLE_PTS = "CREATE TABLE PTS (id INTEGER NOT NULL CONSTRAINT pts_pk PRIMARY KEY AUTOINCREMENT,N INTEGER," +
             "X DOUBLE,Y DOUBLE,Z DOUBLE,DES DOUBLE,Nombre TEXT,SREF INTEGER)";
+
+    private String CREATE_TABLE_HTML = "CREATE TABLE HTML (\n" +
+            "    id       INTEGER  PRIMARY KEY AUTOINCREMENT,\n" +
+            "    Date     DATETIME,\n" +
+            "    FileName TEXT,\n" +
+            "    HTML     TEXT\n" +
+            ");";
+
     public TopcalDB(Context contexto, String nombre,SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
     }
@@ -19,6 +27,7 @@ public class TopcalDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PRJ);
         db.execSQL(CREATE_TABLE_OBS);
         db.execSQL(CREATE_TABLE_PTS);
+        db.execSQL(CREATE_TABLE_HTML);
     }
 
     @Override

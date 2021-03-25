@@ -65,7 +65,7 @@ public class ViewPtsActivity extends AppCompatActivity {
         super.onResume();
         getSupportActionBar().setTitle("PUNTOS");
         topcal = Util.getTopcal();
-        ptsList = topcal.getPTS("SELECT * FROM PTS Order by N,id");
+        ptsList = topcal.getPTS("SELECT * FROM PTS Order by N DESC");
 
         //creating the adapter object
         adapter = new PtsAdapter(this,ptsList,R.layout.list_pts);

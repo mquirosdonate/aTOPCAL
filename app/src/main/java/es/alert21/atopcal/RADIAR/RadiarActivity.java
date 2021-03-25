@@ -32,12 +32,13 @@ import es.alert21.atopcal.TOPO.Visual;
 import es.alert21.atopcal.Util;
 
 public class RadiarActivity extends AppCompatActivity {
+    static  StringBuilder html = new StringBuilder();
     Topcal topcal;
     ListView listViewNEs;
     List<NE> neList = new ArrayList<>();
     RadiarAdapter adapterNEs;
     String sql = "SELECT * FROM PTS WHERE N IN \n" +
-            "(SELECT  DISTINCT NE FROM OBS,PTS WHERE V>0 AND D>0 AND NV NOT IN (SELECT N FROM PTS))";
+            "(SELECT  DISTINCT NE FROM OBS,PTS WHERE OBS.raw = 0 AND V>0 AND D>0 AND NV NOT IN (SELECT N FROM PTS))";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,51 +77,48 @@ public class RadiarActivity extends AppCompatActivity {
             if (ne.checked) nombreFicheroSalida += "-"+ne.n.getN();
         }
         nombreFicheroSalida += ".html";
-        File file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-        OutputStreamWriter fout = null;
 
-        try {
-            fout = new OutputStreamWriter(new FileOutputStream(file, false));
-            fout.write(es.alert21.atopcal.HTML.Util.getHead(nombreFicheroSalida));
+        html.setLength(0);
+        html.append(es.alert21.atopcal.HTML.Util.getHead(nombreFicheroSalida));
+        for(NE ne:neList){
+            if (ne.checked){
+                PTS n = ne.n;
+                html.append("<table><tbody>\n");
+                html.append(n.toStringTH("ESTACIÓN",true));
+                html.append(n.toStringTD(true));
+                html.append("</tbody></table>");
+                utm.UTM2GEO(n.getY(),n.getX(),30);//Da igual el huso que pongamos
+                String sql = "SELECT * FROM OBS WHERE OBS.raw = 0 AND V>0 AND D>0 AND NV NOT IN (SELECT N FROM PTS) AND NE="+n.getNtoString();
+                List<OBS> obsList = topcal.getOBS(sql);
 
-            for(NE ne:neList){
-                if (ne.checked){
-                    PTS n = ne.n;
-                    fout.write("<table><tbody>\n");
-                    fout.write(n.toStringTH("ESTACIÓN",true));
-                    fout.write(n.toStringTD(true));
-                    fout.write("</tbody></table>");
-                    utm.UTM2GEO(n.getY(),n.getX(),30);//Da igual el huso que pongamos
-                    String sql = "SELECT * FROM OBS WHERE V>0 AND D>0 AND NV NOT IN (SELECT N FROM PTS) AND NE="+n.getNtoString();
-                    List<OBS> obsList = topcal.getOBS(sql);
-
-                    fout.write("<table><tbody>");
-                    fout.write(new Visual().toStringTH(false));
-                    List<PTS> ptsList = new ArrayList<>();
-                    for(OBS obs:obsList){
-                        PTS nv = new PTS();
-                        nv.setN(obs.getNv());
-                        Visual v = new Visual(obs,n,nv,utm.k);
-                        ptsList.add(nv);
-                        fout.write(v.toString(false));
-                        topcal.insertPTS(nv);
-                    }
-                    fout.write("</tbody></table>");
-
-                    fout.write("<table><tbody>\n");
-                    fout.write(n.toStringTH("Puntos radiados",false));
-                    for(PTS p:ptsList){
-                        fout.write(p.toStringTD(false));
-                    }
-                    fout.write("</tbody></table>");
+                html.append("<table><tbody>");
+                html.append(new Visual().toStringTH(false));
+                List<PTS> ptsList = new ArrayList<>();
+                for(OBS obs:obsList){
+                    PTS nv = new PTS();
+                    nv.setN(obs.getNv());
+                    Visual v = new Visual(obs,n,nv,utm.k);
+                    ptsList.add(nv);
+                    html.append(v.toString(false));
+                    topcal.insertPTS(nv);
                 }
-            }
+                html.append("</tbody></table>");
 
-            fout.write(es.alert21.atopcal.HTML.Util.getFinal());
-            fout.flush();
-            fout.close();
-            Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
-        } catch(FileNotFoundException e){e.printStackTrace();} catch (IOException e) {e.printStackTrace();}
+                html.append("<table><tbody>\n");
+                html.append(n.toStringTH("Puntos radiados",false));
+                for(PTS p:ptsList){
+                    html.append(p.toStringTD(false));
+                }
+                html.append("</tbody></table>");
+            }
+        }
+        html.append(es.alert21.atopcal.HTML.Util.getFinal());
+
+        topcal.insertHTML(nombreFicheroSalida,html.toString());
+
+        Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,html.toString());
+
+        Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
 
         finish();
     }

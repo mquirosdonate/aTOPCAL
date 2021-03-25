@@ -69,24 +69,7 @@ public class BesselActivity extends AppCompatActivity {
 
         adapter = new BesselAdapter(this,obSx2List);
         listView.setAdapter(adapter);
-        /*
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
-            @Override
-            public boolean onItemLongClick(AdapterView<?> av, View view, int position, long id)
-            {
-                obSx2List.get(position).setValid(!obSx2List.get(position).getValid());
-                TextView txtNE_NV = view.findViewById(R.id.textViewNE_NV);
-                if (!obSx2List.get(position).getValid()){
-                    txtNE_NV.setPaintFlags(txtNE_NV.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-                    txtNE_NV.setPaintFlags(txtNE_NV.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-                } else {
-                    txtNE_NV.setPaintFlags(txtNE_NV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                    txtNE_NV.setPaintFlags(txtNE_NV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                }
-                return false;
-            }
-        });
-        */
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             obSx2List.get(position).setValid(!obSx2List.get(position).getValid());
             TextView txtNE_NV = view.findViewById(R.id.textViewNE_NV);

@@ -11,10 +11,13 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -241,6 +244,17 @@ public class Util {
         return  String.format("%1$02d:%2$02d:%3$02d", hora,minutos,segundos);
     }
 
+    public static void escribeFichero(String fileName,String chicha){
+        File file = new File(fileName);
+        OutputStreamWriter fout = null;
+        try {
+            fout = new OutputStreamWriter(new FileOutputStream(file, false));
+            fout.write(chicha.toString());
+            fout.flush();
+            fout.close();
+            //Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
+        } catch(FileNotFoundException e){e.printStackTrace();} catch (IOException e) {e.printStackTrace();}
+    }
     public static File creaDirectorios(Context context, String nivel1) {
         File ruta = null;
         try {

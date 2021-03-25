@@ -13,6 +13,7 @@ import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PRJ.PRJ;
 import es.alert21.atopcal.PTS.PTS;
 import es.alert21.atopcal.DESORIENTACION.PTV_OBS;
+import es.alert21.atopcal.Util;
 
 public class Topcal {
     private String nombreTrabajo;
@@ -55,6 +56,18 @@ public class Topcal {
             db.update("PRJ",cv,"id="+prj.getId().toString(),null);
         }
     }
+    public void insertHTML(String nombre,String html){
+        if (db == null) return;
+        ContentValues cv = new ContentValues();
+        cv.put("Date", Util.dameFecha());
+        cv.put("FileName",nombre);
+        cv.put("HTML",html);
+
+        db.insert("HTML", null, cv);
+
+    }
+
+
     public Integer getMinEstacion(){
         if (db == null) return -99;
         Cursor cur = db.rawQuery("SELECT MIN(NE) FROM OBS", null);

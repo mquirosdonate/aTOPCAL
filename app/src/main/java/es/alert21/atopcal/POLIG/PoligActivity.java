@@ -34,7 +34,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class PoligActivity extends AppCompatActivity {
-
+    static  StringBuilder html = new StringBuilder();
     Topcal topcal;
     ListView listViewNEs;
     List<PTS> neList = new ArrayList<>();
@@ -112,9 +112,7 @@ public class PoligActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PTS ne = neList.get(position);
-
                 AddListPolig(ne);
-                //Toast.makeText(getApplicationContext(), siguienteEstacion.toString(), Toast.LENGTH_LONG).show();
             }
         });
         listViewPolig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,9 +135,7 @@ public class PoligActivity extends AppCompatActivity {
         String schkX = "";
         String schkY = "";
         String schkZ = "";
-        if (chkZ.isChecked()){
-            schkZ = "checked";
-        }
+        if (chkZ.isChecked()) schkZ = "checked";
         if (chkXY.isChecked()){
             schkX = "checked";
             schkY = "checked";
@@ -172,12 +168,9 @@ public class PoligActivity extends AppCompatActivity {
         double correcionY = errY / longPoligonal;
         double correcionZ = errZ / longPoligonal ;
 
-
-    for(int i = 0; i < nEjes;i++){
+        for(int i = 0; i < nEjes;i++){
             Eje eje = ejeList.get(i);
             longParcial += eje.DRM;
-
-
             if (chkXY.isChecked()){
                 double cx = correcionX * longParcial;
                 double cy = correcionY * longParcial;
@@ -190,6 +183,8 @@ public class PoligActivity extends AppCompatActivity {
                 eje.Reciproca.ne.setZ(eje.Reciproca.ne.getZ() + cz);
             }
         }
+
+
         String nombreFicheroSalida = "";
         nombreFicheroSalida = "POLI";
         nombreFicheroSalida += "-"+ejeList.get(0).Directa.ne.getN();
@@ -198,56 +193,44 @@ public class PoligActivity extends AppCompatActivity {
             nombreFicheroSalida += "-"+eje.Reciproca.ne.getN();
         }
         nombreFicheroSalida += ".html";
-        File file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-        OutputStreamWriter fout = null;
-        try {
-            fout = new OutputStreamWriter(new FileOutputStream(file, false));
 
-            fout.write(es.alert21.atopcal.HTML.Util.getHead(nombreFicheroSalida));
-
-            fout.write("<table><tbody>");
-            fout.write(ejeList.get(0).Directa.toStringTH(false));
-            for(int i = 0; i < nEjes;i++){
-                Eje eje = ejeList.get(i);
-                fout.write(eje.Directa.toString(false));
-                fout.write(eje.Reciproca.toString(false));
-            }
-            fout.write("</tbody></table>");
-
-            fout.write("<table><tbody>\n");
-            fout.write("<tr><th colspan=\"4\">Errores de la poligonal</th></tr>\n");
-
-            fout.write("<tr><td>"+textViewErrAz.getText().toString()+"</td>"+
-                    "<td><input type=\"checkbox\" name=\"errAz\""+schkAz+"></td>"+
-                    "<td>"+textViewErrX.getText().toString()+"</td>"+
-                    "<td><input type=\"checkbox\" name=\"errX\""+schkX+"></td>"+
-                    "<td>"+textViewErrY.getText().toString()+"</td>"+
-                    "<td><input type=\"checkbox\" name=\"errY\""+schkY+"></td>"+
-                    "<td>"+textViewErrZ.getText().toString()+"</td>"+
-                    "<td><input type=\"checkbox\" name=\"errZ\""+schkZ+"></td>"+
-                    "</tr>");
-            fout.write("</tbody></table>");
-
-
-            fout.write("<table><tbody>\n");
-            fout.write(listPolig.get(0).toStringTH("ESTACIONES",true));
-            for (PTS pts:listPolig){
-                topcal.insertPTS(pts);
-                fout.write(pts.toStringTD(true));
-            }
-            fout.write("</tbody></table>");
-
-
-            fout.write(es.alert21.atopcal.HTML.Util.getFinal());
-            fout.flush();
-            fout.close();
-            Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
-        } catch(FileNotFoundException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        html.setLength(0);
+        html.append(es.alert21.atopcal.HTML.Util.getHead(nombreFicheroSalida));
+        html.append("<table><tbody>");
+        html.append(ejeList.get(0).Directa.toStringTH(false));
+        for(int i = 0; i < nEjes;i++){
+            Eje eje = ejeList.get(i);
+            html.append(eje.Directa.toString(false));
+            html.append(eje.Reciproca.toString(false));
         }
+        html.append("</tbody></table>");
+        html.append("<table><tbody>\n");
+        html.append("<tr><th colspan=\"4\">Errores de la poligonal</th></tr>\n");
+        html.append("<tr><td>"+textViewErrAz.getText().toString()+"</td>"+
+                "<td><input type=\"checkbox\" name=\"errAz\""+schkAz+"></td>"+
+                "<td>"+textViewErrX.getText().toString()+"</td>"+
+                "<td><input type=\"checkbox\" name=\"errX\""+schkX+"></td>"+
+                "<td>"+textViewErrY.getText().toString()+"</td>"+
+                "<td><input type=\"checkbox\" name=\"errY\""+schkY+"></td>"+
+                "<td>"+textViewErrZ.getText().toString()+"</td>"+
+                "<td><input type=\"checkbox\" name=\"errZ\""+schkZ+"></td>"+
+                "</tr>");
+        html.append("</tbody></table>");
+        html.append("<table><tbody>\n");
+        html.append(listPolig.get(0).toStringTH("ESTACIONES",true));
+        for (PTS pts:listPolig){
+            topcal.insertPTS(pts);
+            html.append(pts.toStringTD(true));
+        }
+        html.append("</tbody></table>");
+        html.append(es.alert21.atopcal.HTML.Util.getFinal());
+
+        topcal.insertHTML(nombreFicheroSalida,html.toString());
+
+        Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,html.toString());
+
+        Toast.makeText(getApplicationContext(), "Se ha creado el fichero: "+nombreFicheroSalida, Toast.LENGTH_LONG).show();
+
         empezar();
     }
     private void empezar(){
