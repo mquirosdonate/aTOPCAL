@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PTS.PTS;
+import es.alert21.atopcal.Util;
 
 public class TXTexport {
+    StringBuilder sb = new StringBuilder();
     private OutputStreamWriter fout = null;
-    File file = null;
     Topcal topcal;
     public TXTexport(Topcal topcal){
         this.topcal = topcal;
@@ -23,43 +24,26 @@ public class TXTexport {
         String sql = "";
         switch (tabla.toUpperCase()){
             case "OBS":
+                sb.setLength(0);
                 sql = "SELECT * FROM OBS WHERE NE >="+ min.toString()+" AND NE <="+ max.toString() +" Order by NE,NV,id,raw";
                 ArrayList<OBS> listOBS = topcal.getOBS(sql);
                 nombreFicheroSalida = "OBS-"+min.toString()+"-"+max.toString()+".txt";
-                file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-                try {
-                    fout = new OutputStreamWriter(new FileOutputStream(file,false));
-                    for(OBS obs:listOBS){
-                        fout.write(obs.toString()+"\n");
-                    }
-                    fout.flush();
-                    fout.close();
-                } catch(FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                for(OBS obs:listOBS){
+                    sb.append(obs.toString()+"\n");
                 }
+                Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,sb.toString());
+                topcal.insertEXPORT(nombreFicheroSalida,sb.toString());
                 break;
             case "PTS":
+                sb.setLength(0);
                 sql = "SELECT * FROM PTS WHERE N >="+ min.toString()+" AND N <="+ max.toString() +" Order by N,id";
                 ArrayList<PTS> listPTS = topcal.getPTS(sql);
                 nombreFicheroSalida = "PTS-"+min.toString()+"-"+max.toString()+".txt";
-                file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-                try {
-                    fout = new OutputStreamWriter(new FileOutputStream(file,false));
-                    for(PTS pts:listPTS){
-                        fout.write(pts.toString()+"\n");
-                    }
-                    fout.flush();
-                    fout.close();
-                } catch(FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                for(PTS pts:listPTS){
+                    sb.append(pts.toString()+"\n");
                 }
-                break;
+                Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,sb.toString());
+                topcal.insertEXPORT(nombreFicheroSalida,sb.toString());
             default:
                 break;
         }

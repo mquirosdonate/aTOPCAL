@@ -62,9 +62,15 @@ public class Topcal {
         cv.put("Date", Util.dameFecha());
         cv.put("FileName",nombre);
         cv.put("HTML",html);
-
         db.insert("HTML", null, cv);
-
+    }
+    public void insertEXPORT(String nombre,String html){
+        if (db == null) return;
+        ContentValues cv = new ContentValues();
+        cv.put("Date", Util.dameFecha());
+        cv.put("FileName",nombre);
+        cv.put("EXPORT",html);
+        db.insert("EXPORT", null, cv);
     }
 
 

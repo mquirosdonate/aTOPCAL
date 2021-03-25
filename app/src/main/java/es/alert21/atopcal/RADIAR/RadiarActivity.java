@@ -32,7 +32,7 @@ import es.alert21.atopcal.TOPO.Visual;
 import es.alert21.atopcal.Util;
 
 public class RadiarActivity extends AppCompatActivity {
-    static  StringBuilder html = new StringBuilder();
+    StringBuilder html = new StringBuilder();
     Topcal topcal;
     ListView listViewNEs;
     List<NE> neList = new ArrayList<>();

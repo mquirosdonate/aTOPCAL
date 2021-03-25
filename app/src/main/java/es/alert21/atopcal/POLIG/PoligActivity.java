@@ -34,7 +34,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class PoligActivity extends AppCompatActivity {
-    static  StringBuilder html = new StringBuilder();
+    StringBuilder html = new StringBuilder();
     Topcal topcal;
     ListView listViewNEs;
     List<PTS> neList = new ArrayList<>();

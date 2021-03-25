@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PTS.PTS;
+import es.alert21.atopcal.Util;
 /*
 INSERT INTO PTS (N, X, Y, Z, Nombre) VALUES
     (4717, 446365.350,  4481956.403,  696.426, ''),
@@ -32,8 +33,8 @@ INSERT INTO OBS (NE, NV, H, V, D, M, I) VALUES
 
 //INSERT INTO OBS (id, NE, NV, H, V, D, M, I, raw, Aparato) VALUES (19, 6673, 6672, 233.6809, 98.2795, 272.086, 1.3, 1.577, 0, 0);
 public class SQLexport {
+    StringBuilder sb = new StringBuilder();
     private OutputStreamWriter fout = null;
-    File file = null;
     String line = "";
     String sqlOBSInsert = "INSERT INTO OBS (NE, NV, H, V, D, M, I) VALUES \n";
     String sqlOBSValues = "(%d, %d, %.4f, %.4f, %.3f, %.3f, %.3f)";
@@ -48,50 +49,36 @@ public class SQLexport {
         String sql = "";
         switch (tabla.toUpperCase()){
             case "OBS":
+                sb.setLength(0);
                 sql = "SELECT * FROM OBS WHERE NE >="+ min.toString()+" AND NE <="+ max.toString() +" Order by NE,NV,id,raw";
                 ArrayList<OBS> listOBS = topcal.getOBS(sql);
                 nombreFicheroSalida = "OBS-"+min.toString()+"-"+max.toString()+".sql";
-                file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-                try {
-                    fout = new OutputStreamWriter(new FileOutputStream(file,false));
-                    fout.write(sqlOBSInsert);
-                    for(OBS obs:listOBS){
-                        if(!line.isEmpty()) line = ",\n";
-                        line += String.format(sqlOBSValues,obs.getNe(),obs.getNv(),obs.getH(),obs.getV(),obs.getD(),obs.getM(),obs.getI());
-                        fout.write(line);
-                    }
-                    fout.write(";");
-                    fout.flush();
-                    fout.close();
-                } catch(FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                sb.append(sqlOBSInsert);
+                for(OBS obs:listOBS){
+                    if(!line.isEmpty()) line = ",\n";
+                    line += String.format(sqlOBSValues,obs.getNe(),obs.getNv(),obs.getH(),obs.getV(),obs.getD(),obs.getM(),obs.getI());
+                    sb.append(line);
                 }
+                sb.append(";");
+                Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,sb.toString());
+                topcal.insertEXPORT(nombreFicheroSalida,sb.toString());
                 break;
             case "PTS":
+                sb.setLength(0);
                 sql = "SELECT * FROM PTS WHERE N >="+ min.toString()+" AND N <="+ max.toString() +" Order by N,id";
                 ArrayList<PTS> listPTS = topcal.getPTS(sql);
                 nombreFicheroSalida = "PTS-"+min.toString()+"-"+max.toString()+".sql";
-                file = new File(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida);
-                try {
-                    fout = new OutputStreamWriter(new FileOutputStream(file,false));
-                    fout.write(sqlPTInset);
-                    for(PTS pts:listPTS){
-                        if(!line.isEmpty()) line = ",\n";
-                        line += String.format(sqlPTValues,pts.getN(),pts.getX(),pts.getY(),pts.getZ(),pts.getNombre());
-                        fout.write(line);
-                    }
-                    fout.write(";");
-                    fout.flush();
-                    fout.close();
-                } catch(FileNotFoundException e)
-                {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                sb.append(sqlPTInset);
+                for(PTS pts:listPTS){
+                    if(!line.isEmpty()) line = ",\n";
+                    line += String.format(sqlPTValues,pts.getN(),pts.getX(),pts.getY(),pts.getZ(),pts.getNombre());
+                    sb.append(line);
                 }
+                sb.append(";");
+                Util.escribeFichero(topcal.getNombreTrabajo()+"/"+nombreFicheroSalida,sb.toString());
+                topcal.insertEXPORT(nombreFicheroSalida,sb.toString());
                 break;
             default:
                 break;
