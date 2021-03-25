@@ -11,19 +11,9 @@ public class TopcalDB extends SQLiteOpenHelper {
     private String CREATE_TABLE_PTS = "CREATE TABLE PTS (id INTEGER NOT NULL CONSTRAINT pts_pk PRIMARY KEY AUTOINCREMENT,N INTEGER," +
             "X DOUBLE,Y DOUBLE,Z DOUBLE,DES DOUBLE,Nombre TEXT,SREF INTEGER)";
 
-    private String CREATE_TABLE_HTML = "CREATE TABLE HTML (\n" +
-            "    id       INTEGER  PRIMARY KEY AUTOINCREMENT,\n" +
-            "    Date     DATETIME,\n" +
-            "    FileName TEXT,\n" +
-            "    HTML     TEXT\n" +
-            ");";
+    private String CREATE_TABLE_HTML = "CREATE TABLE HTML (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,HTML TEXT);";
 
-    private String CREATE_TABLE_EXPORT = "CREATE TABLE EXPORT (\n" +
-            "    id       INTEGER  PRIMARY KEY AUTOINCREMENT,\n" +
-            "    Date     DATETIME,\n" +
-            "    FileName TEXT,\n" +
-            "    EXPORT     TEXT\n" +
-            ");";
+    private String CREATE_TABLE_EXPORT = "CREATE TABLE EXPORT (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,EXPORT TEXT);";
 
     public TopcalDB(Context contexto, String nombre,SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
