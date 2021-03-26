@@ -2,8 +2,11 @@ package es.alert21.atopcal.IMPORT;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +16,13 @@ import es.alert21.atopcal.PTS.PTS;
 
 // NUMERO DE PUNTO --X--  --Y--  --Z--
 public class CSVpts {
+    Integer countRegs = 0;
+    String s;
+    String[] lineas;
+    Topcal topcal;
     public List<PTS> listPts = new ArrayList<>();
     public CSVpts(File file, Topcal topcal){
+        this.topcal = topcal;
         if (!file.exists())
             return;
         Read(file);
@@ -23,8 +31,18 @@ public class CSVpts {
     private void Read(File file){
         String line = "";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            while ((line = reader.readLine()) != null) {
+            InputStream inputStream = new FileInputStream(file);;
+            byte[] bytes = new byte[(int)file.length()];
+            inputStream.read(bytes);
+            s = new String(bytes, StandardCharsets.UTF_8);
+            topcal.insertIMPORT(file.getName(),s);
+            lineas = s.split("\n");
+            //BufferedReader reader = new BufferedReader(new FileReader(file));
+            //while ((line = reader.readLine()) != null) {
+            while (countRegs < lineas.length){
+                line = lineas[countRegs];
+                line = line.replace("\r","");
+                countRegs++;
                 String[] tokens = line.split("\";|,| |\\t\"");
                 int i = 0;
                 PTS pts = new PTS();
@@ -49,7 +67,6 @@ public class CSVpts {
                         case 5:
                             pts.setNombre(token);
                             break;
-
                     }
                     i++;
                 }

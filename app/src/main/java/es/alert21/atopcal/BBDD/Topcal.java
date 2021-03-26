@@ -64,15 +64,22 @@ public class Topcal {
         cv.put("HTML",html);
         db.insert("HTML", null, cv);
     }
-    public void insertEXPORT(String nombre,String html){
+    public void insertEXPORT(String nombre,String data){
         if (db == null) return;
         ContentValues cv = new ContentValues();
         cv.put("Date", Util.dameFecha());
         cv.put("FileName",nombre);
-        cv.put("EXPORT",html);
+        cv.put("EXPORT",data);
         db.insert("EXPORT", null, cv);
     }
-
+    public void insertIMPORT(String nombre,String data){
+        if (db == null) return;
+        ContentValues cv = new ContentValues();
+        cv.put("Date", Util.dameFecha());
+        cv.put("FileName",nombre);
+        cv.put("IMPORT",data);
+        db.insert("IMPORT", null, cv);
+    }
 
     public Integer getMinEstacion(){
         if (db == null) return -99;

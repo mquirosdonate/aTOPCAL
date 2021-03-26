@@ -14,18 +14,19 @@ public class TopcalDB extends SQLiteOpenHelper {
     private String CREATE_TABLE_HTML = "CREATE TABLE HTML (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,HTML TEXT);";
 
     private String CREATE_TABLE_EXPORT = "CREATE TABLE EXPORT (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,EXPORT TEXT);";
+    private String CREATE_TABLE_IMPORT = "CREATE TABLE IMPORT (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,IMPORT TEXT);";
 
     public TopcalDB(Context contexto, String nombre,SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //Se ejecuta la sentencia SQL de creación de la tabla
         db.execSQL(CREATE_TABLE_PRJ);
         db.execSQL(CREATE_TABLE_OBS);
         db.execSQL(CREATE_TABLE_PTS);
         db.execSQL(CREATE_TABLE_HTML);
         db.execSQL(CREATE_TABLE_EXPORT);
+        db.execSQL(CREATE_TABLE_IMPORT);
     }
 
     @Override

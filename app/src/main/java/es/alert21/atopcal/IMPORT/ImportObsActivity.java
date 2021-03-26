@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ public class ImportObsActivity extends AppCompatActivity {
     Topcal topcal;
     static boolean EOF = false;
     int tipoFichero;
-    BufferedReader reader = null;
+    //BufferedReader reader = null;
     private List<String> tablasTemp = new ArrayList<>();
     boolean bVisual = false;
     int ne = -99;
@@ -43,6 +46,9 @@ public class ImportObsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Button button;
     File file;
+    String s;
+    String[] lineas;
+    String nombreFichero;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +66,7 @@ public class ImportObsActivity extends AppCompatActivity {
         txtFichero = findViewById(R.id.textView17);
 
         Bundle b = this.getIntent().getExtras();
-        String nombreFichero = b.getString("FILE","");
+        nombreFichero = b.getString("FILE","");
         tipoFichero = b.getInt("TIPO",0);
         file = new File(nombreFichero);
 
@@ -77,7 +83,13 @@ public class ImportObsActivity extends AppCompatActivity {
         }
         if (topcal != null && file.exists()){
             try {
-                reader = new BufferedReader(new FileReader(file));
+                InputStream inputStream = new FileInputStream(file);;
+                byte[] bytes = new byte[(int)file.length()];
+                inputStream.read(bytes);
+                s = new String(bytes, StandardCharsets.UTF_8);
+                lineas = s.split("\n");
+
+                //reader = new BufferedReader(new FileReader(file));
             }catch (Exception e){}
         }
 
@@ -91,13 +103,14 @@ public class ImportObsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Read();
-
             }
         });
 
     }
     private void Read(){
+        topcal.insertIMPORT(nombreFichero,s);
         EOF = false;
+        countRegs = 0;
         List<OBS> list = new ArrayList<>();
         while (!EOF){
             switch (tipoFichero){
@@ -131,7 +144,10 @@ public class ImportObsActivity extends AppCompatActivity {
         List<OBS> listObs = new ArrayList<>();
         OBS obs = new OBS();
         try {
-            while ((line = reader.readLine()) != null) {
+            while (countRegs < lineas.length){
+                line = lineas[countRegs];
+                line = line.replace("\r","");
+            //while ((line = reader.readLine()) != null) {
                 countRegs++;
                 String[] tokens = line.split("[=]");
                 int key = Integer.parseInt(tokens[0]);
@@ -181,7 +197,7 @@ public class ImportObsActivity extends AppCompatActivity {
                         break;
                 }
             }
-        } catch (IOException e1) {}
+        } catch (Exception e1) {}
         EOF = true;
         if (bVisual){
             listObs.add(obs);
@@ -192,7 +208,11 @@ public class ImportObsActivity extends AppCompatActivity {
         String line = "";
         List<OBS> listObs = new ArrayList<>();
         try {
-            while ((line = reader.readLine()) != null) {
+            while (countRegs < lineas.length){
+                line = lineas[countRegs];
+                line = line.replace("\r","");
+            //}
+            //while ((line = reader.readLine()) != null) {
                 countRegs++;
                 line = line.substring(1);
                 String[] tokens = line.split("[, ]");
@@ -289,7 +309,10 @@ public class ImportObsActivity extends AppCompatActivity {
         double I = 0.0;
         List<OBS> listObs = new ArrayList<>();
         try {
-            while ((line = reader.readLine()) != null) {
+            while (countRegs < lineas.length){
+                line = lineas[countRegs];
+                line = line.replace("\r","");
+            //while ((line = reader.readLine()) != null) {
                 countRegs++;
                 line = line.trim();
                 String[] tokens = line.split(";|,| |\t");
@@ -333,7 +356,7 @@ public class ImportObsActivity extends AppCompatActivity {
 
                 }
             }
-        } catch (IOException e1) {}
+        } catch (Exception e1) {}
         EOF = true;
         return listObs;
     }
