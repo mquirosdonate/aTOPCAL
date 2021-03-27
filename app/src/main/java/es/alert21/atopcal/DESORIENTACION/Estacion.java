@@ -22,7 +22,11 @@ public class Estacion extends OBS{
             ptv_obs.azimut = Topo.Azimut(ptv_obs.vis.getX(),ptv_obs.vis.getY(),
                     estacion.getX(),estacion.getY());
             ptv_obs.azimut = normaliza(ptv_obs.azimut );
-            ptv_obs.desorientacion = Topo.desorientacion( ptv_obs.azimut , ptv_obs.obs.getH());
+
+            double H = ptv_obs.obs.getH();
+            if (!ptv_obs.obs.isCD()) H += 200;
+
+            ptv_obs.desorientacion = Topo.desorientacion( ptv_obs.azimut , H);
             obsList.add(ptv_obs);
         }
     }

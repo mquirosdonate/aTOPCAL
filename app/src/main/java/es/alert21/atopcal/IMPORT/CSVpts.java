@@ -26,7 +26,10 @@ public class CSVpts {
         if (!file.exists())
             return;
         Read(file);
-        if (topcal != null)topcal.insertPTS(listPts);
+        if (topcal != null){
+            topcal.insertPTS(listPts);
+            topcal.insertIMPORT(file.getAbsolutePath(),s);
+        }
     }
     private void Read(File file){
         String line = "";
@@ -35,7 +38,6 @@ public class CSVpts {
             byte[] bytes = new byte[(int)file.length()];
             inputStream.read(bytes);
             s = new String(bytes, StandardCharsets.UTF_8);
-            topcal.insertIMPORT(file.getName(),s);
             lineas = s.split("\n");
             //BufferedReader reader = new BufferedReader(new FileReader(file));
             //while ((line = reader.readLine()) != null) {

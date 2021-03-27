@@ -37,6 +37,8 @@ public class BesselActivity extends AppCompatActivity {
     ListView listView;
     Button ok,cancel;
     CheckBox checkBox;
+    List<Integer>listErrNe = new ArrayList<>();
+    List<Integer>listErrNv = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +56,19 @@ public class BesselActivity extends AppCompatActivity {
             OBS obs1 = new OBS (list.get(i)) ;
             OBS obs2 = new OBS (list.get(i+1)) ;
             if (obs1.isCD() && obs2.isCD())//Las dos visuales son CD, NO nos vales
+            {
+                listErrNe.add(obs1.getNe());
+                listErrNv.add(obs1.getNv());
+                i--;
                 continue;
+            }
             if (!obs1.isCD() && !obs2.isCD())//Las dos visuales son CI, NO nos valen
+            {
+                listErrNe.add(obs1.getNe());
+                listErrNv.add(obs1.getNv());
+                i--;
                 continue;
+            }
             OBSx2 obSx2 = new OBSx2(obs1,obs2);
             obSx2List.add(obSx2);
         }
@@ -66,7 +78,9 @@ public class BesselActivity extends AppCompatActivity {
             checkBox.setVisibility(View.INVISIBLE);
             getSupportActionBar().setTitle("NO HAY VISUALES PARA HACER REGLA DE BESSEL");
         }
-
+        if (listErrNe.size()>0){
+            mostrarErrores();
+        }
         adapter = new BesselAdapter(this,obSx2List);
         listView.setAdapter(adapter);
 
@@ -106,6 +120,19 @@ public class BesselActivity extends AppCompatActivity {
             topcal.insertOBS(aux);
         }
         finish();
+    }
+    private void mostrarErrores(){
+        String s = "Se han encontrado errores de visuales sueltas.\n"+
+        "Revisar manualmente las siguientes estaciones:\n";
+        for (int i = 0; i < listErrNe.size();i++){
+            s += listErrNe.get(i).toString()+"-"+listErrNv.get(i).toString()+"\n";
+        }
+        showDialogOK(s, (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            break;
+                    }
+                });
     }
     private void Cancel(){
         if (obSx2List.size()== 0){

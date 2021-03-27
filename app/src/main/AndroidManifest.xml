@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.ATOPCAL">
-        <activity android:name=".GPS.GPSActivity"></activity>
+        <activity android:name=".MMCC.MMCCActivity"></activity>
+        <activity android:name=".GPS.GPSActivity" />
         <activity android:name=".RADIAR.RadiarActivity" />
         <activity android:name=".POLIG.PoligActivity" />
         <activity android:name=".PTS.ViewEstacionesActivity" />

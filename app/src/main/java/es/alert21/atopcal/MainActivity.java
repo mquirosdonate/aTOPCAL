@@ -32,6 +32,7 @@ import java.util.Map;
 
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.GPS.GPSActivity;
+import es.alert21.atopcal.MMCC.MMCCActivity;
 import es.alert21.atopcal.OBS.BesselActivity;
 import es.alert21.atopcal.OBS.ViewNeActivity;
 import es.alert21.atopcal.POLIG.PoligActivity;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public String nombreProyecto="";
     private TextView textViewNombreProyecto;
     private ImageView imageViewOBS,imageViewBessel,imageViewPTS,imageViewPRJ,imageViewDesorientacion,
-                        imageViewPolig,imageViewRadiar,imageViewGPS;
+                        imageViewPolig,imageViewRadiar,imageViewGPS,imageViewMMCC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Radiacion();
+            }
+        });
+        imageViewMMCC = findViewById(R.id.imageViewMMCC);
+        imageViewMMCC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MMCC();
             }
         });
         imageViewPolig = findViewById(R.id.imageViewPolig);
@@ -144,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.Radiacion:
                 Radiacion();
+            case R.id.MMCC:
+                MMCC();
                 return true;
             default:
                 return true;
@@ -204,6 +214,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void Radiacion(){
         Intent intent = new Intent(this, RadiarActivity.class);
+        startActivity(intent);
+    }
+    private void MMCC(){
+        Intent intent = new Intent(this, MMCCActivity.class);
         startActivity(intent);
     }
     private void Gps(){

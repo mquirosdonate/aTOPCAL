@@ -54,7 +54,7 @@ public class ViewObsActivity extends AppCompatActivity {
         super.onResume();
         getSupportActionBar().setTitle("OBS");
         topcal = Util.getTopcal();
-        obsList = topcal.getOBS("SELECT * FROM OBS WHERE NE="+ne.toString()+" Order by NV,id,raw");
+        obsList = topcal.getOBS("SELECT * FROM OBS WHERE NE="+ne.toString()+" Order by NV DESC,id,raw");
 
         //creating the adapter object
         adapter = new ObsAdapter(this,obsList);
