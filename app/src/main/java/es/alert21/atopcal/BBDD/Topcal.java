@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.alert21.atopcal.MMCC.PTSred;
 import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
 import es.alert21.atopcal.PRJ.PRJ;
@@ -177,6 +178,75 @@ public class Topcal {
             db.update("PTS",cv,"id="+pts.getIDtoString(),null);
         }
     }
+    public void insertRed(List<PTSred> list){
+        String sqldelete = "Delete from MMCC";
+        sqlExec(sqldelete);
+        for(PTSred p:list){
+            insertRed(p);
+        }
+    }
+
+    public void insertRed(PTSred p){
+        if (db == null) return;
+        if (!p.valido) return;
+        ContentValues cv = new ContentValues();
+        cv.put("id_N",p.getN().getId());
+        cv.put("fijoPlani",p.getFijoPlani());
+        cv.put("fijoAlti",p.getFijoAlti());
+        db.insert("MMCC", null, cv);
+    }
+    public List<PTSred> getRed(String sql){
+        ArrayList<PTSred> list = new ArrayList<>();
+        Cursor cur = db.rawQuery(sql, null);
+        if (cur.moveToFirst()) {
+            do {
+                PTS pts = new PTS();
+                try{
+                    pts.setId(cur.getInt(cur.getColumnIndex("id")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setN(cur.getInt(cur.getColumnIndex("N")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setNombre(cur.getString(cur.getColumnIndex("Nombre")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setX(cur.getDouble(cur.getColumnIndex("X")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setY(cur.getDouble(cur.getColumnIndex("Y")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setZ(cur.getDouble(cur.getColumnIndex("Z")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    pts.setDes(cur.getDouble(cur.getColumnIndex("DES")));
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                int fijoPlani = cur.getInt(cur.getColumnIndex("fijoPlani"));
+                int fijoAlti = cur.getInt(cur.getColumnIndex("fijoAlti"));
+                PTSred p = new PTSred(pts,fijoPlani == 1?true:false,fijoAlti == 1?true:false);
+                p.valido = true;
+                list.add(p);
+            }while(cur.moveToNext());
+        }
+        cur.close();
+        return list;
+    }
+
     public void borrarOBS(OBS obs) {
         if (db == null) return;
         db.delete("OBS", "id=" + obs.getIDtoString(), null);
