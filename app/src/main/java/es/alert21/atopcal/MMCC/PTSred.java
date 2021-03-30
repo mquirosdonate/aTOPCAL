@@ -7,6 +7,10 @@ public class PTSred {
     private boolean fijoPlani = false;
     private boolean fijoAlti = false;
     public boolean valido = false;
+    public int ix = 0;
+    public int iy = 0;
+    public int iz = 0;
+    public int id = 0;
 
     public PTSred(PTS n,boolean fijoPlani,boolean fijoAlti){
         this.n = n;
