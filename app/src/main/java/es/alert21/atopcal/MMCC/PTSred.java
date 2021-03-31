@@ -3,7 +3,7 @@ package es.alert21.atopcal.MMCC;
 import es.alert21.atopcal.PTS.PTS;
 
 public class PTSred {
-    private PTS n;
+    private PTS p;
     private boolean fijoPlani = false;
     private boolean fijoAlti = false;
     public boolean valido = false;
@@ -12,13 +12,13 @@ public class PTSred {
     public int iz = 0;
     public int id = 0;
 
-    public PTSred(PTS n,boolean fijoPlani,boolean fijoAlti){
-        this.n = n;
+    public PTSred(PTS p,boolean fijoPlani,boolean fijoAlti){
+        this.p = p;
         this.fijoAlti = fijoAlti;
         this.fijoPlani = fijoPlani;
     }
-    public PTS getN(){
-        return n;
+    public PTS getP(){
+        return p;
     }
     public  boolean getFijoPlani(){
         return fijoPlani;
@@ -26,8 +26,8 @@ public class PTSred {
     public  boolean getFijoAlti(){
         return fijoAlti;
     }
-    public void setN(PTS n){
-        this.n = n;
+    public void setP(PTS p){
+        this.p = p;
     }
     public void setFijoPlani(boolean fijoPlani){
         this.fijoPlani = fijoPlani;

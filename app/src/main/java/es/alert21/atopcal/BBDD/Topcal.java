@@ -190,7 +190,7 @@ public class Topcal {
         if (db == null) return;
         if (!p.valido) return;
         ContentValues cv = new ContentValues();
-        cv.put("id_N",p.getN().getId());
+        cv.put("id_N",p.getP().getId());
         cv.put("fijoPlani",p.getFijoPlani());
         cv.put("fijoAlti",p.getFijoAlti());
         db.insert("MMCC", null, cv);

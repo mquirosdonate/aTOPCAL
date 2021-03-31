@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import es.alert21.atopcal.POLIG.Eje;
 import es.alert21.atopcal.R;
 import es.alert21.atopcal.Util;
 
@@ -39,11 +38,11 @@ public class RedAdapter extends ArrayAdapter<PTSred> {
         CheckBox csPlani = view.findViewById(R.id.checkBoxFijoPlani);
         CheckBox csAlti = view.findViewById(R.id.checkBoxFijoAlti);
         CheckBox csValido = view.findViewById(R.id.checkBoxValido);
-        txtN.setText(p.getN().getNtoString());
-        txtX.setText(Util.doubleATexto(p.getN().getX(),2));
-        txtY.setText(Util.doubleATexto(p.getN().getY(),2));
-        txtZ.setText(Util.doubleATexto(p.getN().getZ(),2));
-        txtDes.setText(Util.doubleATexto(p.getN().getDes(),4));
+        txtN.setText(p.getP().getNtoString());
+        txtX.setText(Util.doubleATexto(p.getP().getX(),2));
+        txtY.setText(Util.doubleATexto(p.getP().getY(),2));
+        txtZ.setText(Util.doubleATexto(p.getP().getZ(),2));
+        txtDes.setText(Util.doubleATexto(p.getP().getDes(),4));
 
 
         csPlani.setChecked(p.getFijoPlani());

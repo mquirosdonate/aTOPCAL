@@ -34,6 +34,12 @@ import static java.lang.Math.tan;
 
 //Tambié se puede obtener en funcion de la X
 //k = k0*(1 + (1 + e'^2 * Cos^2(lat))* X^2 / (2 * k0^2 * N^2))
+
+//        utmgeo(coor_e->x, coor_e->y, &k1);
+//        utmgeo(coor_v->x, coor_v->y, &k3);
+//        utmgeo((coor_e->x + coor_v->x) / 2, (coor_e->y + coor_v->y) / 2, &k2);
+//        k = (k1 + 4 * k2 + k3) / 6;
+
 public class UTM {
 
     double FE = 500000.0; // False easting
@@ -144,4 +150,74 @@ public class UTM {
     private double LongOrigin(int huso){
        return  (huso - 30) * 6 - 3 ;
     }
+
+    public double  utmgeo(double x,double y){
+        double ep4,a0,c2,c4,c6,c8,c10,alfa ;
+        double ypc,xpc,ti,fi,fiac,delfi,sinfi,cosfi,s2fi,c2fi,c4fi ;
+        double tgfi,t2fi,t4fi,secfi,gn,vii,viii,d6,cix,z,e5 ;
+        double xpc2,xpc3,xpc4,xpc5,xpc6,dm,d6a,d6b ;
+        double cfi,e2,ep2;
+        double yr;
+
+        e2=1.0  - (1 - 1.0/elip.alfa)*(1 - 1.0/elip.alfa) ;
+        ep2=1.0 / ((1 -1.0/elip.alfa)*(1 - 1.0/elip.alfa) ) - 1.0 ;
+        ep4=ep2*ep2 ;
+
+        a0=1+3*e2/4+45*pow(e2,2)/64+175*pow(e2,3)/256+11025*pow(e2,4)/16384+43659.0*pow(e2,5)/65536L;
+        a0=a0*(1-e2);
+        alfa=elip.a*a0;
+
+        c2=3*e2/4+15*pow(e2,2)/16+525*pow(e2,3)/512+2205*pow(e2,4)/2048+72765.0*pow(e2,5)/65536L ;
+        c2=(c2*elip.a*(1-e2)/2)/alfa;
+        c4=15*pow(e2,2)/64+105*pow(e2,3)/256+2205*pow(e2,4)/4096+10395*pow(e2,5)/16384;
+        c4=(c4*elip.a*(1-e2)/4)/alfa;
+        c6=35*pow(e2,3)/512+315*pow(e2,4)/2048+31185*pow(e2,5)/131072L;
+        c6=(c6*elip.a*(1-e2)/6)/alfa;
+        c8=315*pow(e2,4)/16384+3465*pow(e2,5)/65536L;
+        c8=(c8*elip.a*(1-e2)/8)/alfa;
+        c10=639*pow(e2,5)/131072.0;
+        c10=(c10*elip.a*(1-e2)/10)/alfa;
+        ypc=y/.9996;
+        xpc=(x-500000L)/.9996;
+        ti=ypc/alfa;
+        fi=ti;
+        do
+        {
+            fiac=fi;
+            fi=ti+c2*sin(2*fi)-c4*sin(4*fi)+c6*sin(6*fi)-c8*sin(8*fi)+c10*sin(10*fi);
+            delfi=Math.abs(fiac-fi);
+        } while((delfi-.00000000001E0)>0);
+        sinfi=sin(fi);
+        cosfi=cos(fi);
+        s2fi=pow(sinfi,2);
+        c2fi=pow(cosfi,2);
+        c4fi=pow(c2fi,2);
+        tgfi=sinfi/cosfi;
+        t2fi=pow(tgfi,2);
+        t4fi=pow(t2fi,2);
+        secfi=1/cosfi;
+        gn=elip.a/sqrt(1-e2*s2fi);
+        vii=tgfi*(1+ep2*c2fi)*.5/pow(gn,2);
+        viii=tgfi*(5+3*t2fi+6*ep2*c2fi-6*ep2*s2fi-3*ep4*c4fi-9*ep4*c2fi*s2fi)/(24*pow(gn,4));
+        d6a=tgfi/pow(gn,3);
+        d6b=(61+90*t2fi+45*t4fi+107*ep2*c2fi-162*ep2*s2fi-45*ep2*t2fi*s2fi)/(720*pow(gn,3));
+        d6=d6a*d6b;
+        cix=secfi/gn;
+        z=secfi*(1+2*t2fi+ep2*c2fi)/(6*pow(gn,3));
+        e5=secfi*(5+28*t2fi+24*t4fi+6*ep2*c2fi+8*ep2*s2fi)/(120*pow(gn,5));
+        xpc2=xpc*xpc;
+        xpc3=xpc2*xpc;
+        xpc4=xpc3*xpc;
+        xpc5=xpc4*xpc;
+        xpc6=xpc5*xpc;
+        yr=fi-vii*xpc2+viii*xpc4-d6*xpc6;
+        dm=cix*xpc-z*xpc3+xpc5*e5;
+        sinfi=sin((yr));
+        cfi=cos((yr));
+        c2fi=pow(cfi,2);
+        c4fi=pow(cfi,4);
+        k=.9996E0*(1.0E0+.5E0*dm*dm*(c2fi+ep2*c4fi));
+        return k;
+    }
+
 }
