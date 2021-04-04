@@ -27,7 +27,7 @@ public class MMCCActivity extends AppCompatActivity {
     Topcal topcal;
     ListView listViewRed;
     RedAdapter adapterRed;
-    Button buttonAnterior,buttonSiguiente,buttonSalir;
+    Button buttonAnterior,buttonSiguiente;
     private FloatingActionButton btnNew;
 
     TextView textView;
@@ -50,7 +50,7 @@ public class MMCCActivity extends AppCompatActivity {
 
         mmcc = new MMCC();
 
-        getSupportActionBar().setTitle("MMCC");
+        getSupportActionBar().setTitle("MMCC Red");
         btnNew = findViewById(R.id.floatingActionButton3);
         btnNew.setVisibility(View.GONE);
         btnNew.setOnClickListener(new View.OnClickListener() {
@@ -58,12 +58,12 @@ public class MMCCActivity extends AppCompatActivity {
             public void onClick(View v) {
                 GetPtsNotInRed();
                 SetAdapterRed();
+                btnNew.setVisibility(View.GONE);
             }
         });
         buttonAnterior = findViewById(R.id.buttonAnterior);
         buttonSiguiente = findViewById(R.id.buttonSiguiente);
-        buttonSalir = findViewById(R.id.buttonSalir);
-        buttonSalir.setOnClickListener(new View.OnClickListener() {
+        buttonAnterior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 guardarRed();
@@ -98,50 +98,7 @@ public class MMCCActivity extends AppCompatActivity {
     private void Compensar(){
         //Observaciones entre puntos de la red
         mmcc.obsList = topcal.getOBS(sqlGetObsRed);
-
-        /*
-
-        if (SIMULACION == 1) incog_k = 0;
-        if (DIST == 1) {
-            if (incog_k == 1) nIncognitas = 1;
-        } else {
-            incog_k = 0;
-        }
-
-        for(int i = 0; i < redList.size();i++){
-            redList.get(i).ix = 0;
-            redList.get(i).iy = 0;
-            redList.get(i).iz = 0;
-            redList.get(i).id = 0;
-            if ( DIST == 1 || DIRE ==1 ) {
-                if (redList.get(i).getFijoPlani()) {
-                    nfijosxy++;
-                } else {
-                    redList.get(i).ix = ++nIncognitas;
-                    redList.get(i).iy = ++nIncognitas;
-                    nIncogxy += 2;
-                }
-            }
-            if (ALTI == 1 ){
-                    if (redList.get(i).getFijoAlti()) {
-                        nfijosz++;
-                    } else {
-                        redList.get(i).iz = ++nIncognitas;
-                        nIncogz++;
-                    }
-                }
-        }
-        //Incognitas de desorientación
-        for(int i = 0; i < redList.size();i++){
-            if ( DIRE ==1 ) {
-                redList.get(i).id = ++nIncognitas;
-            }
-        }
-
-
-         */
-
-
+        mmcc.Run();
     }
 
 

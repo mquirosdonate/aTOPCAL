@@ -33,6 +33,7 @@ import java.util.Map;
 import es.alert21.atopcal.BBDD.Topcal;
 import es.alert21.atopcal.GPS.GPSActivity;
 import es.alert21.atopcal.MMCC.MMCCActivity;
+import es.alert21.atopcal.MMCC.MainMMCCActivity;
 import es.alert21.atopcal.OBS.BesselActivity;
 import es.alert21.atopcal.OBS.ViewNeActivity;
 import es.alert21.atopcal.POLIG.PoligActivity;
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void MMCC(){
-        Intent intent = new Intent(this, MMCCActivity.class);
+        Intent intent = new Intent(this, MainMMCCActivity.class);
         startActivity(intent);
     }
     private void Gps(){

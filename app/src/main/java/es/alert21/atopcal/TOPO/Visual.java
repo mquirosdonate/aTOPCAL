@@ -18,22 +18,6 @@ public class Visual {
     double k;
     double RAD = PI / 200;
 
-    public int neix = 0;
-    public int neiy = 0;
-    public int neiz = 0;
-    public int neid = 0;
-    public int nvix = 0;
-    public int nviy = 0;
-    public int nviz = 0;
-    public int nvid = 0;
-    public double ERR_AD = 0;
-    public double ERR_A = 0;
-    public double ERR_D1 = 0;
-    public double ERR_D2 = 0;
-    public double[] coef = new double[7];
-    public int[] ncoef = new int[7];
-    public int countCoef ;
-
     public Visual(){
     }
     public Visual(OBS obs, PTS ne,PTS nv,double k){
@@ -48,7 +32,7 @@ public class Visual {
 
         if (obs.getD() > 0 && obs.getV() > 0) {
             double Dg = obs.getD();
-            double RT = 6378000.0;
+            double RT = 6378137;
             double incDes = 0.37*Dg*Dg/RT;
             double t = Dg * cos(obs.getV() * RAD) + incDes;
             Desnivel = t + obs.getI() - obs.getM();
@@ -78,55 +62,6 @@ public class Visual {
             obs.setV(400-obs.getV());
         }
         this.obs = obs;
-    }
-    public void ecuacion_observacion(int DIST,int DIRE,int ALTI,int SIMULACION,int incog_k){
-        double x21, y21, z21, d21;
-        double Md, peso_dist, peso_dire, peso_alti;
-        double factor21;
-        double angulo_o;
-
-        x21 = nv.getX() - ne.getX();
-        y21 = nv.getY() - ne.getY();
-        z21 = nv.getZ() - ne.getZ();
-        d21 = sqrt(x21 * x21 + y21 * y21);
-
-        double erd = Math.atan(ERR_AD / d21 / 1000) * 200 / PI * 10000;
-        double err_a = sqrt(erd * erd + ERR_A * ERR_A);
-
-        if (err_a == 0) {
-            peso_dist = 1;
-            peso_dire = 1;
-        }else {
-            Md = ERR_D1 / 1000.0 + ERR_D2 * obs.getD() / 1000000.0;
-            peso_dist = d21 / Md / 636620.0;
-            peso_dire = 1.0 / err_a; // Raiz del peso
-        }
-
-        /*DISTANCIA*/
-        if (DIST == 1 && obs.getD() > 0.00001 && (neix > 0 || nvix > 0)) {
-            factor21 = 636620.0 / d21 / d21;
-            countCoef = 4;
-            coef[0] = -(x21 * factor21);
-            coef[1] = -(y21 * factor21);
-            coef[2] = (x21 * factor21);
-            coef[3] = (y21 * factor21);
-            if (1 == SIMULACION) {
-                coef[4] = 0;
-            }else {
-                //reduce_distancia(obs, datos.coor + ie, datos.coor + iv);
-                factor21 *= d21;
-                if (incog_k > 0) {
-                    coef[4] = -(Dr * factor21);
-                    ncoef[4] = incog_k - 1;
-                    countCoef++;
-                }
-                coef[countCoef] = (d21 - Dr) * factor21;
-            }
-            ncoef[0] = neix - 1;
-            ncoef[1] = neiy - 1;
-            ncoef[2] = nvix - 1;
-            ncoef[3] = nviy - 1;
-        }
     }
     public String toString(boolean todo){
         String s = "<tr><td class=\"centrado\">" + ne.getNtoString() + "</td>";

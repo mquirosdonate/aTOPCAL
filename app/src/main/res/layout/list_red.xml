@@ -56,8 +56,8 @@
 
     <CheckBox
         android:id="@+id/checkBoxValido"
-        android:layout_width="114dp"
-        android:layout_height="24dp"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="select"
@@ -69,7 +69,7 @@
         android:id="@+id/checkBoxFijoPlani"
         android:layout_width="103dp"
         android:layout_height="24dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:text="fijo plani"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintBottom_toBottomOf="@+id/checkBoxValido"
@@ -79,7 +79,7 @@
         android:id="@+id/checkBoxFijoAlti"
         android:layout_width="103dp"
         android:layout_height="24dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:text="fijo alti"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintBottom_toBottomOf="@+id/checkBoxFijoPlani"

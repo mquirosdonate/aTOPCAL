@@ -16,7 +16,22 @@ public class TopcalDB extends SQLiteOpenHelper {
     private String CREATE_TABLE_EXPORT = "CREATE TABLE EXPORT (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,EXPORT TEXT);";
     private String CREATE_TABLE_IMPORT = "CREATE TABLE IMPORT (id INTEGER  PRIMARY KEY AUTOINCREMENT,Date DATETIME,FileName TEXT,IMPORT TEXT);";
     private String CREATE_TABLE_MMCC = "CREATE TABLE MMCC (id INTEGER PRIMARY KEY AUTOINCREMENT,id_N INTEGER REFERENCES PTS (id),fijoPlani BOOLEAN DEFAULT (false),fijoAlti  BOOLEAN DEFAULT (false));";
-
+    private String CREATE_TABLE_RED_CFG = "CREATE TABLE RED_CFG (" +
+            "COMPENSACION INTEGER DEFAULT (1)," +
+            "SIMULACION   INTEGER DEFAULT (0)," +
+            "TEST_OBS     INTEGER DEFAULT (0)," +
+            "DIRE         INTEGER DEFAULT (1)," +
+            "DIST         INTEGER DEFAULT (1)," +
+            "ALTI         INTEGER DEFAULT (1)," +
+            "LIST_OBS     INTEGER DEFAULT (1)," +
+            "LIST_NOR     INTEGER DEFAULT (1)," +
+            "ERR_A        INTEGER DEFAULT (15)," +
+            "ERR_AD       INTEGER DEFAULT (10)," +
+            "ERR_D1       INTEGER DEFAULT (15)," +
+            "ERR_D2       INTEGER DEFAULT (5)," +
+            "ERR_K        DOUBLE  DEFAULT (0.05)," +
+            "incog_k      INTEGER DEFAULT (1)," +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT);";
     public TopcalDB(Context contexto, String nombre,SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
     }
@@ -29,6 +44,7 @@ public class TopcalDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_EXPORT);
         db.execSQL(CREATE_TABLE_IMPORT);
         db.execSQL(CREATE_TABLE_MMCC);
+        db.execSQL(CREATE_TABLE_RED_CFG);
     }
 
     @Override

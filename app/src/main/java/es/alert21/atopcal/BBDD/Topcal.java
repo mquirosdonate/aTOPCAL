@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.alert21.atopcal.MMCC.CFG;
 import es.alert21.atopcal.MMCC.PTSred;
 import es.alert21.atopcal.MainActivity;
 import es.alert21.atopcal.OBS.OBS;
@@ -31,6 +32,55 @@ public class Topcal {
     public String getNombreTrabajo(){
         return nombreTrabajo;
     }
+
+    public CFG getRED_CFG(){
+        CFG cfg = new CFG();
+        Cursor cur = db.rawQuery("SELECT * FROM RED_CFG", null);
+        if (cur.moveToFirst()) {
+            cfg.id = cur.getInt(cur.getColumnIndex("id"));
+            cfg.DIRE = cur.getInt(cur.getColumnIndex("DIRE"));
+            cfg.DIST = cur.getInt(cur.getColumnIndex("DIST"));
+            cfg.ALTI = cur.getInt(cur.getColumnIndex("ALTI"));
+            cfg.COMPENSACION = cur.getInt(cur.getColumnIndex("COMPENSACION"));
+            cfg.SIMULACION = cur.getInt(cur.getColumnIndex("SIMULACION"));
+            cfg.TEST_OBS = cur.getInt(cur.getColumnIndex("TEST_OBS"));
+            cfg.LIST_NOR = cur.getInt(cur.getColumnIndex("LIST_NOR"));
+            cfg.LIST_OBS = cur.getInt(cur.getColumnIndex("LIST_OBS"));
+            cfg.incog_k = cur.getInt(cur.getColumnIndex("incog_k"));
+            cfg.ERR_A = cur.getInt(cur.getColumnIndex("ERR_A"));
+            cfg.ERR_AD = cur.getInt(cur.getColumnIndex("ERR_AD"));
+            cfg.ERR_D1 = cur.getInt(cur.getColumnIndex("ERR_D1"));
+            cfg.ERR_D2 = cur.getInt(cur.getColumnIndex("ERR_D2"));
+            cfg.ERR_K = cur.getDouble(cur.getColumnIndex("ERR_K"));
+            cur.close();
+        }
+        return cfg;
+    }
+    public void insertRED_CFG(CFG cfg){
+        if (db == null) return;
+        ContentValues cv = new ContentValues();
+        cv.put("DIRE",cfg.DIRE);
+        cv.put("DIST",cfg.DIST);
+        cv.put("ALTI",cfg.ALTI);
+        cv.put("COMPENSACION",cfg.COMPENSACION);
+        cv.put("SIMULACION",cfg.SIMULACION);
+        cv.put("TEST_OBS",cfg.TEST_OBS);
+        cv.put("LIST_NOR",cfg.LIST_NOR);
+        cv.put("LIST_OBS",cfg.LIST_OBS);
+        cv.put("incog_k",cfg.incog_k);
+        cv.put("ERR_A",cfg.ERR_A);
+        cv.put("ERR_AD",cfg.ERR_AD);
+        cv.put("ERR_D1",cfg.ERR_D1);
+        cv.put("ERR_D2",cfg.ERR_D2);
+        cv.put("ERR_K",cfg.ERR_K);
+
+        if (cfg.id == 0){
+            db.insert("RED_CFG", null, cv);
+        }else{
+            db.update("RED_CFG",cv,"id="+cfg.id,null);
+        }
+    }
+
     public PRJ getPRJ(){
         PRJ prj = new PRJ();
         Cursor cur = db.rawQuery("SELECT * FROM PRJ WHERE id>0", null);

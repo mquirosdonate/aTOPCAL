@@ -10,4 +10,5 @@
     <string name="_000_0000">000.0000</string>
     <string name="anterior"><![CDATA[<<Anterior]]></string>
     <string name="siguiente"><![CDATA[Siguiente>>]]></string>
+    <string name="salir">Salir</string>
 </resources>

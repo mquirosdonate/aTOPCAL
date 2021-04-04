@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MMCC.MainMMCCActivity">
+
+    <CheckBox
+        android:id="@+id/INCOG_K"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="incognita de escala"
+        app:layout_constraintStart_toStartOf="@+id/ALTI"
+        app:layout_constraintTop_toBottomOf="@+id/ALTI" />
+
+    <EditText
+        android:id="@+id/ERR_K"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="m√Km"
+        android:inputType="number|numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/textView33"
+        app:layout_constraintStart_toEndOf="@+id/textView33" />
+
+    <EditText
+        android:id="@+id/ERR_D2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="ppm"
+        android:inputType="number"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/ERR_D1"
+        app:layout_constraintStart_toEndOf="@+id/ERR_D1" />
+
+    <EditText
+        android:id="@+id/ERR_D1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="mm"
+        android:inputType="number"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/textView32"
+        app:layout_constraintStart_toEndOf="@+id/textView33" />
+
+    <EditText
+        android:id="@+id/ERR_AD"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="mm"
+        android:inputType="number"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/textView31"
+        app:layout_constraintStart_toEndOf="@+id/ERR_A" />
+
+    <Button
+        android:id="@+id/buttonSiguiente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="@string/siguiente"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSalir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/salir"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/COMPENSACION"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Compensación" />
+
+        <RadioButton
+            android:id="@+id/SIMULACION"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simulación" />
+
+        <RadioButton
+            android:id="@+id/TEST_OBS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test de observaciones" />
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/DIRE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Direcciones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+
+    <CheckBox
+        android:id="@+id/DIST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Distancias"
+        app:layout_constraintStart_toStartOf="@+id/DIRE"
+        app:layout_constraintTop_toBottomOf="@+id/DIRE" />
+
+    <CheckBox
+        android:id="@+id/ALTI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="altimetría"
+        app:layout_constraintStart_toStartOf="@+id/DIST"
+        app:layout_constraintTop_toBottomOf="@+id/DIST" />
+
+    <CheckBox
+        android:id="@+id/LIST_OBS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listar ecuaciones de observación"
+        app:layout_constraintStart_toStartOf="@+id/ALTI"
+        app:layout_constraintTop_toBottomOf="@+id/INCOG_K" />
+
+    <CheckBox
+        android:id="@+id/LIST_NOR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listar ecuaciones normales"
+        app:layout_constraintStart_toStartOf="@+id/LIST_OBS"
+        app:layout_constraintTop_toBottomOf="@+id/LIST_OBS" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Error angular"
+        app:layout_constraintStart_toStartOf="@+id/LIST_NOR"
+        app:layout_constraintTop_toBottomOf="@+id/LIST_NOR" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Error distancias"
+        app:layout_constraintStart_toStartOf="@+id/textView31"
+        app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Error altimétrico"
+        app:layout_constraintStart_toStartOf="@+id/textView32"
+        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+    <EditText
+        android:id="@+id/ERR_A"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="seg."
+        android:inputType="number"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/textView31"
+        app:layout_constraintStart_toEndOf="@+id/textView33" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
