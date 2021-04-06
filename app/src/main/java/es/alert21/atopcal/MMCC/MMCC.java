@@ -20,6 +20,7 @@ import static java.lang.Math.sqrt;
 import static java.lang.Math.tan;
 
 public class MMCC {
+    StringBuilder html = new StringBuilder();
     private CFG cfg;
     private double RAD = PI / 200;
     double[]N;
@@ -49,11 +50,18 @@ public class MMCC {
         Topcal topcal = Util.getTopcal();
         cfg = topcal.getRED_CFG();
         preparaDatos();
+        pideMemoria();
         ecuaciones_observacion();
+        if (cfg.LIST_NOR > 0)
+            imprime_matriz(N,T,nIncognitas,1);
+
         if (0 == invierte_matriz_cholesky()){
             //Se pudo invertir la matriz y tenemos los resultados en X
+            if (cfg.LIST_NOR > 0)
+                imprime_matriz(N,T,nIncognitas,8);
             guardar_vertices();
         }
+
     }
 
     private void preparaDatos() {
@@ -128,13 +136,14 @@ public class MMCC {
             for (int i = 0; i < redList.size(); i++) {
                 PTS p = redList.get(i).getP();
                 redList.get(i).id = ++nIncognitas;
+                nIncogDes++;
                 if (p.getDes()==0){
                     //No tiene desorientación
                     calculaDesorientacion(p);
                 }
             }
         }
-        pideMemoria();
+
     }
     private int getPTS(int n){
         for (int i = 0;i < redList.size();i++){
@@ -154,7 +163,10 @@ public class MMCC {
         for(OBS o:obsList){
             PTS pv = redList.get(o.getNv()).getP();
             if (pe.getN() == pv.getN()){
-                double azimut = Topo.Azimut(pv.getX(),pv.getY(),pe.getX(),pe.getY());
+                double azimut = Topo.Azimut2(pe.getX(),
+                        pe.getY(),
+                        pv.getX(),
+                        pv.getY());
                 azimut = normaliza(azimut );
                 double desorientacion = Topo.desorientacion( azimut , o.getH());
                 des += desorientacion;
@@ -349,6 +361,12 @@ public class MMCC {
                 }
                 N[l] += coef[m1]*coef[m2] * peso * peso;
             }
+        }
+    }
+    private void imprime_matriz(double[]N,double[]X,int nIncognitas,int dec){
+        int i,j,l;
+        for (i = 0; i < nIncognitas; i++) {
+
         }
     }
     private int invierte_matriz_cholesky(){

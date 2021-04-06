@@ -90,7 +90,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView33">
 
         <RadioButton
             android:id="@+id/COMPENSACION"
@@ -161,10 +161,10 @@
         android:id="@+id/textView31"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Error angular"
         app:layout_constraintStart_toStartOf="@+id/LIST_NOR"
-        app:layout_constraintTop_toBottomOf="@+id/LIST_NOR" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView32"

@@ -27,7 +27,6 @@
         <activity android:name=".IMPORT.ImportObsActivity" />
         <activity android:name=".PTS.ViewPtsActivity" />
         <activity android:name=".FILES.FileChooser" />
-        <activity android:name=".FILES.FileExplorer" />
         <activity android:name=".OBS.ViewNeActivity" />
         <activity android:name=".OBS.ViewObsActivity" />
         <activity android:name=".PRJ.ViewPrjActivity" />

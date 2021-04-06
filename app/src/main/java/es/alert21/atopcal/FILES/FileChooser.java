@@ -92,24 +92,9 @@ public class FileChooser extends AppCompatActivity {
         adapter = new FileArrayAdapter(es.alert21.atopcal.FILES.FileChooser.this, R.layout.list_files,dir);
         listView.setAdapter(adapter);
     }
-    /*
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        // TODO Auto-generated method stub
-        super.onListItemClick(l, v, position, id);
-        Item o = adapter.getItem(position);
-        if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
-            currentDir = new File(o.getPath());
-            fill(currentDir);
-        } else  {
-            onFileClick(o);
-        }
-    }
 
-     */
     private void onFileClick(Item o){
-        //Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent();
+         Intent intent = new Intent();
         intent.putExtra("GetPath",currentDir.toString());
         intent.putExtra("GetFileName",o.getName());
         setResult(RESULT_OK, intent);

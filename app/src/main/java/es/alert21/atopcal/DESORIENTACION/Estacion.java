@@ -19,8 +19,10 @@ public class Estacion extends OBS{
 
     public void addVisado(PTV_OBS ptv_obs){
         if(ptv_obs.obs.getNe() == estacion.getN()) {
-            ptv_obs.azimut = Topo.Azimut(ptv_obs.vis.getX(),ptv_obs.vis.getY(),
-                    estacion.getX(),estacion.getY());
+            ptv_obs.azimut = Topo.Azimut2(estacion.getX(),
+                    estacion.getY(),
+                    ptv_obs.vis.getX(),
+                    ptv_obs.vis.getY());
             ptv_obs.azimut = normaliza(ptv_obs.azimut );
 
             double H = ptv_obs.obs.getH();
