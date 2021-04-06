@@ -365,10 +365,35 @@ public class MMCC {
     }
     private void imprime_matriz(double[]N,double[]X,int nIncognitas,int dec){
         int i,j,l;
+        html.append("<table><tbody>");
         for (i = 0; i < nIncognitas; i++) {
-
+            html.append(String.format("<tr><td>fila '%2d'</td>",i));
+            for (j = i; j < nIncognitas; j++) {
+                l = j + i * nIncognitas - i * (i + 1) / 2;
+                html.append("<td>");
+                html.append(Util.doubleATexto(N[l],dec));
+                html.append("</td>");
+            }
+            html.append("</tr>");
         }
+        html.append("</tbody></table>");
+        html.append("<table><tbody>");
+        for (j = 0; j < nIncognitas; j++) {
+            html.append("<tr><td>"+Util.doubleATexto(X[j],2)+"</td></tr>");
+        }
+        html.append("</tbody></table>");
     }
+    void cab_vertice_aprox(){
+        html.append("<table><tbody>");
+        html.append("<tr><th colspan=\"9\"><COORDENADAS  APROXIMADAS</th></tr>\n");
+        html.append("<tr><th>N</th><th>- X -</th><th>- Y -</th><th>- Z -</th><th>dΣ</th><th>dx</th><th>dy</th><th>dz</th><th>NOMBRE</th></tr>\n");
+    }
+    void cab_vertice_comp() {
+        html.append("<table><tbody>");
+        html.append("<tr><th colspan=\"5\"><COORDENADAS  COMPENSADAS</th></tr>\n");
+        html.append("<tr><th>N</th><th>- X -</th><th>- Y -</th><th>- Z -</th><th>NOMBRE</th></tr>\n");
+    }
+
     private int invierte_matriz_cholesky(){
         int n = nIncognitas;
         int i,j,k;
