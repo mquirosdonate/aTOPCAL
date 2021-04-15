@@ -18,6 +18,7 @@ import es.alert21.atopcal.DESORIENTACION.PTV_OBS;
 import es.alert21.atopcal.Util;
 
 public class Topcal {
+
     private String nombreTrabajo;
     private TopcalDB topcalDB;
     private SQLiteDatabase db;
